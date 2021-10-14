@@ -29,7 +29,8 @@ ptoFin =[];  % [a e i omegagrande omegapiccolo theta]
 r = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]';
 v = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]';
 mu = 3986000.4;
-[a, e, i, omegaGrande, omegaPiccola, theta] = rv2aei(r, v, mu)
 
-%[r, v] = PFtoGE(a, e, i, omegaGrande, omegaPiccola, theta, mu)
+[a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu)
+
+[r1, v1] = PFtoGE(a, e, i, RAAN, omega, theta, mu) %funzioni di test
 

@@ -1,7 +1,7 @@
 function [a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu)
 %GEtoPF converte delle coordinate dal sistema di riferimento geocentrico
 %equatoriale in quello perifocale
-%[a, e, i, RAAN, omega, theta] = GEtoPF(x0, v0) 
+%[a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu) 
 %   INPUT: 
 %       r: vettore [1x3] posizione iniziale [km]
 %       v: vettore [1x3] velocità iniziale [km/s]
