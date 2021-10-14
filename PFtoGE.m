@@ -1,13 +1,13 @@
 function [pos, v] = PFtoGE(a, e, i, RAAN, omega, theta, mu)
 %GEtoPF converte delle coordinate dal sistema di riferimento perifocale al
-%sistema geocentrico NB ANGOLI IN RAD
+%sistema geocentrico NB ANGOLI IN DEG
 %   INPUT: 
 %       a: semiasse maggiore [km]
 %       e: eccentricità
-%       i: inclinazione (rad)
-%       RAAN: ascensione retta del nodo ascendente (rad)
-%       omega: anomalia di pericentro (rad)
-%       theta: anomalia reale (rad)
+%       i: inclinazione (deg)
+%       RAAN: ascensione retta del nodo ascendente (deg)
+%       omega: anomalia di pericentro (deg)
+%       theta: anomalia reale (deg)
 %       mu: costante gravitazionale [km^3/s^2]
 %   OUTPUT: 
 %       pos: vettore [1x3] posizione iniziale [km]
