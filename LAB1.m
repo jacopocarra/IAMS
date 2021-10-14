@@ -31,6 +31,7 @@ mu = 3986000.4;
 
 lat0 = norm(r)*sin(0)
 lon0 = norm(r)*sin(0)
+
 uif = uifigure;
 g = geoglobe(uif);
 geoplot3(g,norm(r)*sin(i),norm(r)*sin(theta),norm(r),'b','Linewidth',5);

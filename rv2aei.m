@@ -4,7 +4,7 @@ function [a, e, i, omegaGrande, omegaPiccola, theta] = rv2aei(r, v, mu)
 This function allows to change from geocentric to perifocal system
 
 INPUTS: 
-        - r: raggio
+        - r:
         - v: 
         - mu:
 OUTPUTS: 
