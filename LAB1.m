@@ -24,7 +24,7 @@ ptoFin =[];  % [a e i omegagrande omegapiccolo theta]
 r = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]';
 v = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]';
 mu = 3986000.4;
-[a, e, i, omegaGrande, omegaPiccola, theta] = rv2aei(r, v, mu)
+[a, e, i, omegaGrande, omegaPiccola, theta] = GEtoPF(r, v, mu)
 
 %[r, v] = PFtoGE(a, e, i, omegaGrande, omegaPiccola, theta, mu)
 
