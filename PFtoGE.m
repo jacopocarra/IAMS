@@ -19,8 +19,8 @@ function [pos, v] = PFtoGE(a, e, i, RAAN, omega, theta, mu)
 
     p = a*(1-e^2);
     
-    vPF = sqrt(mu/p)*[-sind(theta), e+cosd(theta) , 0]';                %velocità nel SdR PF (versori: [e, p, h])
-    posPF = (p/(1 + e*cosd(theta))) * [cosd(theta), sind(theta), 0]';   %posizione nel SdR PF (versori: [e, p, h])
+    vPF = sqrt(mu/p)*[-sind(theta), e+cosd(theta) , 0]';                % velocità nel SdR PF (versori: [e, p, h])
+    posPF = (p/(1 + e*cosd(theta))) * [cosd(theta), sind(theta), 0]';   % posizione nel SdR PF (versori: [e, p, h])
     
     v = R*vPF;
     pos = R*posPF;
