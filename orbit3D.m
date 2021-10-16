@@ -22,7 +22,15 @@ function [] = orbit3D(a, e, i, RAAN, omega, theta, nEl)
     plot3(r_3D(1,:),r_3D(2,:),r_3D(3, :)); %plot orbit
     hold on
     
-    plot3(0, 0, 0, 'ob', 'LineWidth', 4); %plot earth
+    rt=6371; %earth radius
+    [xs,ys,zs]=sphere;
+    xs=xs*rt;
+    ys=ys*rt;
+    zs=zs*rt;
+    earth=surface(xs,ys,zs);    %plot earth
+    shading flat;
+    set(earth,'FaceColor',[0 0 1],'FaceAlpha',0.5); 
+    
     plot3(r0(1), r0(2), r0(3),  'hr'); %plot satellite
     plot3(rA(1), rA(2), rA(3), '.r'); %plot apoapsis
     plot3(rP(1), rP(2), rP(3), '.r'); %plot periapsis
@@ -32,6 +40,8 @@ function [] = orbit3D(a, e, i, RAAN, omega, theta, nEl)
     xlabel("equinox line [km]"); 
     ylabel("y [km]");
     zlabel("z [km]"); 
+    
+    axis equal
     
     
     grid on; 

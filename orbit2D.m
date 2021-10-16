@@ -1,5 +1,7 @@
 function [] = orbit2D(a, e, omega, theta, nEl)
 
+    rt=6371; %earth radius
+
     theta_v = linspace(0, 360, nEl); %array of angles
     p = a*(1-e^2); 
     r_v = p./(1 + e*cosd(theta_v)); % ellipse points
@@ -20,9 +22,11 @@ function [] = orbit2D(a, e, omega, theta, nEl)
     plot(r_2D(1, :),r_2D(2, :)); %plot orbit
     hold on
     plot(r0(1), r0(2), 'hr'); %plot satellite
-    plot(0,0,'ob','LineWidth', 4); %plot earth
-    plot(rA(1), rA(2), '.r'); %plot apoapsis
-    plot(rP(1), rP(2), '.r'); %plot periapsis
+    rectangle('Position', [-rt,-rt, 2*rt, 2*rt], 'Curvature', [1 1], 'FaceColor','b'); %plot earth to scale
+    plot(rA(1), rA(2), '.r', 'LineWidth', 4); %plot apoapsis
+    plot(rP(1), rP(2), '.r', 'LineWidth', 4); %plot periapsis
+    
+    axis equal;
 
     grid on; 
     title("2D ORBIT"); 

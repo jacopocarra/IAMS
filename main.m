@@ -27,7 +27,7 @@ mu = 398600;
 [a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu)  %coordinate PF
 
 
-orbit2D(a, e, omega, theta, 1000); %
+orbit2D(a, e, omega, theta, 200); %
 
 orbit3D(a, e,i, RAAN, omega,  theta, 1000); 
 
