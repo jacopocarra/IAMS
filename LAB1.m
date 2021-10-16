@@ -8,7 +8,7 @@ ANALISI DI MISSIONI SPAZIALI
 clc
 clear all
 close all
-ptoIniz = [1e5 2e5 1e5 -2.5 -2.5 3]; % [x y z vx vy vz]
+ptoIniz = [1e4 2e4 1e4 -2.5 -2.5 3]; % [x y z vx vy vz]
 
 ptoFin =[];  % [a e i omegagrande omegapiccolo theta]
 

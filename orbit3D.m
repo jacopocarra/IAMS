@@ -16,25 +16,34 @@ function [] = orbit3D(a, e, i, RAAN, omega, theta, nEl)
     rP = R* (p/(1+e))*[1; 0; 0];
     rA = R* (p/(1-e))*[-1; 0; 0];
 
-    
-    
+%     [lat, lon, h] = ned2geodetic(r_3D(1,:),r_3D(2,:),r_3D(3, :), 0, 0, norm(r_3D(:,1)), wgs84Ellipsoid, 'degrees')
+%     uif = uifigure;
+%     g = geoglobe(uif);
+%     geoplot3(g,lat, lon, h*1e3,'b','Linewidth',5);
+%     campos(g, 0, 0, norm(r_3D(:,1)));
+%     camheading(g, 'auto');
+%     campitch(g, -25);
     figure(2); 
     plot3(r_3D(1,:),r_3D(2,:),r_3D(3, :)); %plot orbit
     hold on
     
-    rt=6371; %earth radius
-    [xs,ys,zs]=sphere;
-    xs=xs*rt;
-    ys=ys*rt;
-    zs=zs*rt;
-    earth=surface(xs,ys,zs);    %plot earth
+
+    [x,y,z]=sphere;
+    x = x*6371;
+    y = y*6371;
+    z = -z*6371;
+    earth = surface(x,y,z);
     shading flat;
-    set(earth,'FaceColor',[0 0 1],'FaceAlpha',0.5); 
-    
+    imData = imread('mappa.jpg');
+    set(earth,'facecolor','texturemap','cdata', imData, 'edgecolor', 'none')
+    axis square
+
+
     plot3(r0(1), r0(2), r0(3),  'hr'); %plot satellite
     plot3(rA(1), rA(2), rA(3), '.r'); %plot apoapsis
     plot3(rP(1), rP(2), rP(3), '.r'); %plot periapsis
-
+    axis equal
+    
     grid on; 
     title("3D ORBIT"); 
     xlabel("equinox line [km]"); 
@@ -42,8 +51,7 @@ function [] = orbit3D(a, e, i, RAAN, omega, theta, nEl)
     zlabel("z [km]"); 
     
     axis equal
-    
-    
+
     grid on; 
 end
 
