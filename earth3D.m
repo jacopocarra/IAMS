@@ -8,7 +8,7 @@ function [] = earth3D(nFig)
     zs=-zs*rt;
     earth=surface(xs,ys,zs);    %plot earth
     shading flat;
-    imData=imread('mappa.jpg');
+    imData=imread('map.jpg');
     set(earth,'facecolor','texturemap','cdata',imData,'edgecolor','none');
     axis square
     
