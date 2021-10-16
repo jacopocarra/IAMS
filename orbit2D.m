@@ -9,7 +9,9 @@ function [] = orbit2D(pfPar, nFig, firstTime)
 %       sulla data figura, in modo da poter stampare più orbite coplanari
 %       nella stessa immagine
 %   L'asse x della figura è allineato con la linea dei nodi, che risulta
-%   costante per orbite coplanari.    a = pfPar(1); 
+%   costante per orbite coplanari.    
+    
+    a = pfPar(1); 
     e = pfPar(2); 
     omega = pfPar(3); 
     theta = pfPar(4); 
