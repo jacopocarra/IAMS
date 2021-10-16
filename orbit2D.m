@@ -5,24 +5,24 @@ function [] = orbit2D(pfPar, nFig, firstTime)
     omega = pfPar(3); 
     theta = pfPar(4); 
     
-theta_v = linspace(0, 360, 200);                              % vettore degli angoli
+thetaV = linspace(0, 360, 200);                               % vettore degli angoli
 p = a*(1-e^2);                                                % semilato retto
-r_v = p./(1 + e*cosd(theta_v));                               % punti dell'ellisse
+rV = p./(1 + e*cosd(thetaV));                                 % punti dell'ellisse
 
-    x_orb = r_v.*cosd(theta_v); 
-    y_orb = r_v.*sind(theta_v); 
-    r_2D = [x_orb ; y_orb];
+    xOrb = rV.*cosd(thetaV); 
+    yOrb = rV.*sind(thetaV); 
+    r2D = [xOrb ; yOrb];
 
 Rot2D = [cosd(omega) -sind(omega); sind(omega) cosd(omega)];  % matrice di rotazione per allineare l'asse x con la linea dei nodi
 
-r_2D = Rot2D * r_2D;                                          % rotazione ellisse
+r2D = Rot2D * r2D;                                            % rotazione ellisse
 
 r0 = Rot2D* (p/(1+e*cosd(theta)))*[cosd(theta); sind(theta)]; % posizione satellite
 rP = Rot2D* (p/(1+e))*[1; 0];                                 % posizione pericentro
 rA = Rot2D* (p/(1-e))*[-1; 0];                                % posizione apocentro
 
     figure(nFig); 
-plot(r_2D(1, :),r_2D(2, :));                                  % plot orbit
+plot(r2D(1, :),r2D(2, :));                                    % plot orbit
     
 if firstTime                                                  % se è la prima volta che apre la figura disegna la terra
 rt=6371;                                                      % raggio della Terra [km]
