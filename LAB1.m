@@ -23,12 +23,12 @@ ptoFin =[];  % [a e i omegagrande omegapiccolo theta]
 
 r = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]';
 v = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]';
-mu = 3986000.4;
-[a, e, i, omegaGrande, omegaPiccola, theta] = GEtoPF(r, v, mu)
-
-%[r, v] = PFtoGE(a, e, i, omegaGrande, omegaPiccola, theta, mu)
+mu = 398600.4;
+[a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu)
 
 
+
+%{
 lat0 = norm(r)*sin(0)
 lon0 = norm(r)*sin(0)
 
@@ -38,6 +38,8 @@ geoplot3(g,norm(r)*sin(i),norm(r)*sin(theta),norm(r),'b','Linewidth',5);
 campos(g, settings.lat0, settings.lon0, norm(r));
 camheading(g, 'auto');
 campitch(g, -25);
+%}
+
 
 
 

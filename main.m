@@ -13,24 +13,30 @@ VERSION:
 clc
 clear all
 close all
-ptoIniz = [1e5 2e5 1e5 -2.5 -2.5 3]; % [x y z vx vy vz]
-
-ptoFin =[];  % [a e i omegagrande omegapiccolo theta]
+ptoIniz = [-1.1441403e4 -7.20985180e3 -1.30298510e3 1.2140 -1.7110 -4.7160]; % [x y z vx vy vz]
 
 
 
-% a = ptoFin(1);
-% e = ptoFin(2);
-% i = ptoFin(3);
-% omegaGrande = ptoFin(4);
-% omegaPiccolo = ptoFin(5);
-% theta = ptoFin(6);
 
-r = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]';
-v = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]';
-mu = 3986000.4;
+r = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]'
+v = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]'
+mu = 398600;
 
-[a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu)
 
-[r1, v1] = PFtoGE(a, e, i, RAAN, omega, theta, mu) %funzioni di test
+
+[a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu)  %coordinate PF
+
+
+orbit2D(a, e, omega, theta, 1000); %
+
+orbit3D(a, e,i, RAAN, omega,  theta, 1000); 
+
+
+
+
+
+
+
+
+
 

@@ -15,23 +15,7 @@ function [pos, v] = PFtoGE(a, e, i, RAAN, omega, theta, mu)
 %       pos: vettore [1x3] posizione iniziale [km]
 %       v: vettore [1x3] velocità iniziale [km/s]
 
-    RRAAN = [cosd(RAAN) sind(RAAN) 0  
-            -sind(RAAN) cosd(RAAN) 0   
-            0 0 1 ];
-    
-    Ri = [1 0 0
-          0 cosd(i) sind(i)
-          0 -sind(i) cosd(i)];
-
-
-    Romega = [cosd(omega) sind(omega) 0
-              -sind(omega) cosd(omega) 0
-              0 0 1];
-
-    R = (Romega*Ri*RRAAN)';
-    %R -> matrice di rotazione totale per passare da GE a PF, ma è una
-    %matrice ortogonale, quindi la trasposta è anche l'inversa -> si
-    %ottiene direttamente la matrice di rotazione per passare da PF a GE
+    R = RotPF2GE(i,RAAN,omega); 
 
     p = a*(1-e^2);
     
