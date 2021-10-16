@@ -38,5 +38,7 @@ function [] = orbit2D(pfPar, nFig, firstTime)
     plot(rA(1), rA(2), '.r', 'LineWidth', 4); %plot apoapsis
     plot(rP(1), rP(2), '.r', 'LineWidth', 4); %plot periapsis
     axis equal;
+    xlim([-36e3,+36e3])
+    ylim([-36e3,+36e3])
 end
 
