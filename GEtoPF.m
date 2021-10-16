@@ -1,11 +1,11 @@
-function [a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu)
+function [a, e, i, RAAN, omega, theta] = GEtoPF(r, v, varargin)
 %GEtoPF converte delle coordinate dal sistema di riferimento geocentrico
 %equatoriale in quello perifocale
 %[a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu)
 %   INPUT:
 %       r: vettore [1x3] posizione iniziale [km]
 %       v: vettore [1x3] velocità iniziale [km/s]
-%       mu: costante gravitazionale [km^3/s^2]
+%       mu: costante gravitazionale [km^3/s^2] (solo se diversa da quella terreste)
 %
 %   OUTPUT:
 %       a: semiasse maggiore [km]
@@ -14,6 +14,11 @@ function [a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu)
 %       RAAN: ascensione retta del nodo ascendente (°)
 %       omega: anomalia di pericentro (°)
 %       theta: anomalia reale (°)
+
+if nargin == 2
+    mu = 398600;
+end
+
 
 h = cross(r,v);                                    % momento quantità di moto
 
