@@ -1,4 +1,4 @@
-function [pos, v] = PFtoGE(a, e, i, RAAN, omega, theta)
+function [pos, v] = PFtoGE(orb, mu)
 %PFtoGE converte delle coordinate dal sistema di riferimento perifocale al
 %sistema geocentrico NB ANGOLI IN DEG
 %[pos, v] = GEtoPF(a, e, i, RAAN, omega, theta, mu)
@@ -14,9 +14,12 @@ function [pos, v] = PFtoGE(a, e, i, RAAN, omega, theta)
 %   OUTPUT:
 %       pos: vettore [1x3] posizione iniziale [km]
 %       v: vettore [1x3] velocità iniziale [km/s]
-if nargin == 6
-    mu = 398600;
-end
+a = orb(1);
+e = orb(2);
+i = orb(3);
+RAAN = orb(4);
+omega = orb(5);
+theta = orb(6);
 R = RotPF2GE(i,RAAN,omega);
 
 p = a*(1-e^2);

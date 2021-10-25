@@ -39,17 +39,19 @@ thetaFin = (ptoFin(6));
 
 
 %% PLOT
-orbit2D( [aIniz, eIniz, omegaIniz, thetaIniz], 1, true);             % plot 2D dell'orbita iniziale
-orbit2D( [aFin, eFin, omegaFin, thetaFin], 3, true);             % plot 2D dell'orbita finale
+% orbit2D( [aIniz, eIniz, omegaIniz, thetaIniz], 1, true);             % plot 2D dell'orbita iniziale
+% orbit2D( [aFin, eFin, omegaFin, thetaFin], 3, true);             % plot 2D dell'orbita finale
 
 earth3D(2);                                              % plot terra
 orbit3D([aIniz, eIniz, iIniz, RAANIniz, omegaIniz,  thetaIniz], 2);         % plot 3D orbita iniziale
 orbit3D(ptoFin, 2);                                      % plot 3D orbita finale
 
-
-
-
-
+% h = animatedline;
+% 
+% for k = 1:length(r3D(1,:))
+%     addpoints(h,r3D(1,k),r3D(2,k),r3D(3,k));
+%     drawnow
+% end
 
 
 

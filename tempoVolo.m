@@ -19,8 +19,8 @@ end
 if thetaFin == thetaIniz+2*pi
     deltaT = T;
 end
-    EIniz = 2*atan2(sqrt((1-e)/(1+e))*tan(thetaIniz/2));
-    EFin =  2*atan2(sqrt((1-e)/(1+e))*tan(thetaFin/2));
+    EIniz = 2*atan(sqrt((1-e)/(1+e))*tan(thetaIniz/2));
+    EFin =  2*atan(sqrt((1-e)/(1+e))*tan(thetaFin/2));
     MIniz = EIniz-e*sin(EIniz);
     MFin = EFin-e*sin(EFin);
     if thetaFin>thetaIniz

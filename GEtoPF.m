@@ -1,4 +1,4 @@
-function [a, e, i, RAAN, omega, theta] = GEtoPF(r, v, varargin)
+function [orb] = GEtoPF(r, v, mu)
 %GEtoPF converte delle coordinate dal sistema di riferimento geocentrico
 %equatoriale in quello perifocale
 %[a, e, i, RAAN, omega, theta] = GEtoPF(r, v, mu)
@@ -14,11 +14,6 @@ function [a, e, i, RAAN, omega, theta] = GEtoPF(r, v, varargin)
 %       RAAN: ascensione retta del nodo ascendente (°)
 %       omega: anomalia di pericentro (°)
 %       theta: anomalia reale (°)
-
-if nargin == 2
-    mu = 398600;
-end
-
 
 h = cross(r,v);                                    % momento quantità di moto
 
@@ -51,7 +46,7 @@ if vr<0
     theta = 360 - theta;
 end
 
-
+orb = [a e i RAAN omega theta]';
 
 end
 

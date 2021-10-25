@@ -1,4 +1,4 @@
-function [] = earth3D(nFig)
+function [earth] = earth3D(nFig)
 
 figure(nFig)
 rt=6371;                                                               % raggio terrestre
@@ -10,7 +10,22 @@ earth=surface(xs,ys,zs);                                               % plot te
 shading flat;
 imData=imread('map.jpg');                                              % lettura mappa(inserire qua 'nomeMappa.jpg' che deve stare nella stessa cartella)
 set(earth,'facecolor','texturemap','cdata',imData,'edgecolor','none'); % incolla mappa su sfera
-axis square
+axis equal
+hold on
+axis_color=[.5 .5 .5];
+axis_width=0.5;
+lun = 13000;
+
+quiver3(0,0,0,lun,0,0,1.2,'-.','color','k','LineWidth',axis_width+0.5);
+quiver3(0,0,0,0,lun,0,1.2,'-.','color','k','LineWidth',axis_width+0.5);
+quiver3(0,0,0,0,0,lun,1.2,'-.','color','k','LineWidth',axis_width+0.5);
+% quiver3(0,0,0,lun*cos(orb_vect(4,1)),lun*sin(orb_vect(4,1)),0,1.2,'-.','color',axis_color,'LineWidth',axis_width+0.8);
+text(lun+3000,0,0,'I','FontSize',12,'color',axis_color);
+text(0,lun+3000,0,'J','FontSize',12,'color',axis_color);
+text(0,0,lun+3000,'K','FontSize',12,'color',axis_color);
+% text((lun+3000)*cos(0.000293100000000*10000),(lun+3000)*sin(0.000293100000000*10000),0,'RAAN','FontSize',8,'color',axis_color);
+
+
 
 hold on
 grid on
