@@ -27,7 +27,7 @@ mu = 398600;                                             % costante gravitaziona
 rIniz = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]';                % vettore posizione
 vIniz = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]';                % vettore velocità
 
-[aIniz, eIniz, iIniz, RAANIniz, omegaIniz, thetaIniz] = GEtoPF(rIniz, vIniz) % da GE coordinate PF
+[orbIniz] = GEtoPF(rIniz, vIniz, mu) % da GE coordinate PF
 
 %% ORBITA FINALE
 aFin = ptoFin(1); 
@@ -43,15 +43,16 @@ thetaFin = (ptoFin(6));
 % orbit2D( [aFin, eFin, omegaFin, thetaFin], 3, true);             % plot 2D dell'orbita finale
 
 earth3D(2);                                              % plot terra
-orbit3D([aIniz, eIniz, iIniz, RAANIniz, omegaIniz,  thetaIniz], 2);         % plot 3D orbita iniziale
+orbit3D(orbIniz, 2);         % plot 3D orbita iniziale
 orbit3D(ptoFin, 2);                                      % plot 3D orbita finale
 
-% h = animatedline;
-% 
-% for k = 1:length(r3D(1,:))
-%     addpoints(h,r3D(1,k),r3D(2,k),r3D(3,k));
-%     drawnow
-% end
+%{
+h = animatedline;
 
+ for k = 1:length(r3D(1,:))
+     addpoints(h,r3D(1,k),r3D(2,k),r3D(3,k));
+     drawnow
+ end
+%}
 
 
