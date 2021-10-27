@@ -1,4 +1,4 @@
-function [E] = AnomEcc(M, e)
+function [E] = anomEcc(M, e)
 
     % Risolve l'eq di Keplero col metodo di Newton-Rapshon
     
@@ -18,10 +18,10 @@ function [E] = AnomEcc(M, e)
     
     while(it<nmax && error>err)
         dfx=dfun_E(xv);
-        if dfx == 0 derivata nulla della derivata della funzione di iterazione');
+        if dfx == 0 
         else
             xn=xv-fun_E(xv)/dfun_E(xv);
-            error('Algoritmo fallito a causa della
+            error('Algoritmo fallito a causa della derivata nulla della derivata della funzione di iterazione');
             error=abs(xn-xv);
             xvect=[xvect;xn];
             it=it+1;
