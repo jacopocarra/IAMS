@@ -70,9 +70,9 @@ switch lower(type)
                     myMovie(1) = getframe(myFig);
                 end
                 if  ctr ~= 1
-                    orb = orbVect(:,ctr);
-                    orb(6) = thetaStory(2*(ctr)-1);
-                    [rr,vv] = PFtoGE(orb,mu);
+%                     orb = orbVect(:,ctr);
+%                     orb(6) = thetaStory(2*(ctr)-1);
+%                     [rr,vv] = PFtoGE(orb,mu);
                     pointLegend(ctr) = plot3(r(1,1),r(2,1),r(3,1),'d',...
                                               'MarkerSize',marker.sizeDyn,'MarkerFaceColor',...
                                               colormap.Marker(ctr,:));
@@ -138,13 +138,13 @@ switch lower(type)
                     delete(sat);
              end
              if ctr == N
-                 orb(6) = thetaOrb(end);
+                orb(6) = thetaOrb(end);
                 [rr, vv] = PFtoGE(orb, mu);
                 tTot = sum(DeltaTStory);    % plotto il tempo totale 'barando'
                 h = round(tTot/3600);
                 minut = round(60*((tTot/3600)-h));
                 str1 = sprintf("  Time:  \n%d  [h]\n%d  [min]",h,minut);
-                    annotation('textbox',[.75 .65 0 0],'String',str1,...
+                annotation('textbox',[.75 .65 0 0],'String',str1,...
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
                 pointLegend(ctr+1) = plot3(rr(1),rr(2),rr(3),'d',...
                         'MarkerSize',marker.sizeDyn,'MarkerFaceColor',...
@@ -172,17 +172,17 @@ switch lower(type)
         % plotto orbite
         for ctr = 1:N
             orb = orbVect(:,ctr); % setto orbita corrente
-            thethaOrb = thetaStory((ctr*2)-1:ctr*2); % setto anomalia vera iniziale e finale per l'orbita di riferimento
-            if thethaOrb(2) < thethaOrb(1)
-                thethaOrb(2) = thethaOrb(2) + 2*pi;
+            thetaOrb = thetaStory((ctr*2)-1:ctr*2); % setto anomalia vera iniziale e finale per l'orbita di riferimento
+            if thetaOrb(2) < thetaOrb(1)
+                thetaOrb(2) = thetaOrb(2) + 2*pi;
             end
             
-            thetaVectTot = thethaOrb(1):dth:thethaOrb(1)+2*pi;
+            thetaVectTot = thetaOrb(1):dth:thetaOrb(1)+2*pi;
             L = length(thetaVectTot);
             
             if ctr == 1
                 % plotto punto iniziale
-                orb(6) = thethaOrb(1);
+                orb(6) = thetaOrb(1);
                 [rr,vv] = PFtoGE(orb,mu);
                 pointLegend(ctr) = plot3(rr(1),rr(2),rr(3),'d',...
                     'MarkerSize',marker.size,'MarkerFaceColor',...
@@ -212,7 +212,7 @@ switch lower(type)
             % plotto orbita
             while k <= L
                 
-                if thetaVectTot(k)<=thethaOrb(2) % plotto parte di orbita che fa
+                if thetaVectTot(k)<=thetaOrb(2) % plotto parte di orbita che fa
                     colorIndex = floor((L-2)*(vNorm(k)-vmin)/...
                         (vmax-vmin) + 1);
                     stepColor = colormap.Orbit(colorIndex,:);
@@ -241,7 +241,7 @@ switch lower(type)
 
             
             if ctr == N % plotto ultimo punto con legenda
-                orb(6) = thethaOrb(end);
+                orb(6) = thetaOrb(end);
                 [rr,vv] = PFtoGE(orb,mu);
                 pointLegend(end+1) = plot3(rr(1),rr(2),rr(3),'d',...
                     'MarkerSize',marker.size,'MarkerFaceColor',...
