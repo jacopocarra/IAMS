@@ -11,7 +11,7 @@ font.Size = 8.5;
 marker.size = 8;
 marker.sizeDyn = 6;
 line.Width = 1.2;
-leg.Position = [0.8 0.8 0 0];
+leg.Position = [0.8 0.8 0 0]; % indicazione posizione legenda
 dt = 60;            % intervallo di tempo, deve stare basso per non perdere informazioni
 N = size(orbVect,2);       % numero di colonne del orbVect
 set(gcf,'color','w');
@@ -73,7 +73,7 @@ switch lower(type)
                     orb = orbVect(:,ctr);
                     orb(6) = thetaStory(2*(ctr)-1);
                     [rr,vv] = PFtoGE(orb,mu);
-                    pointLegend(ctr) = plot3(rr(1,1),rr(2,1),rr(3,1),'d',...
+                    pointLegend(ctr) = plot3(r(1,1),r(2,1),r(3,1),'d',...
                                               'MarkerSize',marker.sizeDyn,'MarkerFaceColor',...
                                               colormap.Marker(ctr,:));
                     legend(pointLegend(1:ctr), ManeuvName(1:ctr), 'AutoUpdate', 'off', 'Location', leg.Position,...
