@@ -1,9 +1,6 @@
 function [pos,v] = EqMoto(orb, thetaIn, t)
 
-%{
-Funzione che calcola l'equazione di moto
-
-%}
+    %Funzione che calcola l'equazione di moto
 
 a = orb(1);
 e = orb(2);

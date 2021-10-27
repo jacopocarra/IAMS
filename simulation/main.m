@@ -13,6 +13,8 @@ VERSION:
 clc
 clear
 close all
+addpath('..\plot');
+addpath('..\orbitalMechanics'); %aggiunti i percorsi per trovare le altre funzioni
 
 %% DATI
 ptoIniz = [-1.1441403e4 -7.20985180e3 -1.30298510e3 ...
@@ -42,9 +44,9 @@ thetaFin = (ptoFin(6));
 % orbit2D( [aIniz, eIniz, omegaIniz, thetaIniz], 1, true);             % plot 2D dell'orbita iniziale
 % orbit2D( [aFin, eFin, omegaFin, thetaFin], 3, true);             % plot 2D dell'orbita finale
 
-earth3D(2);                                              % plot terra
-orbit3D(orbIniz, 2);         % plot 3D orbita iniziale
-orbit3D(ptoFin, 2);                                      % plot 3D orbita finale
+earth3D(1);                                              % plot terra
+orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
+orbit3D(ptoFin, 1);                                      % plot 3D orbita finale
 
 %{
 h = animatedline;

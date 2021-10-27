@@ -18,10 +18,10 @@ function [E] = AnomEcc(M, e)
     
     while(it<nmax && error>err)
         dfx=dfun_E(xv);
-        if dfx == 0
-            error('Algoritmo fallito a causa della derivata nulla della derivata della funzione di iterazione');
+        if dfx == 0 derivata nulla della derivata della funzione di iterazione');
         else
             xn=xv-fun_E(xv)/dfun_E(xv);
+            error('Algoritmo fallito a causa della
             error=abs(xn-xv);
             xvect=[xvect;xn];
             it=it+1;

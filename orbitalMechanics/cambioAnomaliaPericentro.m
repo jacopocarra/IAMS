@@ -3,14 +3,14 @@ function [OrbFin, deltaV, deltaT] = cambioAnomaliaPericentro(OrbIniz, omegaFin)
 %Calcola costo di un cambio di anaomalia di pericentro e restituisce
 %l'orbita finale.
 %   INPUT
-%   -Orbita iniziale, vettore
-%   -Omega finale desiderato
+%       OrbiIniz: Orbita iniziale, vettore
+%       omegaFin: Omega finale desiderato
 %   
 %
 %   OUTPUT
-%   -Orbita finale, vettore nel punto di manovra
-%   -Costo deltaV manovra
-%   -Tempo impiegato per raggiungere p.to manovra
+%       OrbFin: Orbita finale, vettore nel punto di manovra
+%       deltaV: Costo deltaV manovra
+%       deltaT: Tempo impiegato per raggiungere p.to manovra
 %
 %
 
