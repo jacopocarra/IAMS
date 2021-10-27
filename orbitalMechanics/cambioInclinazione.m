@@ -17,7 +17,6 @@ function [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
 %       deltaT: Tempo impiegato per raggiungere p.to manovra
 
 
-%   27-10-2021 Riccardo Cadamuro
 
 
 %% dati iniziali

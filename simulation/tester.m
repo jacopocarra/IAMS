@@ -15,7 +15,7 @@ addpath('..\orbitalMechanics'); %aggiunti i percorsi per trovare le altre funzio
 orbIniz = [19000, 0.1, 30, 45, 10, 0]; 
 
 RAAN2 = 60; 
-i2 = 60; 
+i2 = 30; 
 
 [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, i2, RAAN2); 
 earth3D(1); 
