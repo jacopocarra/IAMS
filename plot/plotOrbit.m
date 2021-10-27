@@ -94,7 +94,7 @@ switch lower(type)
                         'color',stepColor,'LineWidth',line.Width);
                     sat = plot3(r(1,k),r(2,k),r(3,k),'-o','MarkerFaceColor','r',...
                         'MarkerEdgeColor','k');
-                    rotate(P1,[0 0 1],rad2deg(EarthAngVel*dt),[0 0 0]);
+                    % rotate(P1,[0 0 1],rad2deg(EarthAngVel*dt),[0 0 0]);
                     
                     if r(2,k) > 0
                         Azimut = acos(r(1,k)/norm(r(:,k)));
