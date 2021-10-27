@@ -16,6 +16,6 @@ eFin = orbFin(2);
 
 [r, ~] = PFtoGE(orbIniz, mu);
 
-deltaV = abs(sqrt(2*mu*((1/r)-(1/2*aFin)))-sqrt(2*mu*((1/r)-(1/2*aIniz))));
+deltaV = abs(sqrt(2*mu*((1/r)-(1/(2*aFin))))-sqrt(2*mu*((1/r)-(1/(2*aIniz)))));
 
 thetaFin = thetaIniz;    
