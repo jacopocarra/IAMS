@@ -1,6 +1,6 @@
 function [deltaV, deltaV1, deltaV2, orbTrasf, deltaT, thetaMan] = manovraBitangenteEllittica(orbIniz, orbFin, type)
 
-
+format long
 %{
 Calcolo manovra bitangente ellittica
 
@@ -51,12 +51,12 @@ switch lower(type)
         [deltaT1] = tempoVolo(orbIniz, thetaIniz, thetaMan); % calcolo tempo su orbita 1 da theta a theta di manovra
         
         aTrasf = (rPIniz + rAFin)/2;
-        eTrasf = (rAIniz-rPFin)/(rPIniz+rAFin);
+        eTrasf = abs(rPIniz-rAFin)/(rPIniz+rAFin);
         deltaV1 = sqrt(2*mu*((1/rPIniz)-(1/(2*aTrasf)))) - sqrt(2*mu*((1/rPIniz)-(1/(2*aIniz))));
         deltaV2 = sqrt(2*mu*((1/rAFin)-(1/(2*aFin)))) - sqrt(2*mu*((1/rAFin)-(1/(2*aTrasf))));
         deltaV = abs(deltaV1)+abs(deltaV2);
         
-        thetaFin = orbFin;
+        thetaFin = orbFin(6);
         
         orbTrasf = [aTrasf, eTrasf, iFin, RAANFin, omegaFin, thetaFin]';
         perTrasf = 2*pi*sqrt(aTrasf^3/mu); % calcolo periodo di trasferimento
@@ -70,7 +70,7 @@ case 'ap'                                  % caso da apocentro orbita 1 a perice
         [deltaT1] = tempoVolo(orbIniz, thetaIniz, thetaMan);
         
         aTrasf = (rAIniz + rPFin)/2;
-        eTrasf = (rAIniz-rPFin)/(rAIniz+rPFin);
+        eTrasf = abs(rAIniz-rPFin)/(rAIniz+rPFin);
         deltaV1 = sqrt(2*mu*((1/rAIniz)-(1/(2*aTrasf)))) - sqrt(2*mu*((1/rAIniz)-(1/(2*aIniz))));
         deltaV2 = sqrt(2*mu*((1/rPFin)-(1/(2*aFin)))) - sqrt(2*mu*((1/rPFin)-(1/(2*aTrasf))));
         deltaV = abs(deltaV1)+abs(deltaV2);
@@ -93,8 +93,14 @@ case 'aa'                                                    % caso da apocentro
         deltaV2 = sqrt(2*mu*((1/rAFin)-(1/(2*aFin)))) - sqrt(2*mu*((1/rAFin)-(1/(2*aTrasf))));
         deltaV = abs(deltaV1)+abs(deltaV2);
         
+        if rAIniz<rAFin
+            omegaTrasf = omegaFin;
+        else
+            omegaTrasf = omegaIniz;
+        end
+        
         thetaFin = 180;
-        orbTrasf = [aTrasf, eTrasf, iFin, RAANFin, omegaFin, thetaFin]';
+        orbTrasf = [aTrasf, eTrasf, iFin, RAANFin, omegaTrasf, thetaFin]';
                                                             
         perTrasf = 2*pi*sqrt(aTrasf^3/mu);                   % calcolo periodo di trasferimento
         [deltaT2] = perTrasf/2;                              % calcolo tempo trasferimento
@@ -107,13 +113,19 @@ case 'aa'                                                    % caso da apocentro
         [deltaT1] = tempoVolo(orbIniz, thetaIniz, thetaMan); % calcolo tempo su orbita 1 da theta a theta di manovra
 
         aTrasf = (rPIniz + rPFin)/2;
-        eTrasf = abs(rPIniz-rAPFin)/(rPIniz+rPFin);
+        eTrasf = abs(rPIniz-rPFin)/(rPIniz+rPFin);
         deltaV1 = sqrt(2*mu*((1/rPIniz)-(1/(2*aTrasf)))) - sqrt(2*mu*((1/rPIniz)-(1/(2*aIniz))));
         deltaV2 = sqrt(2*mu*((1/rPFin)-(1/(2*aFin)))) - sqrt(2*mu*((1/rPFin)-(1/(2*aTrasf))));
         deltaV = abs(deltaV1)+abs(deltaV2);
         
+        if rPIniz<rPFin
+            omegaTrasf = omegaIniz;
+        else
+            omegaTrasf = omegaFin;          
+        end
+        
         thetaFin = 0;
-        orbTrasf = [aTrasf, eTrasf, iFin, RAANFin, omegaFin, thetaFin]';
+        orbTrasf = [aTrasf, eTrasf, iFin, RAANFin, omegaTrasf, thetaFin]';
                                                             
         perTrasf = 2*pi*sqrt(aTrasf^3/mu);                   % calcolo periodo di trasferimento
         [deltaT2] = perTrasf/2;                              % calcolo tempo trasferimento
