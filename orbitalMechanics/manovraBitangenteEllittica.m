@@ -1,4 +1,4 @@
-function [deltaV, deltaV1, deltaV2, orbTrasf, deltaT, thetaMan] = manovraBitangenteEllittica(orbIniz, orbFin, type)
+function [deltaV, deltaV1, deltaV2, orbTrasf, deltaT, deltaT1, deltaT2, thetaMan] = manovraBitangenteEllittica(orbIniz, orbFin, type)
 
 format long
 %{
