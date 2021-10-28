@@ -1,4 +1,4 @@
-function [deltaV, thetaFin] = manovraTangente(orbIniz, orbFin)
+function [deltaV, thetaMan, deltaT] = manovraTangente(orbIniz, orbFin)
 
 % funziona solo per manovre ad apocentro e pericentro
 
@@ -13,10 +13,14 @@ function [deltaV, thetaFin] = manovraTangente(orbIniz, orbFin)
 
     aFin = orbFin(1);
     eFin = orbFin(2);
+    thetaFin = orbFin(6);
 
-    [r, ~] = PFtoGE(orbIniz, mu);
-
+    if thetaIniz == 0
+        r = round(aIniz*(1-eIniz));
+    elseif thetaIniz == pi
+        r = aIniz*(1+eIniz);
+    end
     deltaV = abs(sqrt(2*mu*((1/r)-(1/(2*aFin))))-sqrt(2*mu*((1/r)-(1/(2*aIniz)))));
-
-    thetaFin = thetaIniz;    
+    deltaT = tempoVolo(orbFin, thetaIniz, thetaFin);
+    thetaMan = thetaIniz;    
 end
