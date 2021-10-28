@@ -27,10 +27,10 @@ deltaV
 %%
 clear; 
 clc; 
+close all; 
 
-orbIniz = [42164, 0, 28, 0, 0 , 0]; 
+orbit3D([19000, 0.9, 60, , 10, 150],1);
+orbit3D([19000, 0.9, 0, 0, 140, 150],1);
 
-RAAN2 = 0; 
-i2 = 0; 
 
-[orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, i2); 
+
