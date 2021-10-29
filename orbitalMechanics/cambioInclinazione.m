@@ -46,21 +46,9 @@ function [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
     
 %% aggiustamento angoli
 
-    deltaRAAN = RAANFin - RAANIniz;  %variazione di RAAN, NON mi serve riportarla nei 360°
-    
-    if deltaRAAN > 180
-        deltaRAAN = deltaRAAN - 360; %considero rotazione esplementare in dir opposta
-    elseif deltaRAAN < -180
-        deltaRAAN = 360 - deltaRAAN; %come sopra
-    end
-    
-    deltai = iFin - iIniz; 
-    
-    if deltai > 180
-        deltai = deltai - 360; %considero rotazione esplementare in dir opposta
-    elseif deltai < -180
-        deltai = 360 - deltai; %come sopra
-    end
+
+    deltaRAAN = wrapTo180(RAANFin - RAANIniz);  
+   
     
 %% calcolo effettivo
     
@@ -68,50 +56,42 @@ function [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
     
     if deltaRAAN == 0 %posso manovrare sul piano nodale
         
-        thetaMan1 = -omegaIniz; 
-        thetaMan2 = 180 + thetaMan1; %calcolo i due possibili punti di manovra
-                 
+        thetaMan1 = wrapTo360(-omegaIniz); 
+        thetaMan2 = wrapTo360(180 + thetaMan1); %calcolo i due possibili punti di manovra
+        omegaFin = omegaIniz; 
+        
     else %non manovro sulla linea dei nodi
-        u1 = asind( (sind(deltaRAAN)/sind(alfa))*sind(iFin) );  %angolo che sottende tratto prima della manovra orbIniz
-        u2 = asind( (sind(deltaRAAN)/sind(alfa))*sind(iIniz) );  %angolo che sottende tratto prima della manovra orbFin
+        sinU1 = (sind(deltaRAAN)/sind(alfa))*sind(iFin);  %angolo che sottende tratto prima della manovra orbIniz
+        cosU1 = (cosd(alfa)*cosd(iIniz) - cosd(iFin))/( sind(alfa)*sind(iIniz) );
         
+        sinU2 = (sind(deltaRAAN)/sind(alfa))*sind(iIniz) ;  %angolo che sottende tratto prima della manovra orbFin
+        cosU2 = ( cosd(iIniz) - cosd(alfa)*cosd(iFin) )/( sind(alfa)*sind(iFin) ); 
+       
+        u1 = wrapTo360(atan2d(sinU1, cosU1)); 
+        u2 = wrapTo360(atan2d(sinU2, cosU2)); 
         
-        if deltaRAAN*deltai > 0 %mi accerto di scegliere il triangolo sull'emisfero corretto
-            thetaMan1 = u1 - omegaIniz; %punto di manovra, sarà uguale in entrambe le orbite (vrIniz = vrFin; vTiniz = vTfin -> due punti con le stesse componenti di velocità devono trovarsi nella stessa posizione angolare)
-            omegaFin = u2 - thetaMan1;  %variazione anomalia di pericentro nell'orbita obiettivo
-        else
-            thetaMan1 = 360 - u1 - omegaIniz;
-            omegaFin = 360 - u2 - thetaMan1; %vedi sopra
-        end
+        thetaMan1 = u1 - omegaIniz; %punto di manovra, sarà uguale in entrambe le orbite (vrIniz = vrFin; vTiniz = vTfin -> due punti con le stesse componenti di velocità devono trovarsi nella stessa posizione angolare)
+        omegaFin = u2 - thetaMan1;  %variazione anomalia di pericentro nell'orbita obiettivo
         
+
+        thetaMan1 = wrapTo360(thetaMan1); 
         thetaMan2 = wrapTo360(thetaMan1 + 180); %secondo punto di manovra diametralmente opposto
         
         %non serve correggere l'anomalia di pericentro nel caso di manovra
         %nel secondo punto nodale dato che l'orbita di arrivo è la stessa
-        %(?)
         
     end
     
     
+    %seleziono il punto di manovra più vicino al punto in cui ci si trova,
+    %non faccio nessun controllo sul deltaV
     
-    vT1 = vTrasv(pIniz, eIniz, thetaMan1); 
-    vT2 = vTrasv(pIniz, eIniz, thetaMan2);   %calcolo la velocità trasversa nei due punti nodali
-    
-    %devo decidere in quale punto manovrare
-    if vT1<vT2
+    if thetaIniz > thetaMan1 && thetaIniz <= thetaMan2
+        thetaMan = thetaMan2; 
+    else
         thetaMan = thetaMan1; 
-    elseif vT2<vT1
-        thetaMan = thetaMan2; %do la priorità al trasferimento meno costoso in termini di velocità
-    else %vT2 == vT1
-        %in questo caso scelgo il trasferimento meno costoso in termini
-        %di tempo
-
-        if thetaIniz > thetaMan1 && thetaIniz <= thetaMan2
-            thetaMan = thetaMan2; 
-        else
-            thetaMan = thetaMan1; 
-        end
     end
+        
     
     
     
@@ -127,6 +107,8 @@ function [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
     orbFin(4) = RAANFin;
     orbFin(5) = wrapTo360(omegaFin); 
     orbFin(6) = wrapTo360(thetaMan);  
-    
+
+
+
 
 end

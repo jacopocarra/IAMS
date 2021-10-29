@@ -12,25 +12,23 @@ addpath('..\orbitalMechanics'); %aggiunti i percorsi per trovare le altre funzio
 
 %%
 
-orbIniz = [19000, 0.1, 30, 45, 10, 0]; 
+orbIniz = [7686, 94/1281, 60, 30, 45, 180]; 
+%orbIniz = [8168.52,0.18859, 0, 0, -90 , 268]; 
+%orbIniz = [19000, 0.1, 30, 45, 10 180]; 
 
-RAAN2 = 60; 
-i2 = 30; 
+%RAAN2 = 60; 
+%i2 = 60; 
+
+RAAN2 = 30; 
+i2 = 90; 
 
 [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, i2, RAAN2); 
 earth3D(1); 
 orbit3D(orbIniz,1);
 orbit3D(orbFin,1);
-
 deltaV
-
-%%
-clear; 
-clc; 
-close all; 
-
-orbit3D([19000, 0.9, 60, , 10, 150],1);
-orbit3D([19000, 0.9, 0, 0, 140, 150],1);
+deltaT
+%orbit3D([19000, 0.1, 0, 0, 10, 150],1);
 
 
 
