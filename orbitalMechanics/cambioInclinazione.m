@@ -48,10 +48,16 @@ function [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
 
 
     deltaRAAN = wrapTo180(RAANFin - RAANIniz);  
-   
+     
+    
     
 %% calcolo effettivo
     
+    if ( (iIniz == 0 || iIniz == 360 || iFin == 0 || iFin == 360) && deltaRAAN ~= 0 ) 
+        error('MANOVRA IMPOSSIBILE: impossibile raggiungere inclinazione 0° manovrando fuori dal piano nodale'); 
+    end
+
+
     alfa = acosd( cosd(iIniz)*cosd(iFin) + sind(iIniz)*sind(iFin)*cosd(deltaRAAN) ); %calcolo l'angolo fra le due orbite alla loro intersezione
     
     if deltaRAAN == 0 %posso manovrare sul piano nodale
@@ -107,8 +113,5 @@ function [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
     orbFin(4) = RAANFin;
     orbFin(5) = wrapTo360(omegaFin); 
     orbFin(6) = wrapTo360(thetaMan);  
-
-
-
 
 end
