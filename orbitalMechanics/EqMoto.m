@@ -21,7 +21,7 @@ Deltat = M/n; % Deltat per raggiungere theta da theta=0
 
 M = n*(t+Deltat); % anomalia media al timestep successivo
 
-[E]=AnomEcc(M,e); % Risoluzione numerica eq di Keplero
+[E]=anomEcc(M,e); % Risoluzione numerica eq di Keplero
 theta=2*atan(sqrt((1+e)/(1-e))*tan(E/2));   % trovo il nuovo theta
 
 R = RotPF2GE(i,RAAN,omega); 

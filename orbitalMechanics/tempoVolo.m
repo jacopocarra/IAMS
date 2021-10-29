@@ -3,6 +3,9 @@ function [deltaT] = tempoVolo(orbita, thetaIniz,thetaFin)
 a = orbita(1);
 e = orbita(2);
 
+thetaIniz = deg2rad(thetaIniz);
+thetaFin = deg2rad(thetaFin);
+
 mu = 398600;
 
 if thetaIniz == thetaFin

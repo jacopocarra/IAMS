@@ -1,4 +1,4 @@
-function [orbFin, deltaV, deltaT] = cambioAnomaliaPericentro(orbIniz, omegaFin, nman)
+function [orbFin, deltaV, deltaT, thetaman] = cambioAnomaliaPericentro(orbIniz, omegaFin, nman)
 
 %Calcola costo di un cambio di anaomalia di pericentro e restituisce
 %l'orbita finale.
