@@ -4,9 +4,9 @@ function [pos,v] = EqMoto(orb, thetaIn, t)
 
 a = orb(1);
 e = orb(2);
-i = orb(3);
-RAAN = orb(4);
-omega = orb(5);
+i = deg2rad(orb(3));
+RAAN = deg2rad(orb(4));
+omega = deg2rad(orb(5));
 mu = 398600;
 
 

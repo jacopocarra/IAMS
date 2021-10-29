@@ -124,8 +124,8 @@ switch lower(type)
                     rrPlot = [r(1,k);r(2,k);r(3,k)];
                     vvPlot = [v(1,k);v(2,k);v(3,k)];
                     [orbPlot] = GEtoPF(rrPlot,vvPlot,mu);
-                    vTheta = sqrt(mu/(orbPlot(1)*(1-orbPlot(2)^2)))*(1+(orbPlot(2)*cos(orbPlot(6))));
-                    vR = sqrt(mu/(orbPlot(1)*(1-orbPlot(2)^2)))*(orbPlot(2)*sin(orbPlot(6)));
+                    vTheta = sqrt(mu/(orbPlot(1)*(1-orbPlot(2)^2)))*(1+(orbPlot(2)*cosd(orbPlot(6))));
+                    vR = sqrt(mu/(orbPlot(1)*(1-orbPlot(2)^2)))*(orbPlot(2)*sind(orbPlot(6)));
                     str1 = sprintf("  Time:  \n%d  [h]\n%d  [min]",timeHour,timeMin);
                     annotation('textbox',[.75 .65 0 0],'String',str1,...
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
