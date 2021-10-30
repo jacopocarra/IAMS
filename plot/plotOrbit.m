@@ -70,10 +70,10 @@ switch lower(type)
                     myMovie(1) = getframe(myFig);
                 end
                 if  ctr ~= 1
-%                     orb = orbVect(:,ctr);
-%                     orb(6) = thetaStory(2*(ctr)-1);
-%                     [rr,vv] = PFtoGE(orb,mu);
-                    pointLegend(ctr) = plot3(r(1,1),r(2,1),r(3,1),'d',...
+                    orb = orbVect(:,ctr);
+                    orb(6) = thetaStory(2*(ctr)-1);
+                    [rr,vv] = PFtoGE(orb,mu);
+                    pointLegend(ctr) = plot3(rr(1,1),rr(2,1),rr(3,1),'d',...
                                               'MarkerSize',marker.sizeDyn,'MarkerFaceColor',...
                                               colormap.Marker(ctr,:));
                     legend(pointLegend(1:ctr), ManeuvName(1:ctr), 'AutoUpdate', 'off', 'Location', leg.Position,...

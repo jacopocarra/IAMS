@@ -8,7 +8,7 @@ i = deg2rad(orb(3));
 RAAN = deg2rad(orb(4));
 omega = deg2rad(orb(5));
 mu = 398600;
-
+thetaIn = deg2rad(thetaIn)
 
 E = 2*atan(sqrt((1-e)/(1+e))*tan(thetaIn/2));       % Calcolo Energia
 
@@ -24,7 +24,7 @@ M = n*(t+Deltat); % anomalia media al timestep successivo
 [E]=anomEcc(M,e); % Risoluzione numerica eq di Keplero
 theta=2*atan(sqrt((1+e)/(1-e))*tan(E/2));   % trovo il nuovo theta
 
-R = RotPF2GE(i,RAAN,omega); 
+R = RotPF2GE(rad2deg(i),rad2deg(RAAN),rad2deg(omega)); 
 
 p = a*(1-e^2);
 
