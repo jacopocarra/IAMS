@@ -141,8 +141,8 @@ switch lower(type)
                 orb(6) = thetaOrb(end);
                 [rr, vv] = PFtoGE(orb, mu);
                 tTot = sum(DeltaTStory);    % plotto il tempo totale 'barando'
-                h = round(tTot/3600);
-                minut = round(60*((tTot/3600)-h));
+                h = floor(tTot/3600);
+                minut = floor(60*((tTot/3600)-h));
                 str1 = sprintf("  Time:  \n%d  [h]\n%d  [min]",h,minut);
                 annotation('textbox',[.75 .65 0 0],'String',str1,...
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
