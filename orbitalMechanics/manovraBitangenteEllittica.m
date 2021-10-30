@@ -16,7 +16,7 @@ OUTPUT:
         - deltaV2: delta velocità seconda tangenza
         - orbTrasf: [6x1], parametri orbita di trasferimento
         - deltaT: calcolo delta tempo (orbita iniziale+orbita di trasferimento)
-        - thetaMan: theta di manovra
+        - thetaMan: theta di prima manovra
         
 %}
 
@@ -56,7 +56,7 @@ switch lower(type)
         deltaV2 = sqrt(2*mu*((1/rAFin)-(1/(2*aFin)))) - sqrt(2*mu*((1/rAFin)-(1/(2*aTrasf))));
         deltaV = abs(deltaV1)+abs(deltaV2);
         
-        thetaFin = orbFin(6);
+        thetaFin = 180;
         
         orbTrasf = [aTrasf, eTrasf, iFin, RAANFin, omegaFin, thetaFin]';
         perTrasf = 2*pi*sqrt(aTrasf^3/mu); % calcolo periodo di trasferimento

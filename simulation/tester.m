@@ -56,6 +56,14 @@ deltaV
 deltaT
 
 
+%% 
+
+% ptoFin = [1.9930e4, 1.5160e-1, rad2deg(3.0250), ...
+% rad2deg(6.5460e-1),  rad2deg(2.7820), rad2deg(2.6190)]; 
+% orbit3D (ptoFin, 4);
+% orbit3D (orbTrasf, 4);
+% orbit3D (orbFin, 4);
+
 
 
 
