@@ -9,6 +9,8 @@ clear
 close all
 addpath('..\plot');
 addpath('..\orbitalMechanics'); %aggiunti i percorsi per trovare le altre funzioni
+
+%%
 global fps;
 global myMovie;
 global myFig;
@@ -43,17 +45,20 @@ Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
 clc; 
 close all;
 clear; 
+mu = 398600;                              
 
-orbIniz = [15235.66 0.5657 0 0 45 45]; 
-%orbFin = [15235.66 0.5657 0 0 0 45]; 
+rIniz = [-1.1441403e4 -7.20985180e3 -1.30298510e3]';
+vIniz = [1.2140 -1.7110 -4.7160]'; 
 
-[orbFin, deltaV, deltaT, thetaMan] = cambioAnomaliaPericentro(orbIniz, 0); 
+orbFin = GEtoPF(rIniz, vIniz, mu);
+orbIniz = [1.9930e4, 1.5160e-1, rad2deg(3.0250),rad2deg(6.5460e-1),  rad2deg(2.7820), rad2deg(2.6190)];  % [a e i RAAN omega theta]
 
+[orbTrasf, deltaV1, deltaV2, deltaT] = trasfDir(orbIniz,orbFin); 
 
-thetaMan
-orbFin
-deltaV
-deltaT
+earth3D(1); 
+orbit3D(orbIniz, 1)
+orbit3D(orbFin,1 )
+orbit3D(orbTrasf, 1)
 
 
 %% 
