@@ -87,6 +87,56 @@ plotOrbit(orbTrasf,[thetaT1, thetaT2],deltaT,'diretto',[{'inizio'}, {'fine'}],'d
 % orbit3D (orbFin, 4);
 
 
+%% 
 
+clc; 
+close all;
+clear; 
+addpath('..\plot');
+addpath('..\orbitalMechanics');
+mu = 398600;                              
+
+rIniz = [-1.1441403e4 -7.20985180e3 -1.30298510e3]';
+vIniz = [1.2140 -1.7110 -4.7160]'; 
+dTtot=0;
+dVtot=0;
+orbIniz = GEtoPF(rIniz, vIniz, mu);
+
+orbFin = [1.9930e4, 1.5160e-1, rad2deg(3.0250),rad2deg(6.5460e-1),  rad2deg(2.7820), rad2deg(2.6190)];
+
+rAIniz=orbIniz(1)*(1-orbIniz(2)^2)/(1+orbIniz(2));
+rAFin=orbFin(1)*(1-orbFin(2)^2)/(1+orbFin(2));
+
+[orb2, deltaV, deltaT, thetaman] = cambioAnomaliaPericentro(orbIniz, 0);
+dVtot=dVtot+deltaV;
+dTtot=dTtot+deltaT;
+
+orb3=[(rAIniz+1e5)/2 , (1e5-rAIniz)/(1e5+rAIniz), orbIniz(3), orbIniz(4), orb2(5), 180];
+[deltaV, thetaMan1, deltaT, deltaT1, deltaT2] = manovraTangente(orb2, orb3, 'apo');
+dVtot=dVtot+deltaV;
+dTtot=dTtot+deltaT;
+
+[orb4, deltaV, deltaT] = cambioInclinazione(orb3, orbFin(3), orbFin(4));
+dVtot=dVtot+deltaV;
+dTtot=dTtot+deltaT;
+
+[orb5, deltaV, deltaT, thetaman] = cambioAnomaliaPericentro(orb4, 180+orbFin(5));
+dVtot=dVtot+deltaV;
+dTtot=dTtot+deltaT;
+
+[deltaV, deltaV1, deltaV2, orb6, deltaT, deltaT1, deltaT2, thetaMan] = manovraBitangenteEllittica(orb5, orbFin, 'aa');
+dVtot=dVtot+deltaV;
+dTtot=dTtot+deltaT;
+
+
+
+earth3D(2); 
+orbit3D(orbIniz, 2)
+orbit3D(orbFin,2 )
+orbit3D(orb2, 2)
+orbit3D(orb3, 2)
+orbit3D(orb4, 2)
+orbit3D(orb5, 2)
+orbit3D(orb6, 2)
 
 
