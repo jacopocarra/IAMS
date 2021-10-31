@@ -15,6 +15,7 @@ function [orbTrasf, deltaV1, deltaV2, deltaT] = trasfDir(orbIniz,orbFin)
 
 mu = 398600;
 Rt = 6471;   %raggio della Terra in kilometri + 100km di atmosfera
+toll = 1e-3;  %tolleranza nel calcolo delle orbite
 
 %% calcolo piano dell'orbita
  
@@ -57,7 +58,7 @@ for i = (0:step:360)  %controllo tutti gli omega
     
     R = RotPF2GE(iT, RAANT, omegaT);   %matrice di rotazione da PF a GE
       
-    eTvett = [cosd(omegaT) sind(omegaT) 0]';     %per ogni omega calcolo il versore eccentricità nel piano dell'orbita
+    eTvett = [1 0 0]';     %versore eccentricità nel sistema di riferimento perifocale
     
     
     eTGEvett = R*eTvett;   %versore eccentricità nello spazio GE
@@ -89,7 +90,7 @@ for i = (0:step:360)  %controllo tutti gli omega
         
         eT = (r2 - r1) / ( r1*cosTheta1 - r2*cosTheta2);   
         
-        if eT < 1 %lavoro solo con orbite chiuse (DA SISTEMARE!!!)
+        if eT < 1  %lavoro solo con orbite chiuse (DA SISTEMARE!!!  orbit3D e calcoloTempi non funzionano con orbite aperte)
         
             if eT<0  %giro l'orbita
                 omegaT = wrapTo360(180 + omegaT);
@@ -128,12 +129,21 @@ for i = (0:step:360)  %controllo tutti gli omega
             end
 
 
-            if (~intersection) && (deltaV < deltaVOpt) %se non mi schianto e il deltaV è conveniente salvo l'orbita
-                deltaVOpt = deltaV; 
-                orbTrasf = orbTrasfFin; %allineato con la fine della manovra
-                deltaV1 = dVIniz; 
-                deltaV2 = dVFin;
-                deltaT = tempoVolo(orbTrasf, thetaT1, thetaT2); 
+            if (intersection == false) && (deltaV < deltaVOpt) %se non mi schianto e il deltaV è conveniente salvo l'orbita
+                
+                [r1Vtest, ~] = PFtoGE(orbTrasfIniz, mu);
+                [r2Vtest, ~] = PFtoGE(orbTrasfFin, mu); 
+                
+                if (norm(r1Vtest - r1Vett)/r1 < toll) && (norm(r2Vtest - r2Vett)/r2 < toll)  
+                    
+                    deltaVOpt = deltaV; 
+                    orbTrasf = orbTrasfFin; %allineato con la fine della manovra
+                    deltaV1 = dVIniz; 
+                    deltaV2 = dVFin;
+                    deltaT = tempoVolo(orbTrasf, thetaT1, thetaT2); 
+                else
+                    warning('Errore di calcolo'); 
+                end
             end
         end
    end
@@ -144,7 +154,7 @@ end
 
 %% controllo finale di fattibilità
 
-if orbFin(1) == 0
+if orbTrasf(1) == 0
     warning('trasferimento diretto impossibile'); 
     deltaV1 = 0; 
     deltaV2 = 0; 

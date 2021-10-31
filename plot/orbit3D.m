@@ -43,10 +43,10 @@ function [] = orbit3D (pfPar, nFig)
     view(45,15)                                                  % impostazioni visualizzazione
     
     for i=1:199
-       if r3D(3,i)<0 && r3D(3,i+1)>0
+       if r3D(3,i)<=0 && r3D(3,i+1)>0
             plot3(r3D(1,i), r3D(2,i), r3D(3,i), 'm^');         % plotta nodo ascendente (approssimato)
        else
-          if r3D(3,i)>0 && r3D(3,i+1)<0
+          if r3D(3,i)>=0 && r3D(3,i+1)<0
               plot3(r3D(1,i), r3D(2,i), r3D(3,i), 'mv');         % plottanodo discendente (approssimato)
           end
        end
