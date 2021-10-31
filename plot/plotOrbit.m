@@ -4,6 +4,7 @@ global fps
 global myMovie;
 global myFig;
 
+I = [1 0 0]';
 myFig = figure;
 mu = 398600;
 EarthAngVel = 7.2722052e-5;         % velocità angolare terra
@@ -96,19 +97,7 @@ switch lower(type)
                         'MarkerEdgeColor','k');
                     % rotate(P1,[0 0 1],rad2deg(EarthAngVel*dt),[0 0 0]);
                     
-                    if r(2,k) > 0
-                        Azimut = acos(r(1,k)/norm(r(:,k)));
-                    else
-                        Azimut = 2*pi - acos(r(1,k)/norm(r(:,k)));
-                    end
-                    
-                    Azimut = Azimut*180/pi + 90;
-                    if Azimut > 270
-                        Azimut = (540-Azimut);
-                    end
-                    
-
-                    Azimut = 180 + 90*(Azimut/450);
+                    Azimut = acosd(dot(r(:,k), I)/norm(r(:,k)));
                     view(Azimut,20);
                     timeSec = timeSec + dt;   % si bugga se dt>60
                     

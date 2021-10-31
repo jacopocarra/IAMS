@@ -17,10 +17,10 @@ addpath('..\plot');
 addpath('..\orbitalMechanics'); %aggiunti i percorsi per trovare le altre funzioni
 
 %% DATI
-ptoIniz = [-1.1441403e4 -7.20985180e3 -1.30298510e3 ...
-1.2140 -1.7110 -4.7160];                                 % [x y z vx vy vz]
-ptoFin = [1.9930e4, 1.5160e-1, rad2deg(3.0250), ...
-rad2deg(6.5460e-1),  rad2deg(2.7820), rad2deg(2.6190)];  % [a e i RAAN omega theta]
+ptoIniz = [-3441.6408 -7752.3491 -3456.8431 ...
+4.9270 -0.5369 -4.0350];                                 % [x y z vx vy vz]
+ptoFin = [12930.0, 0.2055, rad2deg(1.5510)...
+rad2deg(2.6830),  rad2deg(0.4098), rad2deg(1.6940)];  % [a e i RAAN omega theta]
 mu = 398600;                                             % costante gravitazionale
 
 
