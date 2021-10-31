@@ -1,4 +1,4 @@
-function [orbTrasf, deltaV1, deltaV2, deltaT] = trasfDir(orbIniz,orbFin)
+function [orbTrasf, deltaV1, deltaV2, deltaT, eTGEvetplot, hT, nT, thetaPlot1, thetaPlot2] = trasfDir(orbIniz,orbFin)
 %TRASFDIR calcola la manovra di trasferimento diretto fra due punti dati
 %
 %   Input
@@ -19,6 +19,9 @@ toll = 1e-3;  %tolleranza nel calcolo delle orbite
 
 %% calcolo piano dell'orbita
  
+I = [1 0 0]';
+J = [0 1 0]';
+K = [0 0 1]';
 
 
 [r1Vett, ~] = PFtoGE(orbIniz, mu);
@@ -30,9 +33,9 @@ r2 = norm(r2Vett);
 hT = cross(r1Vett, r2Vett);  
 hT = hT / norm(hT);  %versore h dell'orbita di trasferimento
 
-iT = acosd(hT(3)); %inclinazione dell'orbita
+iT = acosd(dot(K, hT)); %inclinazione dell'orbita
 
-nT = cross([0 0 1]', hT); 
+nT = cross(K, hT); 
 nT = nT / norm(nT);   %versore linea dei nodi 
 
 RAANT = acosd(nT(1)); 
@@ -58,33 +61,34 @@ for i = (0:step:360)  %controllo tutti gli omega
     
     R = RotPF2GE(iT, RAANT, omegaT);   %matrice di rotazione da PF a GE
       
-    eTvett = [1 0 0]';     %versore eccentricità nel sistema di riferimento perifocale
+    eTvett = I;     %versore eccentricità nel sistema di riferimento perifocale
     
     
     eTGEvett = R*eTvett;   %versore eccentricità nello spazio GE
 
     
-    cosTheta1 = (eTGEvett' * r1Vett)/(norm(eTGEvett) * r1);     
+    cosTheta1 = (dot(r1Vett, eTGEvett))/(norm(eTGEvett) * r1);     
     thetaT1 = acosd(cosTheta1); 
-    
+    if dot(nT,J) < 0
+        thetaT1 = 360-thetaT1;
+    end
     h1 = cross(eTGEvett, r1Vett); 
     h1 = h1/norm(h1);  %versore normale al piano dell'orbita, mi serve per disambiguare il coseno
     
-    if norm(h1-hT) > norm(h1 + hT)  %se il versore risultante è più vicino al versore -h -> mi trovo nel 3/4  quadrante
-        thetaT1 = 360 - thetaT1; 
-    end
+
     
     
     
-    cosTheta2 = (eTGEvett' * r2Vett)/(norm(eTGEvett) * r2);     
+    cosTheta2 = (dot(r2Vett,eTGEvett))/(norm(eTGEvett) * r2);     
     thetaT2 = acosd(cosTheta2);   %calcolo l'angolo theta 2 (fine manovra di trasferimento)
+    if dot(nT,J) < 0
+        thetaT2 = 360-thetaT2;
+    end
     
     h2 = cross(eTGEvett, r2Vett); 
     h2 = h2/norm(h2);  %versore normale al piano dell'orbita, mi serve per disambiguare il coseno
     
-    if norm(h2-hT) > norm(h2 + hT)  %se il versore risultante è più vicino al versore -h -> mi trovo nel 3/4  quadrante
-        thetaT2 = 360 - thetaT2; 
-    end
+
     
     if r1*cosTheta1 ~= r2*cosTheta2
         
@@ -92,10 +96,7 @@ for i = (0:step:360)  %controllo tutti gli omega
         
         if eT < 1  %lavoro solo con orbite chiuse (DA SISTEMARE!!!  orbit3D e calcoloTempi non funzionano con orbite aperte)
         
-            if eT<0  %giro l'orbita
-                omegaT = wrapTo360(180 + omegaT);
-                eT = -eT; 
-            end
+            
     
             p = r1*(1 + eT*cosTheta1); %semilato retto
 
@@ -135,9 +136,11 @@ for i = (0:step:360)  %controllo tutti gli omega
                 [r2Vtest, ~] = PFtoGE(orbTrasfFin, mu); 
                 
                 if (norm(r1Vtest - r1Vett)/r1 < toll) && (norm(r2Vtest - r2Vett)/r2 < toll)  
-                    
+                    thetaPlot1 = thetaT1;
+                    thetaPlot2 = thetaT2;
                     deltaVOpt = deltaV; 
-                    orbTrasf = orbTrasfFin; %allineato con la fine della manovra
+                    eTGEvetplot = eTGEvett;
+                    orbTrasf = orbTrasfFin'; %allineato con la fine della manovra
                     deltaV1 = dVIniz; 
                     deltaV2 = dVFin;
                     deltaT = tempoVolo(orbTrasf, thetaT1, thetaT2); 
@@ -152,6 +155,8 @@ for i = (0:step:360)  %controllo tutti gli omega
     
 end
 
+hT
+nT
 %% controllo finale di fattibilità
 
 if orbTrasf(1) == 0

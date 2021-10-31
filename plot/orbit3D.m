@@ -40,6 +40,7 @@ function [] = orbit3D (pfPar, nFig)
     plot3(r0(1), r0(2), r0(3),  'hr');                           % plot satellite
     plot3(rA(1), rA(2), rA(3), '.r');                            % plot apocentro
     plot3(rP(1), rP(2), rP(3), '.r');                            % plot pericentro
+    
     view(45,15)                                                  % impostazioni visualizzazione
     
     for i=1:199

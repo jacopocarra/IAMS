@@ -57,7 +57,7 @@ orbFin = [1.9930e4, 1.5160e-1, rad2deg(3.0250),rad2deg(6.5460e-1),  rad2deg(2.78
 %orbFin = [7400 0.1 20 90 0 250];  
 %orbFin(3) = 20;
 
-[orbTrasf, deltaV1, deltaV2, deltaT] = trasfDir(orbIniz,orbFin); 
+[orbTrasf, deltaV1, deltaV2, deltaT, eTGEvett, hT, nT, thetaT1, thetaT2] = trasfDir(orbIniz,orbFin); 
 
 %{
 orbIniz = orbFin; 
@@ -66,11 +66,18 @@ orbIniz(4) = wrapTo360(180 + orbIniz(4));
 orbIniz(5) = wrapTo360(180 + orbIniz(5)); 
 %}
 
-earth3D(1); 
-orbit3D(orbIniz, 1)
-orbit3D(orbFin,1 )
-orbit3D(orbTrasf, 1)
+earth3D(2); 
+orbit3D(orbIniz, 2)
+orbit3D(orbFin,2 )
+orbit3D(orbTrasf, 2)
+hold on
+quiver3(0,0,0,eTGEvett(1),eTGEvett(2),eTGEvett(3),15000,'-.','color','b','LineWidth',1.5);
+quiver3(0,0,0,hT(1)*10000,hT(2)*10000,hT(3)*10000,1,'-.','color','r','LineWidth',1.5);
+quiver3(0,0,0,nT(1)*10000,nT(2)*10000,nT(3)*10000,1,'-.','color','g','LineWidth',1.5);
 
+hold off
+%%
+plotOrbit(orbTrasf,[thetaT1, thetaT2],deltaT,'diretto',[{'inizio'}, {'fine'}],'dyn',[0 0],[deltaV1, deltaV2])
 %% 
 
 % ptoFin = [1.9930e4, 1.5160e-1, rad2deg(3.0250), ...
