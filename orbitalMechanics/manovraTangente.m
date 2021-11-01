@@ -27,21 +27,23 @@ function [orbFin, deltaV , deltaT] = manovraTangente(orbIniz, aFin, type)
 
     switch type
         case 'apo'
-            
+            thetaMan = 180; %manovro nell'apocentro dell'orbita
             r1 = aIniz*(1+eIniz);  %raggio apocentro orbIniz
           
         case 'per'
-           
+            thetaMan = 0;  %manovro nel pericentro dell'orbita 
             r1 = aIniz*(1-eIniz);  %raggio pericentro orbIniz
     end
     
     deltaV = abs( sqrt( 2*mu*((1/r1)-(1/(2*aFin))) ) - sqrt( 2*mu*((1/r1)-(1/(2*aIniz))) ) ); %calcolo il deltaV -> essendo in valore assoluto non importa il segno della sottrazione
+    deltaT = tempoVolo(orbIniz, thetaIniz, thetaMan);
+    
     
     r2 = 2*aFin - r1; %calcolo il raggio al punto apsidale opposto
     
-    if r2 > r1  %per capire che tipo di orbita risulterà
-        thetaMan = 0;  %manovro nel pericentro dell'orbita finale
-        
+    if r2 >= r1 
+        %manovro nel pericentro dell'orbita finale
+        orbFin(6) = 0; 
         orbFin(2) = (r2 - r1)/(r1 + r2);
         
         if type == "apo"  %se avevo scelto di manovrare nell'apocentro dell'orbita iniziale devo cambiare l'anomalia al pericentro
@@ -49,8 +51,8 @@ function [orbFin, deltaV , deltaT] = manovraTangente(orbIniz, aFin, type)
         end
         
     else
-        thetaMan = 180; %manovro nell'apocentro dell'orbita finale
-    
+        %manovro nell'apocentro dell'orbita finale
+        orbFin(6) = 180; 
         orbFin(2) = (r1 - r2)/(r1 + r2);
         
         if type == "per" %se avevo scelto di manovrare nel pericentro dell'orbita iniziale devo cambiare l'anomalia al pericentro
@@ -58,9 +60,6 @@ function [orbFin, deltaV , deltaT] = manovraTangente(orbIniz, aFin, type)
         end
     end 
     
-    
-    orbFin(6) = thetaMan; 
-    
-    deltaT = tempoVolo(orbIniz, thetaIniz, thetaMan);
+
 
 end
