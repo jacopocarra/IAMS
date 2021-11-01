@@ -68,7 +68,7 @@ switch lower(type)
                     str3 = sprintf("DV TOT:\n   %2.4f  [km/s]", dVTotPlot);
                     annotation('textbox',[.75 .3 0 0],'String',str3,...
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
-                    myMovie(1) = getframe(myFig);
+                    %myMovie(1) = getframe(myFig);
                 end
                 if  ctr ~= 1
                     orb = orbVect(:,ctr);
@@ -83,7 +83,7 @@ switch lower(type)
                     str3 = sprintf("DV TOT:\n   %2.4f  [km/s]", dVTotPlot);
                     annotation('textbox',[.75 .3 0 0],'String',str3,...
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
-                    myMovie(end+1) = getframe(myFig);
+                    %myMovie(end+1) = getframe(myFig);
                 end   
                 L3 = length(r);
                 k = 2;
@@ -123,7 +123,7 @@ switch lower(type)
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
                     drawnow limitrate;
                     k = k+1;
-                    myMovie(end+1) = getframe(myFig);
+                    %myMovie(end+1) = getframe(myFig);
                     delete(sat);
              end
              if ctr == N
@@ -140,7 +140,7 @@ switch lower(type)
                         colormap.Marker(ctr+1,:));
                 legend(pointLegend(1:ctr+1),ManeuvName(1:ctr+1),'AutoUpdate',...
                         'off','Location',leg.Position,'FontSize',font.Size);
-                myMovie(end+1) = getframe(myFig);
+                %myMovie(end+1) = getframe(myFig);
              end
             end
         end
@@ -251,7 +251,7 @@ switch lower(type)
                     view(45,20)
 end
 
-writeMP4Movie(myMovie, "strat 5");
+%writeMP4Movie(myMovie, "strat 5");
 end
 
         
