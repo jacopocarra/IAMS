@@ -98,37 +98,42 @@ addpath('..\plot');
 addpath('..\orbitalMechanics');
 mu = 398600;                              
 
-rIniz = [-1.1441403e4 -7.20985180e3 -1.30298510e3]';
-vIniz = [1.2140 -1.7110 -4.7160]'; 
+ptoIniz = [-3441.6408 -7752.3491 -3456.8431 ...
+4.9270 -0.5369 -4.0350]; 
+rIniz = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]';                % vettore posizione
+vIniz = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]';
 dTtot=0;
 dVtot=0;
 orbIniz = GEtoPF(rIniz, vIniz, mu);
 
-orbFin = [1.9930e4, 1.5160e-1, rad2deg(3.0250),rad2deg(6.5460e-1),  rad2deg(2.7820), rad2deg(2.6190)];
+orbFin = [12930.0, 0.2055, rad2deg(1.5510)...
+rad2deg(2.6830),  rad2deg(0.4098), rad2deg(1.6940)]';
 
-rAIniz=orbIniz(1)*(1-orbIniz(2)^2)/(1+orbIniz(2));
+
+rPIniz=orbIniz(1)*(1-orbIniz(2)^2)/(1+orbIniz(2));
 rAFin=orbFin(1)*(1-orbFin(2)^2)/(1+orbFin(2));
+rAllontanamento=0.5e5;
 
-[orb2, deltaV, deltaT, thetaman] = cambioAnomaliaPericentro(orbIniz, 0);
-dVtot=dVtot+deltaV;
-dTtot=dTtot+deltaT;
+[orb2, deltaV1, deltaT1, thetaman1] = cambioAnomaliaPericentro(orbIniz, 270);
+%dVtot=dVtot+deltaV;
+%dTtot=dTtot+deltaT;
 
-orb3=[(rAIniz+1e5)/2 , (1e5-rAIniz)/(1e5+rAIniz), orbIniz(3), orbIniz(4), orb2(5), 180];
-[deltaV, thetaMan1, deltaT, deltaT1, deltaT2] = manovraTangente(orb2, orb3, 'apo');
-dVtot=dVtot+deltaV;
-dTtot=dTtot+deltaT;
+orb3=[(rPIniz+rAllontanamento)/2 , (rAllontanamento-rPIniz)/(rAllontanamento+rPIniz), orb2(3), orb2(4), orb2(5), 0];
+[deltaV2, thetaMan2, deltaT, deltaT2, deltaT3] = manovraTangente(orb2, orb3, 'peri');
+%dVtot=dVtot+deltaV;
+%dTtot=dTtot+deltaT;
 
-[orb4, deltaV, deltaT] = cambioInclinazione(orb3, orbFin(3), orbFin(4));
-dVtot=dVtot+deltaV;
-dTtot=dTtot+deltaT;
+[orb4, deltaV4, deltaT4] = cambioInclinazione(orb3, orbFin(3), orbFin(4));
+%dVtot=dVtot+deltaV;
+%dTtot=dTtot+deltaT;
 
-[orb5, deltaV, deltaT, thetaman] = cambioAnomaliaPericentro(orb4, 180+orbFin(5));
-dVtot=dVtot+deltaV;
-dTtot=dTtot+deltaT;
+[orb5, deltaV5, deltaT5, thetaman4] = cambioAnomaliaPericentro(orb4, 180+orbFin(5));
+%dVtot=dVtot+deltaV;
+%dTtot=dTtot+deltaT;
 
-[deltaV, deltaV1, deltaV2, orb6, deltaT, deltaT1, deltaT2, thetaMan] = manovraBitangenteEllittica(orb5, orbFin, 'aa');
-dVtot=dVtot+deltaV;
-dTtot=dTtot+deltaT;
+[deltaV, deltaV6, deltaV7, orb6, deltaT, deltaT6, deltaT7, thetaMan5] = manovraBitangenteEllittica(orb5, orbFin, 'aa');
+%dVtot=dVtot+deltaV;
+%dTtot=dTtot+deltaT;
 
 
 
@@ -141,4 +146,11 @@ orbit3D(orb4, 2)
 orbit3D(orb5, 2)
 orbit3D(orb6, 2)
 
+%%
 
+Title = 'STRATEGY 2 - AA';
+Maneuv_name=[{'initial point'};{'1st change of P arg'};{'tangent burn'};...
+    {'inclination change'};{'2nd change of P arg'};...
+    {'1st bitangent burn'};{'second bitangent burn'};{'final point'}];          %percorro orb2      %percorro orb3   %percorro orb4      %percorro orb5     %percorro orb6  %percorro orbFin
+                                                        %percorro orbIniz
+plotOrbit([orbIniz, orb2,orb3', orb4',orb5', orb6, orbFin],[orbIniz(6), thetaman1, orb2(6), thetaMan2, 0, orb4(6),      orb4(6), thetaman4, orb5(6), thetaMan5, 180, 0,         180, orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'dyn',0,[0, deltaV1, deltaV2, 0, deltaV4, deltaV5, deltaV6, deltaV7])
