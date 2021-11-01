@@ -1,4 +1,4 @@
-function [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
+function [orbFin, deltaV, deltaT, thetaMan] = cambioInclinazione(orbIniz, iFin, RAANFin)
 
 %[orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
 %
@@ -15,6 +15,8 @@ function [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
 %       orbFin: Orbita finale, vettore nel punto di manovra [a, e, i, RAAN, omega, theta]
 %       deltaV: Costo deltaV manovra
 %       deltaT: Tempo impiegato per raggiungere p.to manovra
+%       thetaMan: punto di manovra nell'orbita di partenza
+
 
 
 
@@ -112,6 +114,8 @@ function [orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
     orbFin(3) = iFin; 
     orbFin(4) = RAANFin;
     orbFin(5) = wrapTo360(omegaFin); 
-    orbFin(6) = wrapTo360(thetaMan);  
+    orbFin(6) = wrapTo360(thetaMan);
+    
+    thetaMan = orbFin(6); 
 
 end

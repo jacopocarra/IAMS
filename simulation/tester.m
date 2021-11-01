@@ -94,12 +94,12 @@ rAllontanamento=0.5e5;
 %dVtot=dVtot+deltaV;
 %dTtot=dTtot+deltaT;
 
-orb3=[(rPIniz+rAllontanamento)/2 , (rAllontanamento-rPIniz)/(rAllontanamento+rPIniz), orb2(3), orb2(4), orb2(5), 0];
-[deltaV2, thetaMan2, deltaT, deltaT2, deltaT3] = manovraTangente(orb2, orb3, 'peri');
+
+[orb3, deltaV2, deltaT2, ] = manovraTangente((rPIniz+rAllontanamento)/2, 'peri');
 %dVtot=dVtot+deltaV;
 %dTtot=dTtot+deltaT;
 
-[orb4, deltaV4, deltaT4] = cambioInclinazione(orb3, orbFin(3), orbFin(4));
+[orb4, deltaV4, deltaT4, ] = cambioInclinazione(orb3, orbFin(3), orbFin(4));
 %dVtot=dVtot+deltaV;
 %dTtot=dTtot+deltaT;
 
@@ -131,20 +131,7 @@ Maneuv_name=[{'initial point'};{'1st change of P arg'};{'tangent burn'};...
                                                         %percorro orbIniz
 plotOrbit([orbIniz, orb2,orb3', orb4',orb5', orb6, orbFin],[orbIniz(6), thetaman1, orb2(6), thetaMan2, 0, orb4(6),      orb4(6), thetaman4, orb5(6), thetaMan5, 180, 0,         180, orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'dyn',0,[0, deltaV1, deltaV2, 0, deltaV4, deltaV5, deltaV6, deltaV7])
 
-
 %% STRATEGY 3
-%Allontanamento iniziale - apo
-
-
-
-
-
-%% Inizio plot
-earth3D(1);
-orbit3D(orbIniz, 1); 
-
-%%
-orbit3D(orbFin, 1); 
 
 
 %% STRATEGY 4

@@ -1,4 +1,4 @@
-function [orbFin, deltaV , deltaT] = manovraTangente(orbIniz, aFin, type)
+function [orbFin, deltaV , deltaT, thetaMan] = manovraTangente(orbIniz, aFin, type)
 
 %   [orbFin, deltaV , deltaT] = manovraTangente(orbIniz, aFin, type)
 %   Calcola una manovra tangente
@@ -13,7 +13,8 @@ function [orbFin, deltaV , deltaT] = manovraTangente(orbIniz, aFin, type)
 %       orbFin: orbita finale (theta in corrispondenza della fine della
 %               manovra)
 %       deltaV
-%       deltaT
+%       deltaT: per arrivare dal punto di partenza al punto di manovra
+%       thetaMan: punto di manovra nell'orbita di partenza
 
     type = lower(type); 
     mu = 398600;
