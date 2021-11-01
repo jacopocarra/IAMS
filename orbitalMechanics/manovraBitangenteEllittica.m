@@ -89,8 +89,8 @@ case 'aa'                                                    % caso da apocentro
   
         aTrasf = (rAIniz + rAFin)/2;
         eTrasf = abs(rAIniz-rAFin)/(rAIniz+rAFin);
-        deltaV1 = sqrt(2*mu*((1/rAIniz)-(1/(2*aTrasf)))) - sqrt(2*mu*((1/rAIniz)-(1/(2*aIniz))));
-        deltaV2 = sqrt(2*mu*((1/rAFin)-(1/(2*aFin)))) - sqrt(2*mu*((1/rAFin)-(1/(2*aTrasf))));
+        deltaV1 = abs(sqrt(2*mu*((1/rAIniz)-(1/(2*aTrasf)))) - sqrt(2*mu*((1/rAIniz)-(1/(2*aIniz)))));
+        deltaV2 = abs(sqrt(2*mu*((1/rAFin)-(1/(2*aFin)))) - sqrt(2*mu*((1/rAFin)-(1/(2*aTrasf)))));
         deltaV = abs(deltaV1)+abs(deltaV2);
         
         if rAIniz<rAFin
