@@ -29,6 +29,25 @@ orbIniz = GEtoPF(rIniz, vIniz, mu);  % da GE coordinate PF
 
 orbFin = [12930.0, 0.2055, rad2deg(1.5510), rad2deg(2.6830),  rad2deg(0.4098), rad2deg(1.6940)]';  % [a e i RAAN omega theta]        
 
+%% PLOT ORBITA INIZIALE
+close all
+mu = 398600
+ptoIniz = [-3441.6408 -7752.3491 -3456.8431 ...
+4.9270 -0.5369 -4.0350];   
+rIniz = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]';                % vettore posizione
+vIniz = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]';                % vettore velocità
+
+[orbIniz, n, eVEc, h] = GEtoPF(rIniz, vIniz, mu); % da GE coordinate PF
+earth3D(1);                                              % plot terra
+orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
+quiver3(0,0,0,eVEc(1),eVEc(2),eVEc(3),150000,'-.','color','b','LineWidth',1);
+quiver3(0,0,0,h(1),h(2),h(3),0.25,'-.','color','r','LineWidth',1);
+quiver3(0,0,0,n(1),n(2),n(3),15000,'-.','color','g','LineWidth',1);
+text(eVEc(1),eVEc(2)+10000,eVEc(3)+5000,'e','FontSize',12,'color','b');
+text(h(1)/4+1000,h(2)/4+1000,h(3)/4+1000,'h','FontSize',12,'color','r');
+text(n(1)+13000,n(2)+10000,n(3),'N','FontSize',12,'color','g');
+
+
 %%
 orbFin2 = orbFin; 
 
@@ -47,11 +66,11 @@ plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],[orbIniz(6), orbFin1(6), 
 
 
 
-%% 
-
+%% TRASF DIRETTO
+close all
 orbFin2 = orbFin; 
 
-[orbTrasf, deltaV1, deltaV2, deltaT, eTGEvett, hT, nT, thetaT1, thetaT2] = trasfDir(orbIniz,orbFin2); 
+[orbTrasf, deltaV1, deltaV2, deltaT, thetaT1, thetaT2] = trasfDir(orbIniz,orbFin2); 
 
 %{
 orbIniz = orbFin; 
@@ -59,7 +78,7 @@ orbIniz(3) = wrapTo360(180 - orbIniz(3));
 orbIniz(4) = wrapTo360(180 + orbIniz(4));
 orbIniz(5) = wrapTo360(180 + orbIniz(5)); 
 %}
-
+%%
 earth3D(2); 
 orbit3D(orbIniz, 2)
 orbit3D(orbFin2,2 )
