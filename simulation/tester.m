@@ -91,47 +91,51 @@ rAFin=orbFin(1)*(1-orbFin(2)^2)/(1+orbFin(2));
 rAllontanamento=0.5e5;
 
 [orb1, deltaV1, deltaT1, thetaman1] = cambioAnomaliaPericentro(orbIniz, 270);
-%dVtot=dVtot+deltaV;
-%dTtot=dTtot+deltaT;
+dVtot=dVtot+deltaV1;
+dTtot=dTtot+deltaT1;
 
 
 [orb2, deltaV2, deltaT2, thetaman2] = manovraTangente(orb1, (rPIniz+rAllontanamento)/2, 'per');
-%dVtot=dVtot+deltaV;
-%dTtot=dTtot+deltaT;
+dVtot=dVtot+deltaV2;
+dTtot=dTtot+deltaT2;
 
 [orb3, deltaV3, deltaT3, thetaman3] = cambioInclinazione(orb2, orbFin(3), orbFin(4));
-%dVtot=dVtot+deltaV;
-%dTtot=dTtot+deltaT;
+dVtot=dVtot+deltaV3;
+dTtot=dTtot+deltaT3;
 
 [orb4, deltaV4, deltaT4, thetaman4] = cambioAnomaliaPericentro(orb3, 180+orbFin(5));
-%dVtot=dVtot+deltaV;
-%dTtot=dTtot+deltaT;
+dVtot=dVtot+deltaV4;
+dTtot=dTtot+deltaT4;
 
-[deltaV, deltaV6, deltaV7, orb5, deltaT, deltaT6, deltaT7, thetaman5] = manovraBitangenteEllittica(orb4, orbFin, 'aa');
-%dVtot=dVtot+deltaV;
-%dTtot=dTtot+deltaT;
+[deltaV, deltaV5, deltaV6, orb5, deltaT, deltaT5, deltaT6, thetaman5] = manovraBitangenteEllittica(orb4, orbFin, 'aa');
+dVtot=dVtot+deltaV5+deltaV6;
+dTtot=dTtot+deltaT5+deltaT6;
+
+deltaT7=tempoVolo(orbFin, 0, orbFin(6));
+dTtot=dTtot +deltaT7;
+
+t=duration(0,0,dTtot)
 
 
-
-earth3D(2); 
-orbit3D(orbIniz, 2)
+earth3D(1); 
+orbit3D(orbIniz, 1)
 %%
 thetaman1
-orbit3D(orb1, 2)
+orbit3D(orb1, 1)
 %%
 thetaman2
-orbit3D(orb2, 2)
+orbit3D(orb2, 1)
 %%
 thetaman3
-orbit3D(orb3, 2)
+orbit3D(orb3, 1)
 %%
 thetaman4
-orbit3D(orb4, 2)
+orbit3D(orb4, 1)
 %%
 thetaman5
-orbit3D(orb5, 2)
+orbit3D(orb5, 1)
 %%
-orbit3D(orbFin,2 )
+orbit3D(orbFin,1 )
 
 %%
 
@@ -140,7 +144,9 @@ Maneuv_name=[{'initial point'};{'1st change of P arg'};{'tangent burn'};...
     {'inclination change'};{'2nd change of P arg'};...
     {'1st bitangent burn'};{'second bitangent burn'};{'final point'}];          
                                                             % |percorro orbIniz    | percorro orb1     | percorro orb2     | percorro orb3     | %percorro orb4     |%percorro orb5  percorro orbFin
-plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetaman1, orb1(6), thetaman2, orb2(6), thetaman3, orb3(6), thetaman4, orb4(6), thetaman5 , orb5(6),0, 0, orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT6, deltaT7,tempoVolo(orbFin, 0, orbFin(6))],Title,Maneuv_name,'dyn',0,[0, deltaV1, deltaV2, deltaV3, deltaV4, deltaV6, deltaV7])
+plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetaman1, orb1(6), thetaman2, orb2(6), thetaman3, orb3(6), thetaman4, orb4(6), thetaman5 , orb5(6),0, 0, orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, DeltaT7],Title,Maneuv_name,'dyn',0,[0, deltaV1, deltaV2, deltaV3, deltaV4, deltaV5, deltaV6])
+% CORRETTA PORCODDIO SE CE NE HO MESSO DI TEMPO
+
 
 %% STRATEGY 3
 
