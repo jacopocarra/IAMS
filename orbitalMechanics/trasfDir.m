@@ -1,5 +1,6 @@
 function [orbTrasf, deltaV1, deltaV2, deltaT, thetaPlot1, thetaPlot2] = trasfDir(orbIniz,orbFin)
 %TRASFDIR calcola la manovra di trasferimento diretto fra due punti dati
+%   [orbTrasf, deltaV1, deltaV2, deltaT, thetaPlot1, thetaPlot2] = trasfDir(orbIniz,orbFin)
 %
 %   Input
 %       orbIniz: orbita di partenza
@@ -11,6 +12,11 @@ function [orbTrasf, deltaV1, deltaV2, deltaT, thetaPlot1, thetaPlot2] = trasfDir
 %       deltaT: tempo di volo nell'orbita di trasferimento
 %       thetaPlot1: theta di inizio orbita trasferimento
 %       thetaPlot2: theta di arrivo orbita di trasferimento
+%
+%   NOTA: se orbIniz e orbFin puntano allo stesso punto, viene calcolato un
+%   trasferimento a singolo impulso tra le due orbite quindi non ci sarà
+%   nesssuna orbita di trasferimento e l'unico paramentro di interesse sarà
+%   deltaV1
 
 %% recall dati
 %{
@@ -23,20 +29,36 @@ function [orbTrasf, deltaV1, deltaV2, deltaT, thetaPlot1, thetaPlot2] = trasfDir
 %}
 mu = 398600;
 Rt = 6471;   %raggio della Terra in kilometri + 100km di atmosfera
+toll = 1e-5; 
 
-orbVect = []; 
 %% calcolo piano dell'orbita
- 
+orbTrasf = zeros(1, 6); 
+
 I = [1 0 0]';
 J = [0 1 0]';
 K = [0 0 1]';
 
 
-[r1Vett, ~] = PFtoGE(orbIniz, mu);
-[r2Vett, ~] = PFtoGE(orbFin, mu); %calcolo i vettori raggio delle due orbite
+[r1Vett, vIniz] = PFtoGE(orbIniz, mu);
+[r2Vett, vFin] = PFtoGE(orbFin, mu); %calcolo i vettori raggio delle due orbite
+
 
 r1 = norm(r1Vett);
 r2 = norm(r2Vett); 
+
+
+
+if (abs(r1 - r2) < toll)  && (norm(r1Vett - r2Vett)/r1 < toll)  %se i punti di partenza e di arrivo sono coincidenti
+    deltaV1 = norm(vFin - vIniz); %calcolo il deltaV come se fosse una manovra a impulso singolo
+    deltaT = 0; 
+    deltaV2 = 0; 
+    thetaPlot1 = orbIniz(6); 
+    thetaPlot2 = orbFin(6); 
+    %non calcolo nessuna orbita dato che di fatto passa subito a quella
+    %finale
+    return; 
+end
+
 
 hT = cross(r1Vett, r2Vett);  
 hT = hT / norm(hT);  %versore h dell'orbita di trasferimento
@@ -58,7 +80,7 @@ end  % ascensione retta del nodo ascendent
 
 step = 1; %step angolare nel calcolo di omega
 
-orbTrasf = zeros(1, 6); 
+
 deltaVOpt = realmax; 
 
 
@@ -111,8 +133,6 @@ for i = (0:step:359)  %controllo tutti gli omega
             p = r1*(1 + eT*cosTheta1); %semilato retto
 
             aT = p / (1 - eT^2); %calcolo semiasse maggiore
-            [~, vIniz] = PFtoGE(orbIniz, mu);    
-            [~,vFin] = PFtoGE(orbFin, mu); 
             
 
             orbTrasfIniz = [aT, eT, iT, RAANT, omegaT, thetaT1];

@@ -58,10 +58,11 @@ Title = 'STRATEGY 1';
 Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
     {'first bitangent maneuver'};{'second bitangent maneuver'};...
     {'final point'}];
+%%
 earth3D(1);                                              % plot terra
 orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
 orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
-
+%%
 plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],[orbIniz(6), orbFin1(6), orbFin1(6), thetaman, orbFin3(6), thetaMan, thetaMan, orbTrasf(6), orbTrasf(6) orbFin2(6)],[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'dyn',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
 
 
@@ -177,5 +178,33 @@ orbit3D(orbFin, 1)
 
 deltaV = dV1 + dV2
 
+%% prova manovra impulsiva con trasf dir
+
+iFin = 70; 
+RAANFin = 50; 
+
+[orb2, dV, dT, thetaMan] = cambioInclinazione(orbIniz, iFin, RAANFin);
+
+orb1 = orbIniz; 
+orb1(6) = thetaMan; 
+
+[orbTrasf, deltaV1, deltaV2, deltaT, thetaPlot1, thetaPlot2] = trasfDir(orb1,orb2);
+
+earth3D(1);
+%%
+orbit3D(orbIniz,1)
+%%
+orbit3D(orb2,1); 
+%%
+earth3D(2); 
+orbit3D(orb1, 2); 
+%%
+orbit3D(orb2, 2); 
+%%
+orbit3D(orbTrasf, 2); 
+%%
+clc
+dV
+deltaV1 + deltaV2
 
 

@@ -1,6 +1,6 @@
 function [orbFin, deltaV, deltaT, thetaMan] = cambioInclinazione(orbIniz, iFin, RAANFin)
 
-%[orbFin, deltaV, deltaT] = cambioInclinazione(orbIniz, iFin, RAANFin)
+%[orbFin, deltaV, deltaT, thetaMan] = cambioInclinazione(orbIniz, iFin, RAANFin)
 %
 %calcola il costo di un cambio di inclinazione di un'orbita e restituisce
 %l'orbita finale
