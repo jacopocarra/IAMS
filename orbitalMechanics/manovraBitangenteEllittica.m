@@ -132,6 +132,8 @@ case 'aa'                                                    % caso da apocentro
         
 end
 deltaT = deltaT1 + deltaT2;
+deltaV1=abs(deltaV1);
+deltaV2=abs(deltaV2);
 
 
 
