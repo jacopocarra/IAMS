@@ -60,10 +60,10 @@ switch lower(type)
                 end
                 if ctr == 1
                     pointLegend(ctr) = plot3(r(1,1),r(2,1),r(3,1),'d',...
-                                              'MarkerSize',marker.sizeDyn,'MarkerFaceColor',...
-                                              colormap.Marker(ctr,:));
+                        'MarkerSize',marker.sizeDyn,'MarkerFaceColor',...
+                        colormap.Marker(ctr,:));
                     legend(pointLegend(ctr), ManeuvName(ctr), 'AutoUpdate', 'off', 'Location', leg.Position,...
-                            'FontSize', font.Size);
+                        'FontSize', font.Size);
                     dVTotPlot = 0;
                     str3 = sprintf("DV TOT:\n   %2.4f  [km/s]", dVTotPlot);
                     annotation('textbox',[.75 .3 0 0],'String',str3,...
@@ -75,19 +75,19 @@ switch lower(type)
                     orb(6) = thetaStory(2*(ctr)-1);
                     [rr,vv] = PFtoGE(orb,mu);
                     pointLegend(ctr) = plot3(rr(1,1),rr(2,1),rr(3,1),'d',...
-                                              'MarkerSize',marker.sizeDyn,'MarkerFaceColor',...
-                                              colormap.Marker(ctr,:));
+                        'MarkerSize',marker.sizeDyn,'MarkerFaceColor',...
+                        colormap.Marker(ctr,:));
                     legend(pointLegend(1:ctr), ManeuvName(1:ctr), 'AutoUpdate', 'off', 'Location', leg.Position,...
-                            'FontSize', font.Size);
+                        'FontSize', font.Size);
                     dVTotPlot = dVTotPlot + norm(dvVect(:,ctr));
                     str3 = sprintf("DV TOT:\n   %2.4f  [km/s]", dVTotPlot);
                     annotation('textbox',[.75 .3 0 0],'String',str3,...
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
                     %myMovie(end+1) = getframe(myFig);
-                end   
+                end
                 L3 = length(r);
                 k = 2;
-             while k < L3
+                while k < L3
                     colorIndex = floor((periodPlot-2)*(velocNorm(k)-min(velocNorm))/...
                         (max(velocNorm)-min(velocNorm))+1);
                     stepColor = colormap.Orbit(colorIndex,:);
@@ -125,34 +125,34 @@ switch lower(type)
                     k = k+1;
                     %myMovie(end+1) = getframe(myFig);
                     delete(sat);
-             end
-             if ctr == N
-                orb(6) = thetaOrb(end);
-                [rr, vv] = PFtoGE(orb, mu);
-                tTot = sum(DeltaTStory);    % plotto il tempo totale 'barando'
-                h = floor(tTot/3600);
-                minut = floor(60*((tTot/3600)-h));
-                str1 = sprintf("  Time:  \n%d  [h]\n%d  [min]",h,minut);
-                annotation('textbox',[.75 .65 0 0],'String',str1,...
+                end
+                if ctr == N
+                    orb(6) = thetaOrb(end);
+                    [rr, vv] = PFtoGE(orb, mu);
+                    tTot = sum(DeltaTStory);    % plotto il tempo totale 'barando'
+                    h = floor(tTot/3600);
+                    minut = floor(60*((tTot/3600)-h));
+                    str1 = sprintf("  Time:  \n%d  [h]\n%d  [min]",h,minut);
+                    annotation('textbox',[.75 .65 0 0],'String',str1,...
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
-                pointLegend(ctr+1) = plot3(rr(1),rr(2),rr(3),'d',...
+                    pointLegend(ctr+1) = plot3(rr(1),rr(2),rr(3),'d',...
                         'MarkerSize',marker.sizeDyn,'MarkerFaceColor',...
                         colormap.Marker(ctr+1,:));
-                legend(pointLegend(1:ctr+1),ManeuvName(1:ctr+1),'AutoUpdate',...
+                    legend(pointLegend(1:ctr+1),ManeuvName(1:ctr+1),'AutoUpdate',...
                         'off','Location',leg.Position,'FontSize',font.Size);
-                %myMovie(end+1) = getframe(myFig);
-             end
+                    %myMovie(end+1) = getframe(myFig);
+                end
             end
         end
-            case {'stat'} % plot statico
+    case {'stat'} % plot statico
         grid off;
-        axis off;
-        [earth]=earth3D(2);
+%         axis off;
+        earth3D(2);
         title(Title,'FontSize',10);
         pointLegend = [];
         
-        dth = pi/180; % delta th per plottare l'orbita (1 grado)
-        L = (2*pi)/dth;
+        dth = 1; % delta th per plottare l'orbita (1 grado)
+        L = (360)/dth;
         colormap.Orbit = summer(L); % setto i colori che cambiano con v
         colormap.Marker = hot(N+2);
         
@@ -163,10 +163,10 @@ switch lower(type)
             orb = orbVect(:,ctr); % setto orbita corrente
             thetaOrb = thetaStory((ctr*2)-1:ctr*2); % setto anomalia vera iniziale e finale per l'orbita di riferimento
             if thetaOrb(2) < thetaOrb(1)
-                thetaOrb(2) = thetaOrb(2) + 2*pi;
+                thetaOrb(2) = thetaOrb(2) + 360;
             end
             
-            thetaVectTot = thetaOrb(1):dth:thetaOrb(1)+2*pi;
+            thetaVectTot = thetaOrb(1):dth:thetaOrb(1)+360;
             L = length(thetaVectTot);
             
             if ctr == 1
@@ -186,19 +186,26 @@ switch lower(type)
             
             % calcola orbita
             for k = 1:L
-                orb(6) = wrapTo2Pi(thetaVectTot(k));   % lo riporta sempre entro 2pi
+                orb(6) = wrapTo360(thetaVectTot(k));   % lo riporta sempre entro 2pi
                 [rr,vv] = PFtoGE(orb,mu);
                 rrVect = [rrVect,rr];
-                vVect = [vVect,vv];
                 vNorm = [vNorm;norm(vv)];
             end
             
             vmax = max(vNorm);
             vmin = min(vNorm);
-            
-            k = 2;
+            if ctr~=1
+                orb(6) = thetaOrb(1);
+                [rr,vv] = PFtoGE(orb,mu);
+                pointLegend(ctr) = plot3(rr(1),rr(2),rr(3),'d',...
+                    'MarkerSize',marker.size,'MarkerFaceColor',...
+                    colormap.Marker(ctr,:));
+                legend(pointLegend(1:ctr),ManeuvName(1:ctr),'AutoUpdate',...
+                    'off','Location',leg.Position,'FontSize',font.Size);   
+            end
             
             % plotto orbita
+            k = 2;
             while k <= L
                 
                 if thetaVectTot(k)<=thetaOrb(2) % plotto parte di orbita che fa
@@ -225,9 +232,7 @@ switch lower(type)
             
             orb(6) = thetaStory(2*ctr);
             [rr,vv] = PFtoGE(orb,mu);
-            vPrevious = vv;
             
-
             
             if ctr == N % plotto ultimo punto con legenda
                 orb(6) = thetaOrb(end);
@@ -235,29 +240,27 @@ switch lower(type)
                 pointLegend(end+1) = plot3(rr(1),rr(2),rr(3),'d',...
                     'MarkerSize',marker.size,'MarkerFaceColor',...
                     [.99, .73, .168]);
-                legend(pointLegend(1:end),ManeuvName(1:ctr),'AutoUpdate',...
+                legend(pointLegend(1:end),ManeuvName(1:ctr+1),'AutoUpdate',...
                     'off','Location',leg.Position,'FontSize',font.Size);
-                quiver3(rr(1),rr(2),rr(3),vv(1),vv(2),vv(3),300,...
-                    'color','k','lineWidth',1,'MaxHeadSize',7);
+                
             end
             
         end
-                tTot = sum(DeltaTStory);
-                h = round(tTot/3600);
-                minut = round(60*((tTot/3600)-h));
-                str1 = sprintf("  Time:  \n%d  [h]\n%d  [min]",h,minut);
-                    annotation('textbox',[.75 .65 0 0],'String',str1,...
-                        'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
-                    view(45,20)
+        tTot = sum(DeltaTStory);
+        h = floor(tTot/3600);
+        minut = floor(60*((tTot/3600)-h));
+        str1 = sprintf("  Time:  \n%d  [h]\n%d  [min]",h,minut);
+        annotation('textbox',[.75 .65 0 0],'String',str1,...
+            'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
+        view(45,20)
 end
 
 %writeMP4Movie(myMovie, "strat 5");
 end
 
-        
-        
-            
-            
-            
-            
-            
+
+
+
+
+
+
