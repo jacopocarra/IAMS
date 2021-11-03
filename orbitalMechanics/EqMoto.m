@@ -8,7 +8,7 @@ i = deg2rad(orb(3));
 RAAN = deg2rad(orb(4));
 omega = deg2rad(orb(5));
 mu = 398600;
-thetaIn = deg2rad(thetaIn)
+thetaIn = deg2rad(thetaIn);
 
 E = 2*atan(sqrt((1-e)/(1+e))*tan(thetaIn/2));       % Calcolo Energia
 
