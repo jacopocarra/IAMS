@@ -32,7 +32,7 @@ Rt = 6471;   %raggio della Terra in kilometri + 100km di atmosfera
 toll = 1e-5; 
 
 %% calcolo piano dell'orbita
-orbTrasf = zeros(1, 6); 
+orbTrasf = zeros(6, 1); 
 
 I = [1 0 0]';
 J = [0 1 0]';
