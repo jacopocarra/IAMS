@@ -72,35 +72,23 @@ orbFin2 = orbFin;
 
 [orbTrasf, deltaV1, deltaV2, deltaT, thetaT1, thetaT2] = trasfDir(orbIniz,orbFin2); 
 
-%{
-orbIniz = orbFin; 
-orbIniz(3) = wrapTo360(180 - orbIniz(3));
-orbIniz(4) = wrapTo360(180 + orbIniz(4));
-orbIniz(5) = wrapTo360(180 + orbIniz(5)); 
-%}
+orbit3D(orbIniz, 1)
 %%
-earth3D(2); 
-orbit3D(orbIniz, 2)
-orbit3D(orbFin2,2 )
- orbit3D(orbTrasf, 2)
-hold on
-quiver3(0,0,0,eTGEvett(1),eTGEvett(2),eTGEvett(3),15000,'-.','color','b','LineWidth',1.5);
-quiver3(0,0,0,hT(1)*10000,hT(2)*10000,hT(3)*10000,1,'-.','color','r','LineWidth',1.5);
-quiver3(0,0,0,nT(1)*10000,nT(2)*10000,nT(3)*10000,1,'-.','color','g','LineWidth',1.5);
-
-hold off
+earth3D(1); 
+orbit3D(orbTrasf, 1)
 %%
-plotOrbit(orbTrasf,[thetaT1, thetaT2],deltaT,'diretto',[{'inizio'}, {'fine'}],'dyn',[0 0],[deltaV1, deltaV2])
-%% 
+orbit3D(orbFin2, 1)
+%%
+Maneuv_name=[{'initial point'};{'first impulse'};{'second impulse'};...
+    {'final point'}];
+plotOrbit([orbIniz, orbTrasf, orbFin2],[orbIniz(6)-180, orbIniz(6), thetaT1, thetaT2, orbFin2(6), orbFin2(6)+180],...
+            [tempoVolo(orbIniz,orbIniz(6)-180,orbIniz(6)), deltaT, tempoVolo(orbFin2,orbFin2(6),orbFin2(6)+180)],...
+            'Trasf diretto',Maneuv_name, ...
+            'dyn',0, [0, deltaV1, deltaV2] );
 
-% ptoFin = [1.9930e4, 1.5160e-1, rad2deg(3.0250), ...
-% rad2deg(6.5460e-1),  rad2deg(2.7820), rad2deg(2.6190)]; 
-% orbit3D (ptoFin, 4);
-% orbit3D (orbTrasf, 4);
-% orbit3D (orbFin, 4);
 
 
-%% 
+%% STRAT 2 PA
 
 dTtot=0;
 dVtot=0;
