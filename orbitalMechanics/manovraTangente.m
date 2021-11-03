@@ -16,6 +16,7 @@ function [orbFin, deltaV , deltaT, thetaMan] = manovraTangente(orbIniz, aFin, ty
 %       deltaT: per arrivare dal punto di partenza al punto di manovra
 %       thetaMan: punto di manovra nell'orbita di partenza
 
+
     type = lower(type); 
     mu = 398600;
 

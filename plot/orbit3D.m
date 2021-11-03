@@ -39,27 +39,34 @@ function [] = orbit3D (pfPar, nFig)
     
     
 % DA SCOMMENTARE DUE LINEE SUCCESSIVE SE SI VUOLE METTERE MARKER SATELLITE
-%     plot3(r0(1), r0(2), r0(3),  'd', 'MarkerSize', 8, 'MarkerFaceColor', [0.8500 0.3250 0.0980], 'MarkerEdgeColor', [0 0.4470 0.7410]);                           % plot satellite
-%   text(r0(1)-1000, r0(2)-1000, r0(3)-1000,'Satellite','FontSize',12,'color',[0.8500 0.3250 0.0980])
+    plot3(r0(1), r0(2), r0(3),  'd', 'MarkerSize', 8, 'MarkerFaceColor', [0.8500 0.3250 0.0980], 'MarkerEdgeColor', [0 0.4470 0.7410]);                           % plot satellite
+    text(r0(1)-1000, r0(2)-1000, r0(3)-1000,'Satellite','FontSize',12,'color',[0.8500 0.3250 0.0980])
 
  
  
-%     plot3(rA(1), rA(2), rA(3), '.r');                            % plot apocentro
-%     plot3(rP(1), rP(2), rP(3), '.r');                            % plot pericentro
-%     
+     plot3(rA(1), rA(2), rA(3), '.r');                            % plot apocentro
+     plot3(rP(1), rP(2), rP(3), '.r');                            % plot pericentro
+    
     view(45,15)                                                  % impostazioni visualizzazione
  
-%     for i=1:199
-%        if r3D(3,i)<=0 && r3D(3,i+1)>0
-%             plot3(r3D(1,i), r3D(2,i), r3D(3,i), 'm^');         % plotta nodo ascendente (approssimato)
-%        else
-%           if r3D(3,i)>=0 && r3D(3,i+1)<0
-%               plot3(r3D(1,i), r3D(2,i), r3D(3,i), 'mv');         % plottanodo discendente (approssimato)
-%           end
-%        end
+     for i=1:199
+        if r3D(3,i)<=0 && r3D(3,i+1)>0
+             plot3(r3D(1,i), r3D(2,i), r3D(3,i), 'm^');         % plotta nodo ascendente (approssimato)
+        else
+           if r3D(3,i)>=0 && r3D(3,i+1)<0
+               plot3(r3D(1,i), r3D(2,i), r3D(3,i), 'mv');         % plottanodo discendente (approssimato)
+           end
+        end
+     end
+    
+    
+%     if norm(rA)<norm(rP)
+%         plot3(rA(1), rA(2), rA(3), '.r');                            % plot apocentro
+%     else
+%         plot3(rP(1), rP(2), rP(3), '.r');                            % plot pericentro
 %     end
-    
-    
+
+
     axis equal
 
     grid on;
