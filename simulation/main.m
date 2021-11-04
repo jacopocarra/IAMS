@@ -57,6 +57,129 @@ h = animatedline;
  end
 %}
 
+
+%% TRASFERIMENTO CON BITANGENTE ELLITTICA 'ap' CAMBIO DI PIANO NEL PUNTO PIù LONTANO DA PERICENTRO ORBITA INIZIALE (effettivamente provato)
+orbFin2 = orbFin; 
+
+[orbFin1, deltaV1, deltaT1, thetaman1] = cambioInclinazione(orbIniz, orbFin2(3), orbFin2(4));
+[orbFin3, deltaV, deltaT, thetaman2] = cambioAnomaliaPericentro(orbFin1, orbFin2(5));
+[deltaV2, deltaV3, deltaV4, orbTrasf, deltaT2, deltaT3, deltaT4, thetaman3] = manovraBitangenteEllittica(orbFin3, orbFin2, 'ap');
+%OCCHIO PERCHè IN 'ap' SE L'APOCENTRO DELL'ORBITA INIZIALE DIVENTA IL PERICENTRO
+%DELL'ORBITA DI TRASFERIMENTO VA GIRATO DI 180 OMEGHINO.
+orbTrasf(5) = wrapTo360(orbTrasf(5)+180);
+thetaStory = [orbIniz(6), thetaman1, orbFin1(6), thetaman2, orbFin3(6), thetaman3, 0, 180, orbTrasf(6), orbFin2(6)]
+Title = 'STRATEGY 1  ap'
+deltaVtot = deltaV1+deltaV+deltaV2
+deltaT = deltaT1+deltaT+deltaT2
+
+Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
+    {'first bitangent maneuver'};{'second bitangent maneuver'};...
+    {'final point'}];
+%%
+close all
+earth3D(1);                                              % plot terra
+orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
+orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
+%%
+close all
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
+
+
+
+
+%% TRASFERIMENTO CON BITANGENTE ELLITTICA 'pa'
+orbFin2 = orbFin; 
+
+[orbFin1, deltaV1, deltaT1, thetaman1] = cambioInclinazione(orbIniz, orbFin2(3), orbFin2(4));
+[orbFin3, deltaV, deltaT, thetaman2] = cambioAnomaliaPericentro(orbFin1, orbFin2(5));
+[deltaV2, deltaV3, deltaV4, orbTrasf, deltaT2, deltaT3, deltaT4, thetaman3] = manovraBitangenteEllittica(orbFin3, orbFin2, 'pa');
+
+deltaVtot = deltaV1+deltaV+deltaV2
+deltaT = deltaT1+deltaT+deltaT2
+
+thetaStory = [orbIniz(6), thetaman1, orbFin1(6), thetaman2, orbFin3(6), thetaman3, thetaman3, orbTrasf(6), orbTrasf(6), orbFin2(6)];
+Title = 'STRATEGY 1  pa'
+Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
+    {'first bitangent maneuver'};{'second bitangent maneuver'};...
+    {'final point'}];
+
+%%
+close all
+earth3D(1);                                              % plot terra
+orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
+orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
+%%
+close all
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
+
+
+
+
+%% TRASFERIMENTO CON BITANGENTE ELLITTICA 'pp'
+orbFin2 = orbFin; 
+
+[orbFin1, deltaV1, deltaT1, thetaman1] = cambioInclinazione(orbIniz, orbFin2(3), orbFin2(4));
+% per 'aa' e 'pp' bisogna sfasare l'anomalia dei pericentri di 180 gradi
+% altrimenti non è possibile farlo. Facendo questo cambia il deltaV dovuto
+% al cambio dell'anomalia di pericentro.
+[orbFin3, deltaV, deltaT, thetaman2] = cambioAnomaliaPericentro(orbFin1, wrapTo360(orbFin2(5)+180));
+
+[deltaV2, deltaV3, deltaV4, orbTrasf, deltaT2, deltaT3, deltaT4, thetaman3] = manovraBitangenteEllittica(orbFin3, orbFin2, 'pp');
+
+deltaVtot = deltaV1+deltaV+deltaV2
+deltaT = deltaT1+deltaT+deltaT2
+thetaStory = [orbIniz(6), thetaman1, orbFin1(6), thetaman2, orbFin3(6), thetaman3, 0, 180, orbTrasf(6), orbFin2(6)];
+Title = 'STRATEGY 1  pp'
+Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
+    {'first bitangent maneuver'};{'second bitangent maneuver'};...
+    {'final point'}];
+
+%%
+close all
+earth3D(1);                                              % plot terra
+orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
+orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
+%%
+close all
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
+
+
+
+
+%% TRASFERIMENTO CON BITANGENTE ELLITTICA 'aa'
+
+orbFin2 = orbFin; 
+
+[orbFin1, deltaV1, deltaT1, thetaman1] = cambioInclinazione(orbIniz, orbFin2(3), orbFin2(4));
+% per 'aa' e 'pp' bisogna sfasare l'anomalia dei pericentri di 180 gradi
+% altrimenti non è possibile farlo. Facendo questo cambia il deltaV dovuto
+% al cambio dell'anomalia di pericentro.
+% 
+[orbFin3, deltaV, deltaT, thetaman2] = cambioAnomaliaPericentro(orbFin1, wrapTo360(orbFin2(5)+180));
+
+[deltaV2, deltaV3, deltaV4, orbTrasf, deltaT2, deltaT3, deltaT4, thetaman3] = manovraBitangenteEllittica(orbFin3, orbFin2, 'aa');
+
+deltaVtot = deltaV1+deltaV+deltaV2
+deltaT = deltaT1+deltaT+deltaT2
+
+thetaStory = [orbIniz(6), thetaman1, orbFin1(6), thetaman2, orbFin3(6), 180, 0, 180, orbTrasf(6), orbFin2(6)];
+Title = 'STRATEGY 1 aa'
+Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
+    {'first bitangent maneuver'};{'second bitangent maneuver'};...
+    {'final point'}];
+
+%%
+close all
+earth3D(1);                                              % plot terra
+orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
+orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
+%%
+close all
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
+
+
+
+
 %% STRAT 2-1 PA - calcolo
 
 dTtot=0;
