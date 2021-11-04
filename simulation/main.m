@@ -19,7 +19,7 @@ addpath('..\orbitalMechanics'); %aggiunti i percorsi per trovare le altre funzio
 %% DATI
 ptoIniz = [-3441.6408 -7752.3491 -3456.8431 ...
 4.9270 -0.5369 -4.0350];                                 % [x y z vx vy vz]
-ptoFin = [12930.0, 0.2055, rad2deg(1.5510)...
+orbFin = [12930.0, 0.2055, rad2deg(1.5510)...
 rad2deg(2.6830),  rad2deg(0.4098), rad2deg(1.6940)];  % [a e i RAAN omega theta]
 mu = 398600;                                             % costante gravitazionale
 
@@ -29,15 +29,15 @@ mu = 398600;                                             % costante gravitaziona
 rIniz = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]';                % vettore posizione
 vIniz = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]';                % vettore velocità
 
-[orbIniz] = GEtoPF(rIniz, vIniz, mu) % da GE coordinate PF
+[orbIniz] = GEtoPF(rIniz, vIniz, mu); % da GE coordinate PF
 
 %% ORBITA FINALE
-aFin = ptoFin(1); 
-eFin = ptoFin(2); 
-iFin = (ptoFin(3));
-RAANFin = (ptoFin(4));
-omegaFin = (ptoFin(5));
-thetaFin = (ptoFin(6)); 
+aFin = orbFin(1); 
+eFin = orbFin(2); 
+iFin = (orbFin(3));
+RAANFin = (orbFin(4));
+omegaFin = (orbFin(5));
+thetaFin = (orbFin(6)); 
 
 
 %% PLOT
@@ -46,7 +46,7 @@ thetaFin = (ptoFin(6));
 
 earth3D(1);                                              % plot terra
 orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
-orbit3D(ptoFin, 1);                                      % plot 3D orbita finale
+orbit3D(orbFin, 1);                                      % plot 3D orbita finale
 
 %{
 h = animatedline;
@@ -128,5 +128,5 @@ Maneuv_name=[{'initial point'};{'1st change of P arg'};{'tangent burn'};...
     {'inclination change'};{'1st bitangent burn'};...
     {'2nd bitangent burn'};{'2nd change of P arg'};{'final point'}];          
                                                             % |percorro orbIniz    | percorro orb1     | percorro orb2     | percorro orb3     | %percorro orb4     |%percorro orb5  percorro orb6
-plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetaman1, orb1(6), thetaman2, orb2(6), thetaman3, orb3(6), thetaman4,        0, 180 ,            180,thetaman5, orb6(6), orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'dyn',0,[0, deltaV1, deltaV2, deltaV3, deltaV4, deltaV5, deltaV6])
+plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5', orbFin],[orbIniz(6), thetaman1, orb1(6), thetaman2, orb2(6), thetaman3, orb3(6), thetaman4,        0, 180 ,            180,thetaman5, orb6(6), orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'dyn',0,[0, deltaV1, deltaV2, deltaV3, deltaV4, deltaV5, deltaV6])
 % CORRETTA PORCODDIO SE CE NE HO MESSO DI TEMPO
