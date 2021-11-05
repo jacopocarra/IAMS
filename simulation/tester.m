@@ -196,7 +196,7 @@ rPIniz=orbIniz(1)*(1-orbIniz(2)^2)/(1+orbIniz(2));
 rAFin=orbFin(1)*(1-orbFin(2)^2)/(1+orbFin(2));
 rAllontanamento=0.5e5;
 
-[orb1, deltaV1, deltaT1, thetaman1] = cambioAnomaliaPericentro(orbIniz, 290); % 290 scelta arbitraria, otiimo sembra tra tra 289 e 291
+[orb1, deltaV1, deltaT1, thetaman1] = cambioAnomaliaPericentro(orbIniz, 277.7); % 290 scelta arbitraria, otiimo sembra tra tra 289 e 291
 dVtot=dVtot+deltaV1;
 dTtot=dTtot+deltaT1;
 
@@ -224,7 +224,7 @@ dTtot=dTtot+deltaT6;
 % orb6 == orbFin a meno del tratto ancora da percorrere -->deltaT7
 
 deltaT7=tempoVolo(orb6, orb6(6), orbFin(6));
-%dTtot=dTtot +deltaT7;
+dTtot=dTtot +deltaT7;
 
 t=duration(0,0,dTtot) %trascuro tempo per raggiungere p.to finale esatto, fermo il conto all'inserzione nell'orbita finale
 dV=dVtot
@@ -258,9 +258,9 @@ Maneuv_name=[{'initial point'};{'1st change of P arg'};{'tangent burn'};...
     {'inclination change'};{'1st bitangent burn'};...
     {'2nd bitangent burn'};{'2nd change of P arg'};{'final point'}];          
                                                             % |percorro orbIniz    | percorro orb1     | percorro orb2     | percorro orb3     | %percorro orb4     |%percorro orb5  percorro orb6
-plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetaman1, orb1(6), thetaman2, orb2(6), thetaman3, orb3(6), thetaman4,        180, 0 ,            0,thetaman5, orb6(6), orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'dyn',0,[0, deltaV1, deltaV2, deltaV3, deltaV4, deltaV5, deltaV6])
+plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetaman1, orb1(6), thetaman2, orb2(6), thetaman3, orb3(6), thetaman4,        180, 0 ,            0,thetaman5, orb6(6), orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV2, deltaV3, deltaV4, deltaV5, deltaV6])
 
-%%
+%% opt rAllontanamento
 
 dVvect=[];
 dTvect=[];
@@ -274,7 +274,7 @@ for rAllontanamento=30000:2000:100000
     rAFin=orbFin(1)*(1-orbFin(2)^2)/(1+orbFin(2));
     
     
-    [orb1, deltaV1, deltaT1, thetaman1] = cambioAnomaliaPericentro(orbIniz, 290); % 290 scelta arbitraria, otiimo sembra tra tra 289 e 291
+    [orb1, deltaV1, deltaT1, thetaman1] = cambioAnomaliaPericentro(orbIniz, 289.5); % 290 scelta arbitraria, otiimo sembra tra tra 289 e 291
     dVtot=dVtot+deltaV1;
     dTtot=dTtot+deltaT1;
     
@@ -308,13 +308,71 @@ for rAllontanamento=30000:2000:100000
 
 end
 rAllontanamento=30000:2000:100000;
+figure(2)
 [ax,ay1,ay2]=plotyy(rAllontanamento, dVvect, rAllontanamento, dTvect/3600);
-
-ylim(ax(1), [0,10])
+title('dV and dT over apoapsis radius, with omega=289.5°')
+ylim(ax(1), [5,10])
 
 grid on
 legend('dV [km/s]', 'dT [h]')
 
+%% opt omega
+dVvect=[];
+dTvect=[];
+rAllontanamento=5e4;
+
+for omega=270:0.1:300
+    dTtot=0;
+    dVtot=0;
+    
+    rPIniz=orbIniz(1)*(1-orbIniz(2)^2)/(1+orbIniz(2));
+    rAFin=orbFin(1)*(1-orbFin(2)^2)/(1+orbFin(2));
+    rAllontanamento=0.5e5;
+    
+    [orb1, deltaV1, deltaT1, thetaman1] = cambioAnomaliaPericentro(orbIniz, omega); % 290 scelta arbitraria, otiimo sembra tra tra 289 e 291
+    dVtot=dVtot+deltaV1;
+    dTtot=dTtot+deltaT1;
+    
+    
+    [orb2, deltaV2, deltaT2, thetaman2] = manovraTangente(orb1, (rPIniz+rAllontanamento)/2, 'per');
+    dVtot=dVtot+deltaV2;
+    dTtot=dTtot+deltaT2;
+    
+    [orb3, deltaV3, deltaT3, thetaman3] = cambioInclinazione(orb2, orbFin(3), orbFin(4));
+    dVtot=dVtot+deltaV3;
+    dTtot=dTtot+deltaT3;
+    
+    orb5=orbFin;
+    orb5(5)=wrapTo360(orb3(5)); %sfasare di 180 per aa e pp, lasciare così per ap e pa
+    
+    [deltaV, deltaV4, deltaV5, orb4, deltaT, deltaT4, deltaT5, thetaman4] = manovraBitangenteEllittica(orb3, orb5, 'ap');
+    dVtot=dVtot+deltaV4+deltaV5;
+    dTtot=dTtot+deltaT4+deltaT5;
+    
+    
+    [orb6, deltaV6, deltaT6, thetaman5] = cambioAnomaliaPericentro(orb5, orbFin(5));
+    dVtot=dVtot+deltaV6;
+    dTtot=dTtot+deltaT6;
+    
+    % orb6 == orbFin a meno del tratto ancora da percorrere -->deltaT7
+    
+    deltaT7=tempoVolo(orb6, orb6(6), orbFin(6));
+    dTtot=dTtot +deltaT7;
+    
+    dTvect=[dTvect, dTtot];
+    dVvect=[dVvect, dVtot];
+    
+    
+
+end
+omega=270:0.1:300;
+figure(3)
+[ax,ay1,ay2]=plotyy(omega, dVvect, omega, dTvect/3600);
+title('dV and dT over omega, with r apoapsis = 5e4 km')
+ylim(ax(1), [8.5,9.5])
+
+grid on
+legend('dV [km/s]', 'dT [h]')
 
 %%
 % orb6 == orbFin a meno del tratto ancora da percorrere -->deltaT7

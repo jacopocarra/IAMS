@@ -263,7 +263,7 @@ rPIniz=orbIniz(1)*(1-orbIniz(2)^2)/(1+orbIniz(2));
 rAFin=orbFin(1)*(1-orbFin(2)^2)/(1+orbFin(2));
 rAllontanamento=5e4; % arbitrario, trade-off tra tempo e costo in deltaV 
 
-[orb1, deltaV1, deltaT1, thetaman1] = cambioAnomaliaPericentro(orbIniz, 290); % 290 scelta arbitraria, otiimo sembra tra tra 289 e 291
+[orb1, deltaV1, deltaT1, thetaman1] = cambioAnomaliaPericentro(orbIniz, 289.5); % 290 scelta arbitraria, otiimo sembra tra tra 289 e 291
 dVtot=dVtot+deltaV1;
 dTtot=dTtot+deltaT1;
 
@@ -291,9 +291,9 @@ dTtot=dTtot+deltaT6;
 % orb6 == orbFin a meno del tratto ancora da percorrere -->deltaT7
 
 deltaT7=tempoVolo(orb6, orb6(6), orbFin(6));
-%dTtot=dTtot +deltaT7;
+dTtot=dTtot +deltaT7;
 
-tStrat2AP=duration(0,0,dTtot) %trascuro tempo per raggiungere p.to finale esatto, fermo il conto all'inserzione nell'orbita finale
+tStrat2AP=duration(0,0,dTtot) %non trascuro!!! %trascuro tempo per raggiungere p.to finale esatto, fermo il conto all'inserzione nell'orbita finale
 dVstratAP=dVtot
 
 %% Strat 2-2 AP -polt orbite
@@ -321,6 +321,7 @@ orbit3D(orbFin, 1)
 %% Strat 2-2 AP plot dinamico
 
 Title = 'STRATEGY 2 - AP';
+
 Maneuv_name=[{'initial point'};{'1st change of P arg'};{'tangent burn'};...
     {'inclination change'};{'1st bitangent burn'};...
     {'2nd bitangent burn'};{'2nd change of P arg'};{'final point'}];          
