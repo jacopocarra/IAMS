@@ -29,7 +29,7 @@ function [orbTrasf, deltaV1, deltaV2, deltaT, thetaPlot1, thetaPlot2] = trasfDir
 %}
 mu = 398600;
 Rt = 6471;   %raggio della Terra in kilometri + 100km di atmosfera
-toll = 1e-5; 
+toll = 1e-2; 
 
 %% calcolo piano dell'orbita
 orbTrasf = zeros(6, 1); 
