@@ -39,7 +39,7 @@ if eVEc(3) < 0
 end
 
 
-theta = acosd( ((eVEc')*r)/(norm(eVEc)*norm(r)) ); % anomalia vera
+theta = real(acosd( ((eVEc')*r)/(norm(eVEc)*norm(r)) )); % anomalia vera
 
 vr = r'*v;
 if vr<0
