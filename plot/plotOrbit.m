@@ -89,7 +89,7 @@ switch lower(type)
                 k = 2;
                 while k < L3
                     colorIndex = floor((periodPlot-2)*(velocNorm(k)-min(velocNorm))/...
-                        (max(velocNorm)-min(velocNorm))+1);
+                        (max(velocNorm)-min(velocNorm)+0.1)+1)
                     stepColor = colormap.Orbit(colorIndex,:);
                     plot3(r(1,k-1:k),r(2,k-1:k),r(3,k-1:k),...
                         'color',stepColor,'LineWidth',line.Width);
@@ -209,9 +209,10 @@ switch lower(type)
             while k <= L
                 
                 if thetaVectTot(k)<=thetaOrb(2) % plotto parte di orbita che fa
+                    ctr
                     colorIndex = floor((L-2)*(vNorm(k)-vmin)/...
-                        (vmax-vmin) + 1);
-                    stepColor = colormap.Orbit(colorIndex,:);
+                        (vmax-vmin+0.1) + 1)
+                    stepColor = colormap.Orbit(colorIndex,:)
                     plot3(rrVect(1,k-1:k),rrVect(2,k-1:k),...
                         rrVect(3,k-1:k),'color',stepColor,...
                         'LineWidth',line.Width);
@@ -219,7 +220,7 @@ switch lower(type)
                     
                 else % plotto parte di orbita che non fa (tratteggiata)
                     colorIndex = floor(((L-2))*(vNorm(k)-vmin)/...
-                        (vmax-vmin) + 1);
+                        (vmax-vmin+0.1) + 1);
                     stepColor = colormap.Orbit(colorIndex,:);
                     plot3(rrVect(1,[k-1,k]),rrVect(2,[k-1,k]),...
                         rrVect(3,[k-1,k]),'-.','color',...

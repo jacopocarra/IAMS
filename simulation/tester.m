@@ -524,7 +524,7 @@ end
 Title = 'STRATEGY 4 - Circolarization';
 Maneuv_name=[{'initial point'};{'Circolarization 1'};{'Rise Apoapsis'};...
     {'Plane change'};{'Circolarization 2'};{'Rise Apoapsis'}; {'Final Point'}];
-
+close all
 
 plotOrbit([orbIniz , orb2 , orb3 ,orb4 , orb5, orb6],...
             [orbIniz(6), thetaMan1,     orb2(6), thetaMan2,    orb3(6)-90,thetaMan4,   orb4(6),thetaMan5,   orb5(6),thetaMan6,  orb6(6), orbFin(6)  ],...
@@ -558,4 +558,55 @@ deltaT = dT2 + dT3 + dT4 + dT5 + dT6
 
 %%
 
+
+
+%%  PLANE-SHAPE-W  (CIOE QUELLA DI TOMMI SENZA CAMBIO ANOMALIA PERICENTRO INIZIALE)
+% UN PO' PEGGIORE DI QUELLA DI TOMMI, 
+% PIU DELTAV E DELTAT
+
+close all
+dTtot=0;
+dVtot=0;
+
+rPIniz=orbIniz(1)*(1-orbIniz(2)^2)/(1+orbIniz(2));
+rAFin=orbFin(1)*(1-orbFin(2)^2)/(1+orbFin(2));
+rAllontanamento=0.5e5;
+
+% [orb1, deltaV1, deltaT1, thetaman1] = cambioAnomaliaPericentro(orbIniz, 290); % 290 scelta arbitraria, otiimo sembra tra tra 289 e 291
+% dVtot=dVtot+deltaV1;
+% dTtot=dTtot+deltaT1;
+
+orbIniz(6) = orbIniz(6);
+[orb2, deltaV2, deltaT2, thetaman2] = manovraTangente(orbIniz, (rPIniz+rAllontanamento)/2, 'per');
+dVtot=dVtot+deltaV2;
+dTtot=dTtot+deltaT2;
+orb2(6) = orb2(6)+180;
+[orb3, deltaV3, deltaT3, thetaman3] = cambioInclinazione(orb2, orbFin(3), orbFin(4));
+dVtot=dVtot+deltaV3;
+dTtot=dTtot+deltaT3;
+
+orb5=orbFin;
+orb5(5)=wrapTo360(orb3(5)); %sfasare di 180 per aa e pp, lasciare così per ap e pa
+
+[deltaV, deltaV4, deltaV5, orb4, deltaT, deltaT4, deltaT5, thetaman4] = manovraBitangenteEllittica(orb3, orb5, 'ap');
+dVtot=dVtot+deltaV4+deltaV5;
+dTtot=dTtot+deltaT4+deltaT5;
+
+
+[orb6, deltaV6, deltaT6, thetaman5] = cambioAnomaliaPericentro(orb5, orbFin(5));
+dVtot=dVtot+deltaV6;
+dTtot=dTtot+deltaT6;
+
+close all
+Title = 'STRATEGY 2 - AP';
+Maneuv_name=[{'initial point'};{'tangent burn'};...
+    {'inclination change'};{'1st bitangent burn'};...
+    {'2nd bitangent burn'};{'1nd change of P arg'};{'final point'}];          
+                                                            % |percorro orbIniz    | percorro orb1     | percorro orb2     | percorro orb3     | %percorro orb4     |%percorro orb5  percorro orb6
+plotOrbit([orbIniz,  orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), 360, orb2(6)-180, thetaman3, orb3(6), thetaman4,        180, 0 ,            0,thetaman5, orb6(6), orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV2, deltaV3, deltaV4, deltaV5, deltaV6])
+deltaT7=tempoVolo(orb6, orb6(6), orbFin(6));
+dTtot=dTtot +deltaT7;
+
+t=duration(0,0,dTtot) %trascuro tempo per raggiungere p.to finale esatto, fermo il conto all'inserzione nell'orbita finale
+dV=dVtot
 
