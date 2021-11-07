@@ -329,3 +329,12 @@ Maneuv_name=[{'initial point'};{'1st change of P arg'};{'tangent burn'};...
 plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetaman1, orb1(6), thetaman2, orb2(6), thetaman3, orb3(6), thetaman4,        180, 0 ,            0,thetaman5, orb6(6), orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV2, deltaV3, deltaV4, deltaV5, deltaV6])
 
 
+%% TRASFERIMENTO DIRETTO
+[orbTrasf, dV1, dV2, dT] = trasfDir(orbIniz, orbFin); 
+
+earth3D(1)
+orbit3D(orbIniz, 1)
+orbit3D(orbTrasf,1)
+orbit3D(orbFin, 1)
+
+deltaV = dV1 + dV2
