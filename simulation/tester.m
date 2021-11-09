@@ -440,7 +440,7 @@ orbFin1  = [orbFin(1);orbFin(2);orbIniz(3);orbIniz(4);orbIniz(5);orbIniz(6)];
 [orbFin3, deltaV4, deltaT4, thetaman4] = cambioAnomaliaPericentro(orbFin2, orbFin(5));
 
 deltaVtot = deltaVtot1+deltaV3+deltaV4
-
+deltaTTot = deltaTtot1+deltaT3+deltaT4
 Title = 'STRATEGY strana'
 Maneuv_name=[{'initial point'};...
     {'first bitangent maneuver'};{'second bitangent maneuver'};...

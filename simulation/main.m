@@ -82,7 +82,7 @@ orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
 orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
 %%
 close all
-plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV,  deltaV3, deltaV4])
 
 
 
@@ -330,14 +330,16 @@ plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetam
 
 
 %% TRASFERIMENTO DIRETTO
-[orbTrasf, dV1, dV2, dT] = trasfDir(orbIniz, orbFin); 
+[orbTrasf, dV1, dV2, dT, thetaPlot1, thetaPlot2] = trasfDir(orbIniz, orbFin); 
 
-earth3D(1)
-orbit3D(orbIniz, 1)
-orbit3D(orbTrasf,1)
-orbit3D(orbFin, 1)
+% earth3D(1)
+% orbit3D(orbIniz, 1)
+% orbit3D(orbTrasf,1)
+% orbit3D(orbFin, 1)
+close all
 
 deltaV = dV1 + dV2
+plotOrbit([orbTrasf],[thetaPlot1, thetaPlot2],[dT],'dir',[{'prima'},{'seconda'}],'stat',0,[deltaV])
 
 
 %% STRAT 5 CIRC-BIELL+PLANE+PERI 
@@ -424,4 +426,4 @@ Maneuv_name=[{'initial point'};{'circularization burn'};{'tangent burn'};...
                                                       % |percorro orbIniz     |percorro orb1       |percorro orb2     | percorro orb4      |%percorro orb5  |percorro orb6
 plotOrbit([orbIniz, orb1,  orb2 , orb4  , orb5, orbFin],[orbIniz(6), thetaman1, orb1(6), thetaman2, 0, thetaman3,      180, 0,              180,thetaman5,  orb6(6), orbFin(6) ],[deltaT1, deltaT2, deltaT3,  deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV2, deltaVReal, deltaV5, deltaV6])
 
-%%
+

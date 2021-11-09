@@ -156,7 +156,7 @@ switch lower(type)
         colormap.Orbit = summer(L); % setto i colori che cambiano con v
         colormap.Marker = hot(N+2);
         
-        DeltaVVect = [];
+        dVTotPlot = 0;
         
         % plotto orbite
         for ctr = 1:N
@@ -165,7 +165,7 @@ switch lower(type)
             if thetaOrb(2) < thetaOrb(1)
                 thetaOrb(2) = thetaOrb(2) + 360;
             end
-            
+            dVTotPlot = dVTotPlot + norm(dvVect(:,ctr));
             thetaVectTot = thetaOrb(1):dth:thetaOrb(1)+360;
             L = length(thetaVectTot);
             
@@ -211,8 +211,8 @@ switch lower(type)
                 if thetaVectTot(k)<=thetaOrb(2) % plotto parte di orbita che fa
                     ctr
                     colorIndex = floor((L-2)*(vNorm(k)-vmin)/...
-                        (vmax-vmin+0.1) + 1)
-                    stepColor = colormap.Orbit(colorIndex,:)
+                        (vmax-vmin+0.1) + 1);
+                    stepColor = colormap.Orbit(colorIndex,:);
                     plot3(rrVect(1,k-1:k),rrVect(2,k-1:k),...
                         rrVect(3,k-1:k),'color',stepColor,...
                         'LineWidth',line.Width);
@@ -254,6 +254,9 @@ switch lower(type)
         annotation('textbox',[.75 .65 0 0],'String',str1,...
             'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
         view(45,20)
+        str3 = sprintf("DV TOT:\n   %2.4f  [km/s]", dVTotPlot);
+                    annotation('textbox',[.75 .4 0 0],'String',str3,...
+                        'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
 end
 
 %writeMP4Movie(myMovie, "strat 5");
