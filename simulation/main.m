@@ -70,7 +70,8 @@ orbTrasf(5) = wrapTo360(orbTrasf(5)+180);
 thetaStory = [orbIniz(6), thetaman1, orbFin1(6), thetaman2, orbFin3(6), thetaman3, 0, 180, orbTrasf(6), orbFin2(6)]
 Title = 'STRATEGY 1  ap'
 deltaVtot = deltaV1+deltaV+deltaV2
-deltaT = deltaT1+deltaT+deltaT2
+deltaTVolo=tempoVolo(orbFin2, 0, orbFin2(6) );
+deltaTtot = deltaT1+deltaT+deltaT2+deltaTVolo
 
 Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
     {'first bitangent maneuver'};{'second bitangent maneuver'};...
@@ -82,7 +83,7 @@ orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
 orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
 %%
 close all
-plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV,  deltaV3, deltaV4])
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT3, deltaT4, deltaTVolo],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV,  deltaV3, deltaV4])
 
 
 

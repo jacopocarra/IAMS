@@ -450,14 +450,15 @@ orbFin1  = [orbFin(1);orbFin(2);orbIniz(3);orbIniz(4);orbIniz(5);orbIniz(6)];
 [orbFin3, deltaV4, deltaT4, thetaman4] = cambioAnomaliaPericentro(orbFin2, orbFin(5));
 
 deltaVtot = deltaVtot1+deltaV3+deltaV4
-deltaTTot = deltaTtot1+deltaT3+deltaT4
+deltaTVolo=tempoVolo(orbFin3, orbFin3(6), orbFin(6));
+deltaTTot = deltaTtot1+deltaT3+deltaT4+deltaTVolo
 Title = 'STRATEGY strana'
 Maneuv_name=[{'initial point'};...
     {'first bitangent maneuver'};{'second bitangent maneuver'};...
     {'change of plane'};{'change of P arg'};...
     {'final point'}];
 thetaStory = [orbIniz(6), thetaMan2, thetaMan2, 180, 180, thetaMan3, orbFin2(6),thetaman4, orbFin3(6), orbFin(6) ];
-plotOrbit([orbIniz, orbTrasf,orbFin1, orbFin2,orbFin3],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
+plotOrbit([orbIniz, orbTrasf,orbFin1, orbFin2,orbFin3],thetaStory,[deltaT1, deltaT2, deltaT3, deltaT4, deltaTVolo],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV2, deltaV3, deltaV4])
 
 %% 	CIRCOLARIZATION
 
@@ -607,6 +608,8 @@ dTtot=dTtot+deltaT4+deltaT5;
 dVtot=dVtot+deltaV6;
 dTtot=dTtot+deltaT6;
 
+deltaT7=tempoVolo(orb6, orb6(6), orbFin(6));
+
 close all
 Title = 'STRATEGY 2 - AP';
 Maneuv_name=[{'initial point'};{'tangent burn'};...
@@ -614,7 +617,7 @@ Maneuv_name=[{'initial point'};{'tangent burn'};...
     {'2nd bitangent burn'};{'1nd change of P arg'};{'final point'}];          
                                                             % |percorro orbIniz    | percorro orb1     | percorro orb2     | percorro orb3     | %percorro orb4     |%percorro orb5  percorro orb6
 plotOrbit([orbIniz,  orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), 360, orb2(6)-180, thetaman3, orb3(6), thetaman4,        180, 0 ,            0,thetaman5, orb6(6), orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV2, deltaV3, deltaV4, deltaV5, deltaV6])
-deltaT7=tempoVolo(orb6, orb6(6), orbFin(6));
+
 dTtot=dTtot +deltaT7;
 
 t=duration(0,0,dTtot) %trascuro tempo per raggiungere p.to finale esatto, fermo il conto all'inserzione nell'orbita finale
