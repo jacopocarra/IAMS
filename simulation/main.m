@@ -283,7 +283,7 @@ orb5(5)=wrapTo360(orb3(5)); %sfasare di 180 per aa e pp, lasciare così per ap e
 dVtot=dVtot+deltaV4+deltaV5;
 dTtot=dTtot+deltaT4+deltaT5;
 
-
+orb5(6)=0;
 [orb6, deltaV6, deltaT6, thetaman5] = cambioAnomaliaPericentro(orb5, orbFin(5));
 dVtot=dVtot+deltaV6;
 dTtot=dTtot+deltaT6;
