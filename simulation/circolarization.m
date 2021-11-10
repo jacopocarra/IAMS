@@ -23,7 +23,7 @@ orbIniz = GEtoPF(rIniz, vIniz, mu);  % da GE coordinate PF
 
 orbFin = [12930.0, 0.2055, rad2deg(1.5510), rad2deg(2.6830),  rad2deg(0.4098), rad2deg(1.6940)]';  % [a e i RAAN omega theta]        
 %% MANOVRA 1 ************************************************************************************************** 
-
+%{
 [rFin, vFin] = PFtoGE(orbFin, mu); 
 
 h1 = cross(rIniz, vIniz);  %momento angolare prima orbita
@@ -122,7 +122,7 @@ orbit3D(orbFin,2);
 %%
 deltaV1 = dV2 + dV3 + dV4 + dV5 
 deltaT1 = dT2 + dT3 + dT32 + dT4 + dT5 + tempoVolo(orb5, orb5(6), orbFin(6))
-
+%}
 %% MANOVRA 2 **************************************************************************************************************
 [rFin, vFin] = PFtoGE(orbFin, mu); 
 
@@ -168,7 +168,13 @@ orb3(6) = orb3(6) + 90; %mi sposto avanti di 90 gradi e calcolo il tempo che è 
 [orb4, dV42 , dT42] = manovraTangente(orb41, rAFin, 'apo');   %circolarizzo all' apocentro
 
 dV4 = dV41 + dV42;
+
 dT4 = dT41;  
+
+orb31 = orb3; 
+orb31(6) = thetaMan4; 
+[~, dV4D1, dV4D2, ~, ~, ~] = trasfDir(orb31, orb4); 
+dV4D = dV4D1 + dV4D2; 
 
 %---------------Manovra finale per raggiungere l'orbita----------------
 
@@ -199,24 +205,24 @@ Maneuv_name=[{'initial point'};{'Circolarization 1'};{'Rise Apoapsis'};...
 plotOrbit([orbIniz , orb2 , orb3 ,orb4 , orb5],...
             [orbIniz(6), thetaMan1,     orb2(6), thetaMan2,    orb3(6)-90,thetaMan4,   orb4(6),thetaMan5,  orb5(6), orbFin(6)  ],...
             [dT2, dT3, dT32 + dT4, dT5 , tempoVolo(orb5, orb5(6), orbFin(6))],...
-            Title,Maneuv_name,'dyn',0,...
+            Title,Maneuv_name,'stat',0,...
             [0, dV2, dV3, dV4, dV5]); 
 
 
 
 %%
-earth3D(2); 
-orbit3D(orbIniz, 2); 
+earth3D(3); 
+orbit3D(orbIniz, 3); 
 %%
-orbit3D(orb2, 2); 
+orbit3D(orb2, 3); 
 %%
-orbit3D(orb3, 2); 
+orbit3D(orb3, 3); 
 %%
-orbit3D(orb4, 2); 
+orbit3D(orb4, 3); 
 %% 
-orbit3D(orb5, 2); 
+orbit3D(orb5, 3); 
 %%
-orbit3D(orbFin,2); 
+orbit3D(orbFin,3); 
 %%
 
 deltaV2 = dV2 + dV3 + dV4 + dV5 

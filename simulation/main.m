@@ -330,16 +330,26 @@ plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetam
 
 
 %% TRASFERIMENTO DIRETTO
-[orbTrasf, dV1, dV2, dT, thetaPlot1, thetaPlot2] = trasfDir(orbIniz, orbFin); 
+[orbTrasf, dV1, dV2, dT, thetaMan1, thetaMan2] = trasfDir(orbIniz, orbFin); 
 
-% earth3D(1)
-% orbit3D(orbIniz, 1)
-% orbit3D(orbTrasf,1)
-% orbit3D(orbFin, 1)
-close all
+earth3D(3)
+orbit3D(orbIniz, 3)
+orbit3D(orbTrasf,3)
+orbit3D(orbFin, 3)
 
 deltaV = dV1 + dV2
-plotOrbit([orbTrasf],[thetaPlot1, thetaPlot2],[dT],'dir',[{'prima'},{'seconda'}],'stat',0,[deltaV])
+dT
+
+Title = 'STRATEGY 3 - Direct Transfer';
+
+Maneuv_name=[{'Initial orbit periapsis'};{'Initial point'};{'Final point'}; {'Final orbit apoapsis'};];          
+
+plotOrbit([orbIniz, orbTrasf , orbFin],...
+    [0, orbIniz(6),     thetaMan1, thetaMan2,     orbFin(6), 180],...
+    [0, dT, 0],...
+    Title,Maneuv_name,'stat',0,...
+    [0, dV1, dV2]); 
+
 
 
 %% STRAT 5 CIRC-BIELL+PLANE+PERI 
