@@ -146,7 +146,7 @@ switch lower(type)
         end
     case {'stat'} % plot statico
         grid off;
-%         axis off;
+        %         axis off;
         earth3D(2);
         title(Title,'FontSize',10);
         pointLegend = [];
@@ -201,7 +201,7 @@ switch lower(type)
                     'MarkerSize',marker.size,'MarkerFaceColor',...
                     colormap.Marker(ctr,:));
                 legend(pointLegend(1:ctr),ManeuvName(1:ctr),'AutoUpdate',...
-                    'off','Location',leg.Position,'FontSize',font.Size);   
+                    'off','Location',leg.Position,'FontSize',font.Size);
             end
             
             % plotto orbita
@@ -251,12 +251,12 @@ switch lower(type)
         h = floor(tTot/3600);
         minut = floor(60*((tTot/3600)-h));
         str1 = sprintf("  Time:  \n%d  [h]\n%d  [min]",h,minut);
-        annotation('textbox',[.75 .65 0 0],'String',str1,...
+        annotation('textbox',[.65 .65 0 0],'String',str1,...
             'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
         view(45,20)
         str3 = sprintf("DV TOT:\n   %2.4f  [km/s]", dVTotPlot);
-                    annotation('textbox',[.75 .4 0 0],'String',str3,...
-                        'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
+        annotation('textbox',[.65 .4 0 0],'String',str3,...
+            'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
 end
 
 %writeMP4Movie(myMovie, "strat 5");

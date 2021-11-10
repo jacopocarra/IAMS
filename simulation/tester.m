@@ -32,20 +32,20 @@ orbFin = [12930.0, 0.2055, rad2deg(1.5510), rad2deg(2.6830),  rad2deg(0.4098), r
 %% PLOT ORBITA INIZIALE
 close all
 mu = 398600
-ptoIniz = [-3441.6408 -7752.3491 -3456.8431 ...
-4.9270 -0.5369 -4.0350];   
-rIniz = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]';                % vettore posizione
-vIniz = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]';                % vettore velocità
-
-[orbIniz, n, eVEc, h] = GEtoPF(rIniz, vIniz, mu); % da GE coordinate PF
-earth3D(1);                                              % plot terra
-orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
-quiver3(0,0,0,eVEc(1),eVEc(2),eVEc(3),150000,'-.','color','b','LineWidth',1);
+% ptoIniz = [-3441.6408 -7752.3491 -3456.8431 ...
+% 4.9270 -0.5369 -4.0350];   
+% rIniz = [ptoIniz(1) ptoIniz(2) ptoIniz(3)]';                % vettore posizione
+% vIniz = [ptoIniz(4) ptoIniz(5) ptoIniz(6)]';                % vettore velocità
+[pos, v] = PFtoGE(orbFin, mu)
+[orbFin, n, eVEc, h] = GEtoPF(pos, v, mu); % da GE coordinate PF
+% earth3D(1);                                              % plot terra
+plotOrbit(orbFin,[orbFin(6), orbFin(6)+360],0,'Final orbit',[{'Final point'}],'stat',0,0)
+quiver3(0,0,0,eVEc(1),eVEc(2),eVEc(3),70000,'-.','color','b','LineWidth',1);
 quiver3(0,0,0,h(1),h(2),h(3),0.25,'-.','color','r','LineWidth',1);
 quiver3(0,0,0,n(1),n(2),n(3),15000,'-.','color','g','LineWidth',1);
-text(eVEc(1),eVEc(2)+10000,eVEc(3)+5000,'e','FontSize',12,'color','b');
+text(eVEc(1)-15000,eVEc(2)+6500,eVEc(3)+5000,'e','FontSize',12,'color','b');
 text(h(1)/4+1000,h(2)/4+1000,h(3)/4+1000,'h','FontSize',12,'color','r');
-text(n(1)+13000,n(2)+10000,n(3),'N','FontSize',12,'color','g');
+text(n(1)-13000,n(2)+10000,n(3),'N','FontSize',12,'color','g');
 
 
 %%
@@ -63,8 +63,11 @@ orbFin2 = orbFin;
 orbTrasf(5) = wrapTo360(orbTrasf(5)+180);
 thetaStory = [orbIniz(6), thetaman1, orbFin1(6), thetaman2, orbFin3(6), thetaman3, 0, 180, orbTrasf(6), orbFin2(6)]
 Title = 'STRATEGY 1  ap'
+deltaTLast = tempoVolo(orbFin2, 0,orbFin2(6))
+t=duration(0,0,deltaTLast)
 deltaVtot = deltaV1+deltaV+deltaV2
 deltaT = deltaT1+deltaT+deltaT2
+t=duration(0,0,deltaT)
 
 Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
     {'first bitangent maneuver'};{'second bitangent maneuver'};...
@@ -76,7 +79,7 @@ orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
 orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
 %%
 close all
-plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV3, deltaV4])
 
 %% TRASFERIMENTO CON BITANGENTE ELLITTICA 'pa'
 orbFin2 = orbFin; 
@@ -85,8 +88,11 @@ orbFin2 = orbFin;
 [orbFin3, deltaV, deltaT, thetaman2] = cambioAnomaliaPericentro(orbFin1, orbFin2(5));
 [deltaV2, deltaV3, deltaV4, orbTrasf, deltaT2, deltaT3, deltaT4, thetaman3] = manovraBitangenteEllittica(orbFin3, orbFin2, 'pa');
 
+deltaTLast = tempoVolo(orbFin2, 180,orbFin2(6))
+t=duration(0,0,deltaTLast)
 deltaVtot = deltaV1+deltaV+deltaV2
-deltaT = deltaT1+deltaT+deltaT2
+deltaT = deltaT1+deltaT+deltaT2+deltaTLast
+t=duration(0,0,deltaT) %trascuro tempo per raggiungere p.to finale esatto, fermo il conto all'inserzione nell'orbita finale
 
 thetaStory = [orbIniz(6), thetaman1, orbFin1(6), thetaman2, orbFin3(6), thetaman3, thetaman3, orbTrasf(6), orbTrasf(6), orbFin2(6)];
 Title = 'STRATEGY 1  pa'
@@ -101,7 +107,7 @@ orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
 orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
 %%
 close all
-plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV3, deltaV4])
 
 %% TRASFERIMENTO CON BITANGENTE ELLITTICA 'pp'
 orbFin2 = orbFin; 
@@ -113,9 +119,12 @@ orbFin2 = orbFin;
 [orbFin3, deltaV, deltaT, thetaman2] = cambioAnomaliaPericentro(orbFin1, wrapTo360(orbFin2(5)+180));
 
 [deltaV2, deltaV3, deltaV4, orbTrasf, deltaT2, deltaT3, deltaT4, thetaman3] = manovraBitangenteEllittica(orbFin3, orbFin2, 'pp');
+deltaTLast = tempoVolo(orbFin2, 0,orbFin2(6))
 
 deltaVtot = deltaV1+deltaV+deltaV2
-deltaT = deltaT1+deltaT+deltaT2
+deltaT = deltaT1+deltaT+deltaT2+deltaTLast
+t=duration(0,0,deltaT) %trascuro tempo per raggiungere p.to finale esatto, fermo il conto all'inserzione nell'orbita finale
+
 thetaStory = [orbIniz(6), thetaman1, orbFin1(6), thetaman2, orbFin3(6), thetaman3, 0, 180, orbTrasf(6), orbFin2(6)];
 Title = 'STRATEGY 1  pp'
 Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
@@ -129,7 +138,7 @@ orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
 orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
 %%
 close all
-plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV3, deltaV4])
 
 
 %% TRASFERIMENTO CON BITANGENTE ELLITTICA 'aa'
@@ -144,9 +153,11 @@ orbFin2 = orbFin;
 [orbFin3, deltaV, deltaT, thetaman2] = cambioAnomaliaPericentro(orbFin1, wrapTo360(orbFin2(5)+180));
 
 [deltaV2, deltaV3, deltaV4, orbTrasf, deltaT2, deltaT3, deltaT4, thetaman3] = manovraBitangenteEllittica(orbFin3, orbFin2, 'aa');
+deltaTLast = tempoVolo(orbFin2, 180,orbFin2(6))
 
 deltaVtot = deltaV1+deltaV+deltaV2
-deltaT = deltaT1+deltaT+deltaT2
+deltaT = deltaT1+deltaT+deltaT2+deltaTLast
+t=duration(0,0,deltaT) %trascuro tempo per raggiungere p.to finale esatto, fermo il conto all'inserzione nell'orbita finale
 
 thetaStory = [orbIniz(6), thetaman1, orbFin1(6), thetaman2, orbFin3(6), 180, 0, 180, orbTrasf(6), orbFin2(6)];
 Title = 'STRATEGY 1 aa'
@@ -161,7 +172,7 @@ orbit3D(orbIniz, 1);         % plot 3D orbita iniziale
 orbit3D(orbFin2, 1);                                      % plot 3D orbita finale
 %%
 close all
-plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT2, deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV2, deltaV3, deltaV4])
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT,deltaT3, deltaT4],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV3, deltaV4])
 
 
 
@@ -178,12 +189,11 @@ orbit3D(orbTrasf, 1)
 %%
 orbit3D(orbFin2, 1)
 %%
-Maneuv_name=[{'initial point'};{'first impulse'};{'second impulse'};...
-    {'final point'}];
-plotOrbit([orbIniz, orbTrasf, orbFin2],[orbIniz(6)-180, orbIniz(6), thetaT1, thetaT2, orbFin2(6), orbFin2(6)+180],...
-            [tempoVolo(orbIniz,orbIniz(6)-180,orbIniz(6)), deltaT, tempoVolo(orbFin2,orbFin2(6),orbFin2(6)+180)],...
+Maneuv_name=[{'first impulse'};{'second impulse'}];
+plotOrbit([orbIniz, orbTrasf, orbFin2],[orbIniz(6), orbIniz(6), thetaT1, thetaT2, orbFin2(6), orbFin2(6)],...
+            [0, deltaT,0],...
             'Trasf diretto',Maneuv_name, ...
-            'dyn',0, [0, deltaV1, deltaV2] );
+            'stat',0, [0, deltaV1, deltaV2] );
 
 
 
