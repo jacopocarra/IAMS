@@ -73,6 +73,12 @@ deltaVtot = deltaV1+deltaV+deltaV2
 deltaTVolo=tempoVolo(orbFin2, 0, orbFin2(6) );
 deltaTtot = deltaT1+deltaT+deltaT2+deltaTVolo
 
+orbVett = [orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2];
+
+timeStory = [deltaT1, deltaT, deltaT2, deltaT3, deltaT4];
+
+dVstory = [0, deltaV1, deltaV,  deltaV3, deltaV4];
+
 Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
     {'first bitangent maneuver'};{'second bitangent maneuver'};...
     {'final point'}];
@@ -332,7 +338,7 @@ plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetam
 
 %% TRASFERIMENTO DIRETTO
 [orbTrasf, dV1, dV2, dT, thetaMan1, thetaMan2] = trasfDir(orbIniz, orbFin); 
-
+close all
 earth3D(3)
 orbit3D(orbIniz, 3)
 orbit3D(orbTrasf,3)
