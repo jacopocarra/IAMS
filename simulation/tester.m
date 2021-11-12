@@ -304,9 +304,10 @@ plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetam
 
 dVvect=[];
 dTvect=[];
+dV2Vect=[];
 
 
-for rAllontanamento=30000:2000:100000
+for rAllontanamento=30000:2000:1000000
     dTtot=0;
     dVtot=0;
     
@@ -342,19 +343,21 @@ for rAllontanamento=30000:2000:100000
     dTtot=dTtot +deltaT7;
     
     dTvect=[dTvect, dTtot];
-    dVvect=[dVvect, dVtot];
+    dVvect=[dVvect, deltaV3];
+    dV2Vect=[dV2Vect, deltaV2];
     
     
 
 end
-rAllontanamento=30000:2000:100000;
+rAllontanamento=30000:2000:1000000;
 figure(2)
-[ax,ay1,ay2]=plotyy(rAllontanamento, dVvect, rAllontanamento, dTvect/3600);
-title('dV and dT over apoapsis radius, with omega=289.5°')
-ylim(ax(1), [5,10])
+plot(rAllontanamento, dV2Vect, rAllontanamento,dVvect)
+%[ax,ay1,ay2]=plotyy(rAllontanamento, dVvect, rAllontanamento, dTvect/3600);
+%title('dV and dT over apoapsis radius, with omega=289.5°')
+%ylim(ax(1), [0,5])
 
 grid on
-legend('dV [km/s]', 'dT [h]')
+legend('dV tangente [km/s]', 'dV piano [km/s]')
 
 %% opt omega
 dVvect=[];
