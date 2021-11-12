@@ -340,6 +340,34 @@ Maneuv_name=[{'initial point'};{'1st change of P arg'};{'tangent burn'};...
 plotOrbit([orbIniz, orb1 , orb2 , orb3 ,orb4 , orb5, orbFin],[orbIniz(6), thetaman1, orb1(6), thetaman2, orb2(6), thetaman3, orb3(6), thetaman4,        180, 0 ,            0,thetaman5, orb6(6), orbFin(6) ],[deltaT1, deltaT2, deltaT3, deltaT4, deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV2, deltaV3, deltaV4, deltaV5, deltaV6])
 
 
+%% SHAPE-PLANE-W  (pa)   IN PRESENTAZIONE STRAT 2
+clc
+close all
+orbFin(1)/orbIniz(1);   % se < 11.94 non conviene biellittica
+
+orbFin1  = [orbFin(1);orbFin(2);orbIniz(3);orbIniz(4);orbIniz(5);orbIniz(6)];
+[deltaVtot1, deltaV1, deltaV2, orbTrasf, deltaTtot1, deltaT1, deltaT2, thetaMan2] = manovraBitangenteEllittica(orbIniz, orbFin1, 'pa');
+orbFin1(6) = 180;  %allineato con la fine della manovra bitangente
+[orbFin2, deltaV3, deltaT3, thetaMan3] = cambioInclinazione(orbFin1, orbFin(3), orbFin(4));
+[orbFin3, deltaV4, deltaT4, thetaman4] = cambioAnomaliaPericentro(orbFin2, orbFin(5));
+
+deltaVolo = tempoVolo(orbFin, orbFin3(6), orbFin(6));
+deltaVtot = deltaVtot1+deltaV3+deltaV4
+deltaTVolo=tempoVolo(orbFin3, orbFin3(6), orbFin(6));
+deltaTTot = deltaTtot1+deltaT3+deltaT4+deltaTVolo
+deltaTTot = deltaTtot1+deltaT3+deltaT4+deltaVolo;
+t = duration(0,0,deltaTTot)
+Title = 'STRATEGY SHAPE-PLANE-W'
+
+Maneuv_name=[{'initial point'};...
+    {'first bitangent maneuver'};{'second bitangent maneuver'};...
+    {'change of plane'};{'change of P arg'};...
+    {'final point'}];
+thetaStory = [orbIniz(6), thetaMan2, thetaMan2, 180, 180, thetaMan3, orbFin2(6),thetaman4, orbFin3(6), orbFin(6) ];
+plotOrbit([orbIniz, orbTrasf,orbFin1, orbFin2,orbFin3],thetaStory,[deltaT1, deltaT2, deltaT3, deltaT4, deltaTVolo],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV2, deltaV3, deltaV4])
+
+
+
 %% TRASFERIMENTO DIRETTO
 [orbTrasf, dV1, dV2, dT, thetaMan1, thetaMan2] = trasfDir(orbIniz, orbFin); 
 close all
@@ -350,16 +378,16 @@ orbit3D(orbFin, 3)
 
 deltaV = dV1 + dV2
 dT
-
+%%
 Title = 'STRATEGY 3 - Direct Transfer';
 
-Maneuv_name=[{'Initial orbit periapsis'};{'Initial point'};{'Final point'}; {'Final orbit apoapsis'};];          
+Maneuv_name=[{'Initial point'};{'Final point'};];          
 
-plotOrbit([orbIniz, orbTrasf , orbFin],...
-    [0, orbIniz(6),     thetaMan1, thetaMan2,     orbFin(6), 180],...
-    [0, dT, 0],...
+plotOrbit([ orbTrasf ],...
+    [thetaMan1, thetaMan2],...
+    [dT],...
     Title,Maneuv_name,'stat',0,...
-    [0, dV1, dV2]); 
+    [deltaV]); 
 t3=duration(0,0,dT);
 dV3=deltaV;
 
@@ -454,7 +482,7 @@ plotOrbit([orbIniz, orb1,  orb2 , orb4  , orb5, orbFin],[orbIniz(6), thetaman1, 
 
 
 %% PLOT CONCLUSIONE
-t2=duration(0,0, 2.305002921125033e+04); %strat 2 PA
+t2=duration(0,0, 22051.7822842644); %strat 2 PA
 dV2=9.790801681727576;                   %strat 2 PA
 
 t5a=duration(0,0, 2.750271962720475e+04 ); %strat 5 a

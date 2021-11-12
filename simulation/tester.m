@@ -473,7 +473,7 @@ deltaV1 + deltaV2
 
 
 
-%% SHAPE-PLANE-W  (pa)
+%% SHAPE-PLANE-W  (pa)   IN PRESENTAZIONE
 clc
 close all
 orbFin(1)/orbIniz(1);   % se < 11.94 non conviene biellittica

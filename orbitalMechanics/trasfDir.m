@@ -19,14 +19,17 @@ function [orbTrasf, deltaV1, deltaV2, deltaT, thetaPlot1, thetaPlot2] = trasfDir
 %   deltaV1
 
 %% recall dati
-%{
+
 % orbit3D(orbIniz,1);
 % orbit3D(orbFin, 1);
 %earth3D(1); 
-% eVect = [];
-% omegaVect = [];
-% deltaVvect = [];
-%}
+%  eVect = [];
+%  omegaVect = [];
+%  deltaVvect = [];
+%  omegaSC = []; %schianto
+%  omegaAP = []; %aperto
+%  omegaOK = []; 
+ 
 mu = 398600;
 Rt = 6471;   %raggio della Terra in kilometri + 100km di atmosfera
 toll = 1e-2; 
@@ -89,6 +92,8 @@ for i = (0:step:359)  %controllo tutti gli omega
 
     omegaT = i; 
     
+    %omegaVect = [omegaVect ; i]; %aggiorno vettore degli omega
+    
     R = RotPF2GE(iT, RAANT, omegaT);   %matrice di rotazione da PF a GE
       
     eTvett = I;     %versore eccentricità nel sistema di riferimento perifocale
@@ -106,6 +111,7 @@ for i = (0:step:359)  %controllo tutti gli omega
     if r1*cosTheta1 ~= r2*cosTheta2
         eT = (r2 - r1) / ( r1*cosTheta1 - r2*cosTheta2);
         
+        %commentare questo if per immagini report
         if (eT < 0) %se eccentricità negativa significa che il versore eTGEvett ha verso sbagliato ->  anche i coseni hanno segno sbagliato
             cosTheta1 = -cosTheta1; 
             cosTheta2 = -cosTheta2; 
@@ -128,7 +134,10 @@ for i = (0:step:359)  %controllo tutti gli omega
             thetaT2 = 360 - thetaT2; 
         end
         
+        %eVect = [eVect; eT]; %salvo tutte le eT provate
+        
         if abs(eT) < 1  %lavoro solo con orbite chiuse (DA SISTEMARE!!!  orbit3D e calcoloTempi non funzionano con orbite aperte)
+            
             
             p = r1*(1 + eT*cosTheta1); %semilato retto
 
@@ -163,21 +172,22 @@ for i = (0:step:359)  %controllo tutti gli omega
 
                 if min(rVett) <= Rt
                     intersection = true;   %mi schianto
-%                     orbit3D(orbTrasfIniz,1); 
-%                     quiver3(0,0,0,eTGEvett(1), eTGEvett(2), eTGEvett(3), 15000, '-.'); 
-%                     orbVect = [orbVect, orbTrasfIniz]; 
+                     
+                    %omegaSC = [omegaSC; omegaT]; %salvo gli omega per cui ci si schianta
+                    
                 end
 
             end
-               
-               % per immagine da report levare la seconda condizione
-               % dell'if (deltaV<deltaVOpt)
+            
+            %{
+            if ~intersection
+                omegaOK = [omegaOK; omegaT]; 
+                deltaVvect = [deltaVvect; deltaV];  %deltaV accettabili
+            end
+            %}
+
             if (intersection == false) && deltaV < deltaVOpt %se non mi schianto e il deltaV è conveniente salvo l'orbita
-                
-%                 omegaVect = [omegaVect, omegaT];
-%                 deltaVvect = [deltaVvect, deltaV];
-%                 eVect = [eVect, eT];
-                
+
                 thetaPlot1 = thetaT1;
                 thetaPlot2 = thetaT2;
                 deltaVOpt = deltaV; 
@@ -186,10 +196,10 @@ for i = (0:step:359)  %controllo tutti gli omega
                 deltaV2 = dVFin;
                 deltaT = tempoVolo(orbTrasf, thetaT1, thetaT2);
                  
-%                 orbit3D(orbTrasf, 2);      % plottare
-%                 quiver3(0,0,0,eTGEvett(1), eTGEvett(2), eTGEvett(3), 15000, '-.'); 
                 
             end
+        %else            
+        %    omegaAP = [omegaAP; omegaT]; %salvo gli omega che generano orbite aperte
         end
    end
     
@@ -218,9 +228,18 @@ end
 
 
 
-
-%  figure(3)
-%  plot(omegaVect, deltaVvect);
-%  [minimo, imin] = min(deltaVvect)
+%{
+  figure(3)
+  plot(omegaOK, deltaVvect);
+  hold on
+  area([omegaSC(1), omegaSC(end)], [max(deltaVvect), max(deltaVvect)], 18, 'FaceColor', [0 0.4470 0.7410])  
+  area([omegaAP(1), omegaAP(23)], [max(deltaVvect), max(deltaVvect)], 18, 'FaceColor', [0.6350 0.0780 0.1840])
+  area([omegaAP(24), omegaAP(end)], [max(deltaVvect), max(deltaVvect)], 18, 'FaceColor', [0.6350 0.0780 0.1840])
+  legend('deltaV vs Omega', 'Collision', 'Open orbits'); 
+  xlabel('Omega (°)'); 
+  ylabel('DeltaV (km/s)'); 
+  
+  [minimo, imin] = min(deltaVvect)
+%}
 end
 
