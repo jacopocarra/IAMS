@@ -73,6 +73,9 @@ deltaVtot = deltaV1+deltaV+deltaV2
 deltaTVolo=tempoVolo(orbFin2, 0, orbFin2(6) );
 deltaTtot = deltaT1+deltaT+deltaT2+deltaTVolo
 
+t1AP=duration(0,0,deltaTtot);
+dV1AP=deltaVtot;
+
 orbVett = [orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2];
 
 timeStory = [deltaT1, deltaT, deltaT2, deltaT3, deltaT4];
@@ -103,7 +106,8 @@ orbFin2 = orbFin;
 
 deltaVtot = deltaV1+deltaV+deltaV2
 deltaTtot = deltaT1+deltaT+deltaT2+ tempoVolo(orbFin2, 180, orbFin(6))
-
+dV1PA=deltaVtot;
+t1PA=duration(0,0,deltaTtot);
 thetaStory = [orbIniz(6), thetaman1, orbFin1(6), thetaman2, orbFin3(6), thetaman3, thetaman3, orbTrasf(6), orbTrasf(6), orbFin2(6)];
 Title = 'STRATEGY 1  PA'
 Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
@@ -300,8 +304,8 @@ dTtot=dTtot+deltaT6;
 deltaT7=tempoVolo(orb6, orb6(6), orbFin(6));
 dTtot=dTtot +deltaT7;
 
-tStrat2AP=duration(0,0,dTtot) %non trascuro!!! %trascuro tempo per raggiungere p.to finale esatto, fermo il conto all'inserzione nell'orbita finale
-dVstratAP=dVtot
+t4AP=duration(0,0,dTtot); 
+dV4AP=dVtot;
 
 %% Strat 2-2 AP -polt orbite
 earth3D(1); 
@@ -356,7 +360,8 @@ plotOrbit([orbIniz, orbTrasf , orbFin],...
     [0, dT, 0],...
     Title,Maneuv_name,'stat',0,...
     [0, dV1, dV2]); 
-
+t3=duration(0,0,dT);
+dV3=deltaV;
 
 
 %% STRAT 5 CIRC-BIELL+PLANE+PERI 
@@ -433,6 +438,9 @@ dTtot=dTtot +deltaT7;
 
 t=duration(0,0,dTtot) %trascuro tempo per raggiungere p.to finale esatto, fermo il conto all'inserzione nell'orbita finale
 dVtotCircBiell=dVtot
+t6=t;
+dV6=dVtot;
+
 
 %%
 close all
@@ -442,5 +450,43 @@ Maneuv_name=[{'initial point'};{'circularization burn'};{'tangent burn'};...
     {'2nd bitangent burn'};{'1st change of P arg'};{'final point'}];           
                                                       % |percorro orbIniz     |percorro orb1       |percorro orb2     | percorro orb4      |%percorro orb5  |percorro orb6
 plotOrbit([orbIniz, orb1,  orb2 , orb4  , orb5, orbFin],[orbIniz(6), thetaman1, orb1(6), thetaman2, 0, thetaman3,      180, 0,              180,thetaman5,  orb6(6), orbFin(6) ],[deltaT1, deltaT2, deltaT3,  deltaT5, deltaT6, deltaT7],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV2, deltaVReal, deltaV5, deltaV6])
+
+
+
+%% PLOT CONCLUSIONE
+t2=duration(0,0, 2.305002921125033e+04); %strat 2 PA
+dV2=9.790801681727576;                   %strat 2 PA
+
+t5a=duration(0,0, 2.750271962720475e+04 ); %strat 5 a
+dV5a=8.9838;
+
+t5b=duration(0,0, 1.931479249601824e+04); %strat 5 b
+dV5b=10.6693;
+
+dV=[dV1PA, dV1AP, dV2, dV3, dV4AP, dV5a, dV5b, dV6];
+dT=[t1PA, t1AP,t2, t3, t4AP, t5a, t5b, t6 ];
+
+figure(4)
+plot(dT(1),dV(1), 'd', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'r', 'MarkerSize', 7)
+hold on
+plot(dT(2),dV(2), 'd', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b', 'MarkerSize', 7)
+plot(dT(3),dV(3), 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g', 'MarkerSize', 7)
+plot(dT(4),dV(4), '^', 'MarkerFaceColor', 'c', 'MarkerEdgeColor', 'c', 'MarkerSize', 7)
+plot(dT(5),dV(5), 's', 'MarkerFaceColor', 'm', 'MarkerEdgeColor', 'm', 'MarkerSize', 7)
+plot(dT(6),dV(6), 'h', 'MarkerFaceColor', 'k', 'MarkerEdgeColor', 'k', 'MarkerSize', 7)
+plot(dT(7),dV(7), 'h', 'MarkerFaceColor', 'y', 'MarkerEdgeColor', 'k', 'MarkerSize', 7)
+plot(dT(8),dV(8), 'v', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'r', 'MarkerSize', 7)
+
+ticks=minutes(0:60:(20*60));
+xticks(ticks)
+yticks(6: 1: 20)
+grid on
+grid minor
+
+xlabel('Total transfer time (deltaT) [hh:mm:ss]')
+ylabel('Total deltaV required [km/s]')
+
+
+legend('Strategy 1, PA', 'Strategy 1, AP', 'Strategy 2', 'Strategy 3', 'Strategy 4', 'Strategy 5a', 'Strategy 5b', 'Strategy 6');
 
 

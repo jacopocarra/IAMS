@@ -23,7 +23,7 @@ orbIniz = GEtoPF(rIniz, vIniz, mu);  % da GE coordinate PF
 
 orbFin = [12930.0, 0.2055, rad2deg(1.5510), rad2deg(2.6830),  rad2deg(0.4098), rad2deg(1.6940)]';  % [a e i RAAN omega theta]        
 %% MANOVRA 1 ************************************************************************************************** 
-%{
+
 [rFin, vFin] = PFtoGE(orbFin, mu); 
 
 h1 = cross(rIniz, vIniz);  %momento angolare prima orbita
@@ -66,7 +66,14 @@ orb3(6) = orb3(6) + 90; %mi sposto avanti di 90 gradi e calcolo il tempo che è 
 
 [orb41, dV41, dT41, thetaMan4] = cambioInclinazione(orb3, orbFin(3), orbFin(4)); %cambio piano all'apocentro
 [orb4, dV42 , dT42] = manovraTangente(orb41, rPFin, 'apo');   %circolarizzo all'apocentro
-dV4 = dV41 + dV42; 
+%dV4 = dV41 + dV42;  errato
+
+[orbInutile, deltaVReal, deltaVInutile, deltaTInutile, thetaPlot1, thetaPlot2] = trasfDir([orb3(1), orb3(2), orb3(3), orb3(4), orb3(5), 180]',orb4);
+
+dV4=deltaVReal;
+
+
+
 dT4 = dT41; 
 
 %---------------Manovra finale per raggiungere l'orbita----------------
@@ -92,15 +99,15 @@ end
 
 %%
 Title = 'STRATEGY 4 - Circolarization';
-Maneuv_name=[{'initial point'};{'Circolarization 1'};{'Rise Apoapsis'};...
-    {'Plane change & Circolarization 2'};{'Rise Apoapsis'}; {'Final Point'}];
+Maneuv_name=[{'initial point'};{'1st circularization'};{'1st tangent burn'};...
+    {'Plane change & 2nd circularization'};{'2nd tangent burn'}; {'Final Point'}];
 
 
 plotOrbit([orbIniz , orb2 , orb3 ,orb4 , orb5],...
             [orbIniz(6), thetaMan1,     orb2(6), thetaMan2,    orb3(6)-90,thetaMan4,   orb4(6),thetaMan5,    orb5(6), orbFin(6)  ],...
             [dT2, dT3, dT32 + dT4, dT5, tempoVolo(orb5, orb5(6), orbFin(6))],...
-            Title,Maneuv_name,'dyn',0,...
-            [0, dV2, dV3, dV4, dV5]); 
+            Title,Maneuv_name,'stat',0,...
+            [0, dV2, dV3, deltaVReal, dV5]); 
 
 
 
@@ -120,9 +127,9 @@ orbit3D(orb6, 2);
 %%
 orbit3D(orbFin,2); 
 %%
-deltaV1 = dV2 + dV3 + dV4 + dV5 
+deltaV1 = dV2 + dV3 + deltaVReal + dV5 
 deltaT1 = dT2 + dT3 + dT32 + dT4 + dT5 + tempoVolo(orb5, orb5(6), orbFin(6))
-%}
+
 %% MANOVRA 2 **************************************************************************************************************
 [rFin, vFin] = PFtoGE(orbFin, mu); 
 
@@ -145,7 +152,7 @@ h2 = cross(e2, v2); %momento della q.tà di moto orb 2
 
 thetaMan2 = acosd( dot(e2, N)/norm(e2) );   %posizione seconda manovra
 
-if dot(cross(e2, N), h2) < 0   
+if dot(cross(e2, N), h2) < 0
     thetaMan2 = 360 - thetaMan2; 
 end
 
@@ -167,13 +174,13 @@ orb3(6) = orb3(6) + 90; %mi sposto avanti di 90 gradi e calcolo il tempo che è 
 [orb41, dV41, dT41, thetaMan4] = cambioInclinazione(orb3, orbFin(3), orbFin(4)); %manovra eseguita all'apocentro
 [orb4, dV42 , dT42] = manovraTangente(orb41, rAFin, 'apo');   %circolarizzo all' apocentro
 
-dV4 = dV41 + dV42;
+dV4 = dV41 + dV42; %errata
 
 dT4 = dT41;  
 
 orb31 = orb3; 
 orb31(6) = thetaMan4; 
-[~, dV4D1, dV4D2, ~, ~, ~] = trasfDir(orb31, orb4); 
+[~, dV4D1, dV4D2, dTdiretto, ~, ~] = trasfDir(orb31, orb4); 
 dV4D = dV4D1 + dV4D2; 
 
 %---------------Manovra finale per raggiungere l'orbita----------------
@@ -198,15 +205,15 @@ end
 
 %%
 Title = 'STRATEGY 4 - Circolarization';
-Maneuv_name=[{'initial point'};{'Circolarization 1'};{'Rise Apoapsis'};...
-    {'Plane change & Circolarization 2'};{'Decrease Periapsis'}; {'Final Point'}];
+Maneuv_name=[{'initial point'};{'1st circularization'};{'1st tangent burn'};...
+    {'Plane change & 2nd circularization'};{'2nd tangent burn'}; {'Final Point'}];
 
 
 plotOrbit([orbIniz , orb2 , orb3 ,orb4 , orb5],...
             [orbIniz(6), thetaMan1,     orb2(6), thetaMan2,    orb3(6)-90,thetaMan4,   orb4(6),thetaMan5,  orb5(6), orbFin(6)  ],...
             [dT2, dT3, dT32 + dT4, dT5 , tempoVolo(orb5, orb5(6), orbFin(6))],...
             Title,Maneuv_name,'stat',0,...
-            [0, dV2, dV3, dV4, dV5]); 
+            [0, dV2, dV3, dV4D, dV5]); 
 
 
 
@@ -225,7 +232,7 @@ orbit3D(orb5, 3);
 orbit3D(orbFin,3); 
 %%
 
-deltaV2 = dV2 + dV3 + dV4 + dV5 
+deltaV2 = dV2 + dV3 + dV4D + dV5 
 deltaT2 = dT2 + dT3 + dT32 + dT4  + dT5 + tempoVolo(orb5, orb5(6), orbFin(6))
 
 
