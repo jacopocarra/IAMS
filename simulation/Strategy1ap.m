@@ -1,5 +1,14 @@
 config; 
 
+%{
+Strategia standard 1:
+-CAMBIO DI PIANO IN PUNTO PIU LONTANO DEI DUE
+-CAMBIO ANOMALIA PERICENTRO
+-BITANGENTE ELLITTICA AP
+
+COSTO 11.79
+%}
+
 %% TRASFERIMENTO CON BITANGENTE ELLITTICA 'ap' CAMBIO DI PIANO NEL PUNTO PIù LONTANO DA PERICENTRO ORBITA INIZIALE (effettivamente provato)
 orbFin2 = orbFin; 
 
@@ -29,4 +38,4 @@ Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
 
 %%
 close all
-plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT3, deltaT4, deltaTVolo],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV,  deltaV3, deltaV4])
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT3, deltaT4, deltaTVolo],Title,Maneuv_name,'dyn',0,[0, deltaV1, deltaV,  deltaV3, deltaV4])

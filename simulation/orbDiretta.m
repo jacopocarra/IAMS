@@ -4,12 +4,11 @@ Calcola i paramentri di un'orbita di trasferimento diretta data l'anomalia
 al pericentro (i)
 
 %}
-
-
+%close all
 config; 
 %%
 
-i = 150;
+i = 50;
 
 
 %% recall dati
@@ -101,11 +100,11 @@ if r1*cosTheta1 ~= r2*cosTheta2
 
     %commentare questo if per immagini report
     if (eT < 0) %se eccentricità negativa significa che il versore eTGEvett ha verso sbagliato ->  anche i coseni hanno segno sbagliato
-        cosTheta1 = -cosTheta1; 
-        cosTheta2 = -cosTheta2; 
-        eTGEvett = -eTGEvett; 
+        %cosTheta1 = -cosTheta1; 
+        %cosTheta2 = -cosTheta2; 
+        %eTGEvett = -eTGEvett; 
         eT = -eT;
-        %omegaT = wrapTo360(omegaT + 180); 
+       % omegaT = wrapTo360(omegaT + 180); 
     end
 
     thetaT1 = acosd(cosTheta1); 
@@ -189,4 +188,14 @@ end
 
 %%
 
-orbit3D(orbTrasfFin,1); 
+ orbit3D(orbTrasfFin,1); 
+ 
+ 
+ %% prova con orbita circolare
+% orbTrasfFin(2) = 0;
+% orbTrasfFin(1) = norm(r1Vett)
+% orbTrasfFin(5) = wrapTo360(orbTrasfFin(5) +180)
+% orbTrasfFin(6) = wrapTo360(orbTrasfFin(6) +180)
+% 
+% orbit3D(orbTrasfFin,1); 
+

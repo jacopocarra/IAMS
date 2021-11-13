@@ -18,6 +18,25 @@ function [orbTrasf, deltaV1, deltaV2, deltaT, thetaPlot1, thetaPlot2] = trasfDir
 %   nesssuna orbita di trasferimento e l'unico paramentro di interesse sarà
 %   deltaV1
 
+
+%  SPIEGAZIONE PER EVITARE INCOMPRENSIONI:
+%  Se nel for dove cambiamo tutti gli omega viene un eccentricità negativa,
+%  allora il vettore eccentricità punta all'apocentro e l'angolo omega
+%  sarebbe calcolato tra il nodo ascendente e
+%  l'apocentro. Per questo non va bene con le nostre definizioni di
+%  parametri orbitali. Quindi abbiamo visto che mettendo l'eccentricità
+%  positiva e aumentando omeghino e theta di 180°, troviamo la stessa
+%  orbita ma con l'anomalia di pericentro corretta, calcolata tra il nodo
+%  ascendente e il pericentro. Facendo così però troviamo le orbite (e i
+%  deltaV) uguali a quelli che troviamo quando abbiamo gli omeghini>200°.
+%  Quindi sarebbe come contare le orbite due volte. Per questo motivo nel
+%  report abbiamo colorato l'area di blu. Ci sono poi delle orbite per cui
+%  esse sono aperte, e quindi e>1.
+
+
+
+
+
 %% recall dati
 
 %  orbit3D(orbIniz,1);
