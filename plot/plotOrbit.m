@@ -1,6 +1,6 @@
 function [] = plotOrbit(orbVect,thetaStory,DeltaTStory,Title,ManeuvName,type,vVect,dvVect)
 %{
-PROBABILMENTE VA AGGIUSTATA SOLO PER IL TRASF DIR.
+RIGA 155 INSTRUZIONI PER TRASFERIMENTO DIRETTO
 
 MI RACCOMANDO OGNI VOLTA CHE SI VUOL FAR FARE UN VIDEO DOBBIAMO FARE CLEAR
 ALL E RIPARTIRE CON LE PRIME DUE SECTION DEL CONFIG
@@ -152,6 +152,12 @@ switch lower(type)
                         colormap.Marker(ctr+1,:));
                     legend(pointLegend(1:ctr+1),ManeuvName(1:ctr+1),'AutoUpdate',...
                         'off','Location',leg.Position,'FontSize',font.Size);
+                    % le seguenti righe da scommentare solo in caso di
+                    % trasferimento diretto
+%                     dVTotPlot = dVTotPlot + norm(dvVect(:,ctr+1));
+%                     str3 = sprintf("DV TOT:\n   %2.4f  [km/s]", dVTotPlot);
+%                     annotation('textbox',[.75 .3 0 0],'String',str3,...
+%                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
                     myMovie(end+1) = getframe(myFig);
                 end
             end

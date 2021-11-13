@@ -9,6 +9,12 @@ close all
 addpath('..\plot');
 addpath('..\orbitalMechanics'); %aggiunti i percorsi per trovare le altre funzioni
 format long g
+%% VARIABLES FOR VIDEO
+global fps;
+global myMovie;
+global myFig;
+myMovie = struct('cdata',[],'colormap',[]);
+fps = 100;
 %% DATI
 ptoIniz = [-3441.6408 -7752.3491 -3456.8431 ...
 4.9270 -0.5369 -4.0350];                                 % [x y z vx vy vz]
