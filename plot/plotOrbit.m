@@ -1,4 +1,16 @@
 function [] = plotOrbit(orbVect,thetaStory,DeltaTStory,Title,ManeuvName,type,vVect,dvVect)
+%{
+PROBABILMENTE VA AGGIUSTATA SOLO PER IL TRASF DIR.
+
+MI RACCOMANDO OGNI VOLTA CHE SI VUOL FAR FARE UN VIDEO DOBBIAMO FARE CLEAR
+ALL E RIPARTIRE CON LE PRIME DUE SECTION DEL CONFIG
+
+PER QUANTO RIGUARDA DVVECT, METTERE IL PRIMO ELEMENTO = 0 (PERCHE CORRISPONDE AL PRIMO MARKER)
+
+
+%}
+
+
 
 global fps
 global myMovie;
@@ -64,11 +76,11 @@ switch lower(type)
                         colormap.Marker(ctr,:));
                     legend(pointLegend(ctr), ManeuvName(ctr), 'AutoUpdate', 'off', 'Location', leg.Position,...
                         'FontSize', font.Size);
-                    dVTotPlot = 0;
+                    dVTotPlot = dVTotPlot + norm(dvVect(:,ctr))
                     str3 = sprintf("DV TOT:\n   %2.4f  [km/s]", dVTotPlot);
                     annotation('textbox',[.75 .3 0 0],'String',str3,...
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
-                    %myMovie(1) = getframe(myFig);
+                    myMovie(1) = getframe(myFig);
                 end
                 if  ctr ~= 1
                     orb = orbVect(:,ctr);
@@ -83,7 +95,7 @@ switch lower(type)
                     str3 = sprintf("DV TOT:\n   %2.4f  [km/s]", dVTotPlot);
                     annotation('textbox',[.75 .3 0 0],'String',str3,...
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
-                    %myMovie(end+1) = getframe(myFig);
+                    myMovie(end+1) = getframe(myFig);
                 end
                 L3 = length(r);
                 k = 2;
@@ -123,7 +135,7 @@ switch lower(type)
                         'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
                     drawnow limitrate;
                     k = k+1;
-                    %myMovie(end+1) = getframe(myFig);
+                    myMovie(end+1) = getframe(myFig);
                     delete(sat);
                 end
                 if ctr == N
@@ -140,7 +152,7 @@ switch lower(type)
                         colormap.Marker(ctr+1,:));
                     legend(pointLegend(1:ctr+1),ManeuvName(1:ctr+1),'AutoUpdate',...
                         'off','Location',leg.Position,'FontSize',font.Size);
-                    %myMovie(end+1) = getframe(myFig);
+                    myMovie(end+1) = getframe(myFig);
                 end
             end
         end
@@ -259,7 +271,7 @@ switch lower(type)
             'FitBoxToText','on','FontSize',font.Size,'BackgroundColor','w');
 end
 
-%writeMP4Movie(myMovie, "strat 5");
+writeMP4Movie(myMovie, "strat 5");
 end
 
 
