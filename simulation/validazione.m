@@ -56,9 +56,24 @@ orbit3D(orb1, 1);
 
 
 
+%%
+config; 
+%%
+Title = '';
+
+Maneuv_name=[{'Initial point'};{'Final point'};];          
+
+dT = 2*pi*sqrt(orbIniz(1)^3/mu); 
+
+orbIniz(2) = -orbIniz(2); 
+orbIniz(5) = wrapTo360(orbIniz(5) + 180); 
 
 
-
+plotOrbit([ orbIniz ],...
+    [180, 179],...
+    [dT],...
+    Title,Maneuv_name,'dyn',0,...
+    [0]); 
 
 
 

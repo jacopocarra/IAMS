@@ -20,15 +20,15 @@ function [orbTrasf, deltaV1, deltaV2, deltaT, thetaPlot1, thetaPlot2] = trasfDir
 
 %% recall dati
 
-% orbit3D(orbIniz,1);
-% orbit3D(orbFin, 1);
-%earth3D(1); 
-%  eVect = [];
-%  omegaVect = [];
-%  deltaVvect = [];
-%  omegaSC = []; %schianto
-%  omegaAP = []; %aperto
-%  omegaOK = []; 
+%  orbit3D(orbIniz,1);
+%  orbit3D(orbFin, 1);
+%  earth3D(1); 
+%   eVect = [];
+%   omegaVect = [];
+%   deltaVvect = [];
+%   omegaSC = []; %schianto
+%   omegaAP = []; %aperto
+%   omegaOK = []; 
  
 mu = 398600;
 Rt = 6471;   %raggio della Terra in kilometri + 100km di atmosfera
@@ -111,7 +111,8 @@ for i = (0:step:359)  %controllo tutti gli omega
     if r1*cosTheta1 ~= r2*cosTheta2
         eT = (r2 - r1) / ( r1*cosTheta1 - r2*cosTheta2);
         
-        %commentare questo if per immagini report
+        %eVect = [eVect; eT]; %salvo tutte le eT provate
+        
         if (eT < 0) %se eccentricità negativa significa che il versore eTGEvett ha verso sbagliato ->  anche i coseni hanno segno sbagliato
             cosTheta1 = -cosTheta1; 
             cosTheta2 = -cosTheta2; 
@@ -134,10 +135,11 @@ for i = (0:step:359)  %controllo tutti gli omega
             thetaT2 = 360 - thetaT2; 
         end
         
-        %eVect = [eVect; eT]; %salvo tutte le eT provate
+        
         
         if abs(eT) < 1  %lavoro solo con orbite chiuse (DA SISTEMARE!!!  orbit3D e calcoloTempi non funzionano con orbite aperte)
             
+
             
             p = r1*(1 + eT*cosTheta1); %semilato retto
 
@@ -146,7 +148,7 @@ for i = (0:step:359)  %controllo tutti gli omega
 
             orbTrasfIniz = [aT, eT, iT, RAANT, omegaT, thetaT1];
             orbTrasfFin = [aT, eT, iT, RAANT, omegaT, thetaT2];
-
+    
             [~, vTIniz] = PFtoGE(orbTrasfIniz, mu); 
             
             
@@ -172,19 +174,17 @@ for i = (0:step:359)  %controllo tutti gli omega
 
                 if min(rVett) <= Rt
                     intersection = true;   %mi schianto
-                     
-                    %omegaSC = [omegaSC; omegaT]; %salvo gli omega per cui ci si schianta
                     
                 end
 
             end
             
-            %{
-            if ~intersection
-                omegaOK = [omegaOK; omegaT]; 
-                deltaVvect = [deltaVvect; deltaV];  %deltaV accettabili
-            end
-            %}
+           
+%             if ~intersection
+%                 omegaOK = [omegaOK; omegaT]; 
+%                 deltaVvect = [deltaVvect; deltaV];  %deltaV accettabili
+%             end
+            
 
             if (intersection == false) && deltaV < deltaVOpt %se non mi schianto e il deltaV è conveniente salvo l'orbita
 
@@ -198,8 +198,8 @@ for i = (0:step:359)  %controllo tutti gli omega
                  
                 
             end
-        %else            
-        %    omegaAP = [omegaAP; omegaT]; %salvo gli omega che generano orbite aperte
+%         else            
+%            omegaAP = [omegaAP; omegaT]; %salvo gli omega che generano orbite aperte
         end
    end
     
@@ -209,6 +209,7 @@ end
 
 %SE e1=-e2, vuol dire stessa orbita ma con theta1 = =theta2+180 e
 %omega1=omega2+180
+% il vettore eccentricità va ruotato!
 % E' TUTTO CORRETTO, CONFERMATO MILLE VOLTE DA RICCARDO E TOMMASO.
 % JACOPO NON AVERE DUBBI IDIOTI
 
@@ -227,19 +228,23 @@ if orbTrasf(1) == 0
 end
 
 
-
-%{
-  figure(3)
-  plot(omegaOK, deltaVvect);
-  hold on
-  area([omegaSC(1), omegaSC(end)], [max(deltaVvect), max(deltaVvect)], 18, 'FaceColor', [0 0.4470 0.7410])  
-  area([omegaAP(1), omegaAP(23)], [max(deltaVvect), max(deltaVvect)], 18, 'FaceColor', [0.6350 0.0780 0.1840])
-  area([omegaAP(24), omegaAP(end)], [max(deltaVvect), max(deltaVvect)], 18, 'FaceColor', [0.6350 0.0780 0.1840])
-  legend('deltaV vs Omega', 'Collision', 'Open orbits'); 
-  xlabel('Omega (°)'); 
-  ylabel('DeltaV (km/s)'); 
+%   figure(3)
+%   h(1) = plot(omegaOK(1:158), deltaVvect(1:158),'Color', [0, 0.4470, 0.7410]);
+%   hold on
+%   
+%   h(2) = plot(omegaOK(159:end), deltaVvect(159:end), 'Color', [0, 0.4470, 0.7410]);
+%   h(3) = area([omegaVect(22)-1, omegaVect(201)], [max(deltaVvect), max(deltaVvect)], 18, 'FaceColor', [0 0.4470 0.7410])  %orbite inesistenti
+%   h(4) = area([omegaAP(1)-1, omegaAP(11)], [max(deltaVvect), max(deltaVvect)], 18, 'FaceColor', [0.6350 0.0780 0.1840]) %orbite aperte
+%   h(5) = area([omegaAP(12)-1, omegaAP(23)+1], [max(deltaVvect), max(deltaVvect)], 18, 'FaceColor', [0.6350 0.0780 0.1840])
+%   %[minimo, imin] = min(deltaVvect)
+% 
+%   h(6) = plot(orbTrasf(5),deltaVOpt, 'd', 'MarkerSize', 8, 'MarkerFaceColor', 'g') 
+%   grid on
+%   legend(h([1, 3, 4, 6]),'deltaV vs Omega', 'Does not exists', 'Open orbits', 'deltaV min'); 
+%   xlabel('Omega (°)'); 
+%   ylabel('DeltaV (km/s)'); 
+%   
   
-  [minimo, imin] = min(deltaVvect)
-%}
+
 end
 

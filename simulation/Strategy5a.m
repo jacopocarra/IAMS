@@ -103,5 +103,24 @@ orbit3D(orb5, 3);
 orbit3D(orbFin,3); 
 %%
 
+earth3D(4); 
+orbit3D(orbIniz, 4); 
+%%
+orb2(6) = wrapTo360(orb2(5) + orb2(6));
+orb2(5) = 0; 
+orbit3D(orb2, 4); 
+%%
+orbit3D(orb3, 4); 
+%%
+orb4(6) = wrapTo360(orb4(5) + orb4(6));
+orb4(5) = 0; 
+orbit3D(orb4, 4); 
+%% 
+orbit3D(orb5, 4); 
+%%
+orbit3D(orbFin,4); 
+%%
+
+
 deltaV2 = dV2 + dV3 + dV4D + dV5 
 deltaT2 = dT2 + dT3 + dT32 + dT4  + dT5 + tempoVolo(orb5, orb5(6), orbFin(6))

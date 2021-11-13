@@ -75,7 +75,7 @@ end
 
 
 %%
-Title = 'STRATEGY 4 - Circolarization';
+Title = '';
 Maneuv_name=[{'initial point'};{'1st circularization'};{'1st tangent burn'};...
     {'Plane change & 2nd circularization'};{'2nd tangent burn'}; {'Final Point'}];
 
@@ -105,3 +105,6 @@ orbit3D(orbFin,3);
 %%
 deltaV1 = dV2 + dV3 + dV4 + dV5 
 deltaT1 = dT2 + dT3 + dT32 + dT4 + dT5 + tempoVolo(orb5, orb5(6), orbFin(6))
+
+%ATTENZIONE: NEL REPORT PER ORBITE CIRCOLARI, omega = 0 e theta =
+%wrapTo360(theta + omegaVecchio)
