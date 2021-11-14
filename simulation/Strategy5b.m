@@ -16,6 +16,9 @@ rAIniz = orbIniz(1) * (1 + orbIniz(2));  %raggio apocentro orbita iniziale
 [orb2, dV2 , dT2] = manovraTangente(orbIniz, rAIniz, 'apo');   %circolarizzo all'apocentro
 thetaMan1 = 180; %posizione prima manovra
 
+orb2(6) = wrapTo360(orb2(6) + orb2(5)); 
+orb2(5) = 0; 
+
 [e2, v2] = PFtoGE([orb2(1), orb2(2), orb2(3), orb2(4), orb2(5), 0], mu);   %calcolo la direzione e il verso dell'eccentricità come se fosse il vettore che punta alla posizione in theta=0
 
 h2 = cross(e2, v2); %momento della q.tà di moto orb 2
@@ -48,6 +51,9 @@ orb3(6) = orb3(6) + 90; %mi sposto avanti di 90 gradi e calcolo il tempo che è 
 
 [~, dV4D, ~, ~, ~, ~] = trasfDir([orb3(1), orb3(2), orb3(3), orb3(4), orb3(5), 180]',orb4);
 
+
+orb4(6) = wrapTo360(orb4(5) + orb4(6)); 
+orb4(5) = 0; 
 
 
 dV4 = dV4D; 
@@ -93,10 +99,15 @@ earth3D(3);
 orbit3D(orbIniz, 3); 
 %%
 orbit3D(orb2, 3); 
+e2 = e2/norm(e2); 
+quiver3(0,0,0,e2(1), e2(2), e2(3),15000,'-.'); 
 %%
 orbit3D(orb3, 3); 
 %%
 orbit3D(orb4, 3); 
+e4 = e4/norm(e4); 
+quiver3(0,0,0,e4(1), e4(2), e4(3),15000,'-.'); 
+
 %% 
 orbit3D(orb5, 3); 
 

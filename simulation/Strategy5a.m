@@ -16,6 +16,9 @@ rAIniz = orbIniz(1) * (1 + orbIniz(2));  %raggio apocentro orbita iniziale
 [orb2, dV2 , dT2] = manovraTangente(orbIniz, rAIniz, 'apo');   %circolarizzo all'apocentro
 thetaMan1 = 180; %posizione prima manovra
 
+orb2(6) = wrapTo360(orb2(6) + orb2(5)); 
+orb2(5) = 0;   %aggiusto i parametri orbitali delle orbite circolari
+
 [e2, v2] = PFtoGE([orb2(1), orb2(2), orb2(3), orb2(4), orb2(5), 0], mu);   %calcolo la direzione e il verso dell'eccentricità come se fosse il vettore che punta alla posizione in theta=0
 
 h2 = cross(e2, v2); %momento della q.tà di moto orb 2
@@ -45,14 +48,17 @@ orb3(6) = orb3(6) + 90; %mi sposto avanti di 90 gradi e calcolo il tempo che è 
 [orb41, dV41, dT41, thetaMan4] = cambioInclinazione(orb3, orbFin(3), orbFin(4)); %manovra eseguita all'apocentro
 [orb4, dV42 , dT42] = manovraTangente(orb41, rAFin, 'apo');   %circolarizzo all' apocentro
 
-dV4 = dV41 + dV42; %errata
+%dV4 = dV41 + dV42; %errata
 
 dT4 = dT41;  
 
 orb31 = orb3; 
 orb31(6) = thetaMan4; 
 [~, dV4D1, dV4D2, dTdiretto, ~, ~] = trasfDir(orb31, orb4); 
-dV4D = dV4D1 + dV4D2; 
+dV4 = dV4D1 + dV4D2; 
+
+orb4(6) = wrapTo360(orb4(6) + orb4(5)); 
+orb4(5) = 0;  %aggiusto i parametri orbitali delle orbite circolari
 
 %---------------Manovra finale per raggiungere l'orbita----------------
 
@@ -84,7 +90,7 @@ plotOrbit([orbIniz , orb2 , orb3 ,orb4 , orb5],...
             [orbIniz(6), thetaMan1,     orb2(6), thetaMan2,    orb3(6)-90,thetaMan4,   orb4(6),thetaMan5,  orb5(6), orbFin(6)  ],...
             [dT2, dT3, dT32 + dT4, dT5 , tempoVolo(orb5, orb5(6), orbFin(6))],...
             Title,Maneuv_name,'stat',0,...
-            [0, dV2, dV3, dV4D, dV5]); 
+            [0, dV2, dV3, dV4, dV5]); 
 
 
 
@@ -103,24 +109,6 @@ orbit3D(orb5, 3);
 orbit3D(orbFin,3); 
 %%
 
-earth3D(4); 
-orbit3D(orbIniz, 4); 
-%%
-orb2(6) = wrapTo360(orb2(5) + orb2(6));
-orb2(5) = 0; 
-orbit3D(orb2, 4); 
-%%
-orbit3D(orb3, 4); 
-%%
-orb4(6) = wrapTo360(orb4(5) + orb4(6));
-orb4(5) = 0; 
-orbit3D(orb4, 4); 
-%% 
-orbit3D(orb5, 4); 
-%%
-orbit3D(orbFin,4); 
-%%
 
-
-deltaV2 = dV2 + dV3 + dV4D + dV5 
+deltaV2 = dV2 + dV3 + dV4 + dV5 
 deltaT2 = dT2 + dT3 + dT32 + dT4  + dT5 + tempoVolo(orb5, orb5(6), orbFin(6))
