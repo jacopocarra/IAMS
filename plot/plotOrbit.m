@@ -101,7 +101,7 @@ switch lower(type)
                 k = 2;
                 while k < L3
                     colorIndex = floor((periodPlot-2)*(velocNorm(k)-min(velocNorm))/...
-                        (max(velocNorm)-min(velocNorm)+0.1)+1);
+                        (max(velocNorm)-min(velocNorm))+1);
                     stepColor = colormap.Orbit(colorIndex,:);
                     plot3(r(1,k-1:k),r(2,k-1:k),r(3,k-1:k),...
                         'color',stepColor,'LineWidth',line.Width);
@@ -162,6 +162,12 @@ switch lower(type)
                 end
             end
         end
+        myMovie(end+1) = getframe(myFig);
+        myMovie(end+1) = getframe(myFig);
+        myMovie(end+1) = getframe(myFig);
+        myMovie(end+1) = getframe(myFig);
+        myMovie(end+1) = getframe(myFig);
+        myMovie(end+1) = getframe(myFig);
     case {'stat'} % plot statico
         grid off;
         %         axis off;

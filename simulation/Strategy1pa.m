@@ -19,7 +19,7 @@ Maneuv_name=[{'initial point'};{'change of plane'};{'change of P arg'};...
     {'final point'}];
 
 
-plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT3, deltaT4, tempoVolo(orbFin2, 180, orbFin(6))],Title,Maneuv_name,'stat',0,[0, deltaV1, deltaV, deltaV3, deltaV4])
+plotOrbit([orbIniz, orbFin1,orbFin3, orbTrasf,orbFin2],thetaStory,[deltaT1, deltaT, deltaT3, deltaT4, tempoVolo(orbFin2, 180, orbFin(6))],Title,Maneuv_name,'dyn',0,[0, deltaV1, deltaV, deltaV3, deltaV4])
 
 
 
