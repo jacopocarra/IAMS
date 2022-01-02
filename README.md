@@ -9,6 +9,6 @@ In folder `orbitalMechanics` can be found all the function used for the maneuver
 In `plots` can be found everything related to the plots. Use the function `plotOrbit.m` if you want to make a very nice plot or even a fancy video.
 
 ## Authors
-Tommaso Brombara \n
-Riccardo Cadamuro \n
+Tommaso Brombara \\
+Riccardo Cadamuro \\
 Jacopo Carradori
