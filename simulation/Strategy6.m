@@ -1,5 +1,19 @@
-config; 
 
+
+path = cd;
+if ismac
+    if ~isfile(fullfile(path, 'Dati_A2'))
+        IAMScheck
+        error('data is missing')
+    end
+else
+    if ~isfile(fullfile(path, 'Dati_A2'))
+        IAMScheck
+        error('data is missing')
+    end
+end
+
+config;
 %% CIRC-BIELL+PLANE+PERI 
 
 dTtot=0;

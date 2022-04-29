@@ -1,4 +1,3 @@
-config; 
 
 %{
 Strategia standard 1:
@@ -8,6 +7,20 @@ Strategia standard 1:
 
 COSTO 11.79
 %}
+
+path = cd;
+if ismac
+    if ~isfile(fullfile(path, 'Dati_A2'))
+        IAMScheck
+        error('data is missing')
+    end
+else
+    if ~isfile(fullfile(path, 'Dati_A2'))
+         IAMScheck();
+        error('data is missing')
+    end
+end
+config;
 
 %% TRASFERIMENTO CON BITANGENTE ELLITTICA 'ap' CAMBIO DI PIANO NEL PUNTO PIù LONTANO DA PERICENTRO ORBITA INIZIALE (effettivamente provato)
 orbFin2 = orbFin; 

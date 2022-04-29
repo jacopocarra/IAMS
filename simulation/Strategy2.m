@@ -1,7 +1,19 @@
-config;
+
 
 %% SHAPE-PLANE-W  (pa)
-
+path = cd;
+if ismac
+    if ~isfile(fullfile(path, 'Dati_A2'))
+        IAMScheck
+        error('data is missing')
+    end
+else
+    if ~isfile(fullfile(path, 'Dati_A2'))
+        IAMScheck
+        error('data is missing')
+    end
+end
+config;
 orbFin1  = [orbFin(1);orbFin(2);orbIniz(3);orbIniz(4);orbIniz(5);orbIniz(6)];
 
 [deltaVtot1, deltaV1, deltaV2, orbTrasf, deltaTtot1, deltaT1, deltaT2, thetaMan2] = manovraBitangenteEllittica(orbIniz, orbFin1, 'pa');

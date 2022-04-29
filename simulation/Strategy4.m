@@ -1,4 +1,17 @@
-config; 
+
+path = cd;
+if ismac
+    if ~isfile(fullfile(path, 'Dati_A2'))
+        IAMScheck
+        error('data is missing')
+    end
+else
+    if ~isfile(fullfile(path, 'Dati_A2'))
+        IAMScheck
+        error('data is missing')
+    end
+end
+config;
 
 %% STRAT 2-2 AP -calcolo
 
@@ -23,9 +36,9 @@ dVtot=dVtot+deltaV3;
 dTtot=dTtot+deltaT3;
 
 orb5=orbFin;
-orb5(5)=wrapTo360(orb3(5)); %sfasare di 180 per aa e pp, lasciare così per ap e pa
+orb5(5)=wrapTo360(orb3(5)+180); %sfasare di 180 per aa e pp, lasciare così per ap e pa
 
-[deltaV, deltaV4, deltaV5, orb4, deltaT, deltaT4, deltaT5, thetaman4] = manovraBitangenteEllittica(orb3, orb5, 'ap');
+[deltaV, deltaV4, deltaV5, orb4, deltaT, deltaT4, deltaT5, thetaman4] = manovraBitangenteEllittica(orb3, orb5, 'aa');
 dVtot=dVtot+deltaV4+deltaV5;
 dTtot=dTtot+deltaT4+deltaT5;
 
